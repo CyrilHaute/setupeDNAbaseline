@@ -11,6 +11,24 @@ convert_to_matrix_function <- function(raw_spygen_path){
 
   col_spy <- which(grepl("SPY", raw_data[row_spy,]))
   
+  # If no "SPY" detected, that might be because of a pool, check for that
+  
+  if(length(c(row_spy, col_spy)) == 0) {
+    
+    row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("^[0-9]+-[0-9]+$", raw_data[i,])) }))
+    
+    if(length(row_spy) != 1) { 
+      
+      stop(print("No or more than one ... detected"))
+      
+    }else{
+        
+      col_spy <- which(grepl("^[0-9]+-[0-9]+$", raw_data[row_spy,]))
+      
+      }
+
+  }
+  
   
   # Flip the dataframe and select select spygen_code column
   
@@ -75,6 +93,18 @@ convert_to_matrix_function <- function(raw_spygen_path){
 
   # Bind metadata and species
   data_all_sum <- cbind(data_clean1_meta, data_num_sum)
+  
+  # If no "SPY" in spygen code because of pool, change pool code to match our format
+  
+  if(any(grepl("SPY", data_all_sum$spygen_code) == TRUE) == FALSE) {
+
+    data_all_sum$spygen_code <- stringr::str_replace_all(data_all_sum$spygen_code, "([0-9]+)", "SPY\\1")
+    
+    data_all_sum$spygen_code <- stringr::str_replace_all(data_all_sum$spygen_code, "-", "_")
+    
+  }
+  
+  return(data_all_sum)
   
   # END
 
