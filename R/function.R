@@ -104,6 +104,14 @@ convert_to_matrix_function <- function(raw_spygen_path){
     
   }
   
+  # If spygen code pooled, change pool code to match our format
+  
+  if(any(grepl("([0-9]+)", data_all_sum$spygen_code) == TRUE)) {
+    
+    data_all_sum$spygen_code <- stringr::str_replace_all(data_all_sum$spygen_code, "-", "_")
+    
+  }
+  
   return(data_all_sum)
   
   # END
@@ -173,4 +181,108 @@ species_clean_function <- function(spygen_matrix) {
   
   # END
   
+}
+
+
+spygen_new_data_function <- function(old_spygen_data_path,
+                                     new_spygen_data_path){
+  
+  
+  # Convert new spygen raw data to a site X species matrix
+  spygen_matrix_new <- convert_to_matrix_function(raw_spygen_path = new_spygen_data_path)
+  
+  # Remove misidentified species and check their names from fishbase
+  spygen_matrix_new_clean <- species_clean_function(spygen_matrix = spygen_matrix_new)
+  spygen_matrix_new_clean <- spygen_matrix_new_clean$spygen_matrix_clean
+  
+  
+  # Compare new and old spygen data, look for common spygen code
+  
+  spygen_matrix_old_clean <- read.csv(old_spygen_data_path, header = TRUE, sep = ",", check.names = FALSE)
+  
+  # Get old and new spygen code
+  # Check if spygen code pooled
+  # if(any(grepl("^SPY[0-9]+_SPY[0-9]+$", spygen_matrix_new_clean$spygen_code) == TRUE)) {
+  #   
+  #   spygen_code_new <- unique(unlist(strsplit(stringr::str_replace_all(spygen_matrix_new_clean$spygen_code, "_", " "), " ")))
+  #   
+  # }else{
+  #   
+  #   spygen_code_new <- unique(spygen_matrix_new_clean$spygen_code)
+  #   
+  # }
+  
+  spygen_code_new <- unique(spygen_matrix_new_clean$spygen_code)
+  
+  spygen_code_old <- unique(spygen_matrix_old_clean$spygen_code)
+  
+  # Which new spygen code are common with old ones
+  common_spygen_code <- spygen_code_new[which(spygen_code_new %in% spygen_code_old)]
+  
+  if(length(common_spygen_code) == 0) {
+    
+    join_old_new <- spygen_matrix_old_clean |> 
+      dplyr::full_join(spygen_matrix_new_clean)
+    
+    join_old_new[is.na(join_old_new)] <- 0
+    
+   }else{
+    
+     # Consider only common spygen code in both new and old data
+     spygen_old_common <- spygen_matrix_old_clean[spygen_matrix_old_clean$spygen_code %in% common_spygen_code,]
+     
+     spygen_new_common <- spygen_matrix_new_clean[spygen_matrix_new_clean$spygen_code %in% common_spygen_code,]
+     
+     # Consider only common species in both new and old data
+     col_new <- colnames(spygen_new_common)
+     
+     spygen_old_common <- spygen_old_common[,colnames(spygen_old_common) %in% col_new]
+     
+     # Look at differences between old and new data
+     # Order species in alphabetic order
+     spygen_old_common <- spygen_old_common[, c("spygen_code", "nb", sort(setdiff(names(spygen_old_common), c("spygen_code", "nb"))))]
+     # Order spygen code
+     spygen_old_common <- spygen_old_common[order(spygen_old_common$spygen_code),]
+     
+     # Order species in alphabetic order
+     spygen_new_common <- spygen_new_common[, c("spygen_code", "nb", sort(setdiff(names(spygen_new_common), c("spygen_code", "nb"))))]
+     # Order spygen code
+     spygen_new_common <- spygen_new_common[order(spygen_new_common$spygen_code),]
+     
+     any_diff <- which((spygen_old_common == spygen_new_common) == FALSE)
+     
+     any_diff <- unique(stringr::str_replace_all(names(which((unlist(spygen_old_common) == unlist(spygen_new_common)) == FALSE)), "[0-9]", ""))
+     
+     if(length(any_diff) == 0){
+       
+       join_old_new <- spygen_matrix_old_clean |> 
+         dplyr::full_join(spygen_matrix_new_clean)
+       
+       join_old_new[is.na(join_old_new)] <- 0
+       
+     }else{
+       
+       spygen_new_diff <- spygen_new_common[,c("spygen_code", "nb", any_diff)]
+       
+       spygen_old_diff <- spygen_old_common[,c("spygen_code", "nb", any_diff)]
+       
+       test <- spygen_matrix_new_clean |> 
+         dplyr::filter(spygen_code %in% common_spygen_code) |> 
+         dplyr::group_by(spygen_code, nb) |> 
+         dplyr::summarise(seq_tot = rowSums(dplyr::across(where(is.numeric))))
+       
+       
+       test2 <- spygen_matrix_old_clean |> 
+         dplyr::filter(spygen_code %in% common_spygen_code) |> 
+         dplyr::group_by(spygen_code, nb) |> 
+         dplyr::summarise(seq_tot = rowSums(dplyr::across(where(is.numeric))))
+
+     }
+     
+   }
+  
+  return(join_old_new)
+  
+  # END
+
 }
