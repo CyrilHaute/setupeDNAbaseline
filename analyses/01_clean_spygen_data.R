@@ -16,17 +16,14 @@ dir_save <- "outputs/01_clean_eDNA/"
 spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "data/raw-data/eDNA_raw_data/1.Results_Med_2018-Oct2025.xlsx")
 
 
-# This function remove misidentified species and check their names from fishbase
+# This function remove misidentified species and check their names from FishBase
 
-spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
+spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
+                                              path_save = paste0(dir_save, "1.spygen_2018_2025.csv"))
 
 which_diff <- which(!colnames(spygen_matrix_clean$spygen_matrix_clean) %in% colnames(spygen_matrix_clean$spygen_matrix_old))
 colnames(spygen_matrix_clean$spygen_matrix_clean)[which_diff]
 colnames(spygen_matrix_clean$spygen_matrix_old)[which_diff]
-
-write.csv(spygen_matrix_clean$spygen_matrix_clean, 
-          file = paste0(dir_save, "1.spygen_2018_2025.csv"),
-          row.names = FALSE)
 
 
 # Créer une fonction qui permet d'ajouter de nouvelles données aux anciennes, supprimer les doublons de l'ancien fichier (Med) car corresponds à une nouvelle version de la base de ref

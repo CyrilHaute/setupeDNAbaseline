@@ -1,3 +1,11 @@
+# Project title
+#
+# Project description
+# ...
+#
+# Author: Cyril Hautecoeur (mail : hautecoeurcyril@gmail.com)
+# Date: 02/03/2026
+
 # Setup project ----
 
 ## Install packages ----

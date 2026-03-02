@@ -152,7 +152,8 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #'
 #' @examples
 
-species_clean_function <- function(spygen_matrix) {
+species_clean_function <- function(spygen_matrix,
+                                   path_save) {
   
   species_names <- colnames(spygen_matrix)
   species_names <- species_names[! species_names %in% c("spygen_code", "nb")]
@@ -210,6 +211,8 @@ species_clean_function <- function(spygen_matrix) {
   to_return <- list(spygen_clean, old_spygen_name, bad_mask)
   names(to_return) <- c("spygen_matrix_clean", "spygen_matrix_old", "removed_species")
   
+  write.csv(to_return$spygen_matrix_clean, file = path_save, row.names = FALSE)
+  
   return(to_return)
   
   # END
@@ -259,16 +262,7 @@ spygen_new_data_function <- function(old_spygen_data_path,
   
   # Get old and new spygen code
   # Check if spygen code pooled
-  # if(any(grepl("^SPY[0-9]+_SPY[0-9]+$", spygen_matrix_new_clean$spygen_code) == TRUE)) {
-  #   
-  #   spygen_code_new <- unique(unlist(strsplit(stringr::str_replace_all(spygen_matrix_new_clean$spygen_code, "_", " "), " ")))
-  #   
-  # }else{
-  #   
-  #   spygen_code_new <- unique(spygen_matrix_new_clean$spygen_code)
-  #   
-  # }
-  
+
   spygen_code_new <- unique(spygen_matrix_new_clean$spygen_code)
   
   spygen_code_old <- unique(spygen_matrix_old_clean$spygen_code)
