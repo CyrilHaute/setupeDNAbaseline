@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtrx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:trp="http://www.garmin.com/xmlschemas/TripExtensions/v1" xmlns:adv="http://www.garmin.com/xmlschemas/AdventuresExtensions/v1" xmlns:prs="http://www.garmin.com/xmlschemas/PressureExtension/v1" xmlns:tmd="http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1" xmlns:vptm="http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1" xmlns:ctx="http://www.garmin.com/xmlschemas/CreationTimeExtension/v1" xmlns:gpxacc="http://www.garmin.com/xmlschemas/AccelerationExtension/v1" xmlns:gpxpx="http://www.garmin.com/xmlschemas/PowerExtension/v1" xmlns:vidx1="http://www.garmin.com/xmlschemas/VideoExtension/v1" creator="Garmin Desktop App" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/ActivityExtension/v1 http://www8.garmin.com/xmlschemas/ActivityExtensionv1.xsd http://www.garmin.com/xmlschemas/AdventuresExtensions/v1 http://www8.garmin.com/xmlschemas/AdventuresExtensionv1.xsd http://www.garmin.com/xmlschemas/PressureExtension/v1 http://www.garmin.com/xmlschemas/PressureExtensionv1.xsd http://www.garmin.com/xmlschemas/TripExtensions/v1 http://www.garmin.com/xmlschemas/TripExtensionsv1.xsd http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1 http://www.garmin.com/xmlschemas/TripMetaDataExtensionsv1.xsd http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1 http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensionsv1.xsd http://www.garmin.com/xmlschemas/CreationTimeExtension/v1 http://www.garmin.com/xmlschemas/CreationTimeExtensionsv1.xsd http://www.garmin.com/xmlschemas/AccelerationExtension/v1 http://www.garmin.com/xmlschemas/AccelerationExtensionv1.xsd http://www.garmin.com/xmlschemas/PowerExtension/v1 http://www.garmin.com/xmlschemas/PowerExtensionv1.xsd http://www.garmin.com/xmlschemas/VideoExtension/v1 http://www.garmin.com/xmlschemas/VideoExtensionv1.xsd">
+  <metadata>
+    <link href="http://www.garmin.com">
+      <text>Garmin International</text>
+    </link>
+    <time>2026-01-15T14:49:07Z</time>
+    <bounds maxlat="43.631595633924007" maxlon="3.868749132379889" minlat="43.630534233525395" minlon="3.867248184978962"/>
+  </metadata>
+  <trk>
+    <name>10/11/2025 13:11:53</name>
+    <extensions>
+      <gpxx:TrackExtension>
+        <gpxx:DisplayColor>DarkGray</gpxx:DisplayColor>
+      </gpxx:TrackExtension>
+      <gpxtrkx:TrackStatsExtension xmlns:gpxtrkx="http://www.garmin.com/xmlschemas/TrackStatsExtension/v1">
+        <gpxtrkx:Distance>36.6399993896484</gpxtrkx:Distance>
+        <gpxtrkx:TimerTime>2147483</gpxtrkx:TimerTime>
+        <gpxtrkx:TotalElapsedTime>4062148</gpxtrkx:TotalElapsedTime>
+        <gpxtrkx:MovingTime>0</gpxtrkx:MovingTime>
+        <gpxtrkx:Ascent>0</gpxtrkx:Ascent>
+        <gpxtrkx:Descent>0</gpxtrkx:Descent>
+        <gpxtrkx:Calories>1</gpxtrkx:Calories>
+      </gpxtrkx:TrackStatsExtension>
+    </extensions>
+    <trkseg>
+      <trkpt lat="43.630534233525395" lon="3.868749132379889">
+        <ele>50.799999237060547</ele>
+        <time>2025-11-10T12:11:53Z</time>
+      </trkpt>
+      <trkpt lat="43.630552841350436" lon="3.868732284754515">
+        <ele>28.799999237060547</ele>
+        <time>2025-11-10T12:11:54Z</time>
+      </trkpt>
+      <trkpt lat="43.630568347871304" lon="3.868708563968539">
+        <ele>50.799999237060547</ele>
+        <time>2025-11-10T12:11:55Z</time>
+      </trkpt>
+      <trkpt lat="43.63058184273541" lon="3.868684843182564">
+        <ele>50.799999237060547</ele>
+        <time>2025-11-10T12:11:56Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+  <trk>
+    <name>23/06/2025 10:38:04</name>
+    <extensions>
+      <gpxx:TrackExtension>
+        <gpxx:DisplayColor>DarkGray</gpxx:DisplayColor>
+      </gpxx:TrackExtension>
+      <gpxtrkx:TrackStatsExtension xmlns:gpxtrkx="http://www.garmin.com/xmlschemas/TrackStatsExtension/v1">
+        <gpxtrkx:Distance>0</gpxtrkx:Distance>
+        <gpxtrkx:TimerTime>26</gpxtrkx:TimerTime>
+        <gpxtrkx:TotalElapsedTime>27</gpxtrkx:TotalElapsedTime>
+        <gpxtrkx:MovingTime>0</gpxtrkx:MovingTime>
+        <gpxtrkx:Ascent>0</gpxtrkx:Ascent>
+        <gpxtrkx:Descent>0</gpxtrkx:Descent>
+        <gpxtrkx:Calories>0</gpxtrkx:Calories>
+      </gpxtrkx:TrackStatsExtension>
+    </extensions>
+    <trkseg>
+      <trkpt lat="43.631595633924007" lon="3.867248184978962">
+        <ele>57.200000762939453</ele>
+        <time>2025-06-23T08:38:04Z</time>
+      </trkpt>
+      <trkpt lat="43.631592029705644" lon="3.867248939350247">
+        <ele>57.200000762939453</ele>
+        <time>2025-06-23T08:38:05Z</time>
+      </trkpt>
+      <trkpt lat="43.631567554548383" lon="3.867268050089478">
+        <ele>60.400001525878906</ele>
+        <time>2025-06-23T08:38:23Z</time>
+      </trkpt>
+      <trkpt lat="43.631566716358066" lon="3.867272576317191">
+        <ele>59.200000762939453</ele>
+        <time>2025-06-23T08:38:29Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+  <trk>
+    <name>Activité actuelle: 10 NOV 2025 13:11</name>
+    <extensions>
+      <gpxx:TrackExtension>
+        <gpxx:DisplayColor>Cyan</gpxx:DisplayColor>
+      </gpxx:TrackExtension>
+      <gpxtrkx:TrackStatsExtension xmlns:gpxtrkx="http://www.garmin.com/xmlschemas/TrackStatsExtension/v1">
+        <gpxtrkx:Distance>36</gpxtrkx:Distance>
+        <gpxtrkx:TimerTime>2147483</gpxtrkx:TimerTime>
+        <gpxtrkx:TotalElapsedTime>4062148</gpxtrkx:TotalElapsedTime>
+        <gpxtrkx:MovingTime>16222</gpxtrkx:MovingTime>
+        <gpxtrkx:StoppedTime>66640</gpxtrkx:StoppedTime>
+        <gpxtrkx:MovingSpeed>1.119</gpxtrkx:MovingSpeed>
+        <gpxtrkx:MaxSpeed>0.979</gpxtrkx:MaxSpeed>
+        <gpxtrkx:MaxElevation>171.701</gpxtrkx:MaxElevation>
+        <gpxtrkx:MinElevation>-54.553</gpxtrkx:MinElevation>
+        <gpxtrkx:Ascent>0</gpxtrkx:Ascent>
+        <gpxtrkx:Descent>0</gpxtrkx:Descent>
+        <gpxtrkx:AvgAscentRate>0</gpxtrkx:AvgAscentRate>
+        <gpxtrkx:MaxAscentRate>0</gpxtrkx:MaxAscentRate>
+        <gpxtrkx:AvgDescentRate>0</gpxtrkx:AvgDescentRate>
+        <gpxtrkx:MaxDescentRate>0</gpxtrkx:MaxDescentRate>
+        <gpxtrkx:Calories>1</gpxtrkx:Calories>
+      </gpxtrkx:TrackStatsExtension>
+    </extensions>
+    <trkseg>
+      <trkpt lat="43.630534233525395" lon="3.868749132379889">
+        <ele>50.810000000000002</ele>
+        <time>2025-11-10T12:11:53Z</time>
+      </trkpt>
+      <trkpt lat="43.630552841350436" lon="3.868732284754515">
+        <ele>28.989999999999998</ele>
+        <time>2025-11-10T12:11:54Z</time>
+      </trkpt>
+      <trkpt lat="43.630568347871304" lon="3.868708563968539">
+        <ele>50.810000000000002</ele>
+        <time>2025-11-10T12:11:55Z</time>
+      </trkpt>
+      <trkpt lat="43.63058184273541" lon="3.868684843182564">
+        <ele>50.810000000000002</ele>
+        <time>2025-11-10T12:11:56Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
