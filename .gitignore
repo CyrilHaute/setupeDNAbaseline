@@ -45,9 +45,7 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-data/raw-data/eDNA_raw_data
-data/raw-data/trace_gps
-data/raw-data/Med_metadonnees_ADNe - v1.2_2018-2025.csv
+data/raw-data/
 
 outputs/02_eDNA_tracks/
 outputs/01_clean_eDNA/
