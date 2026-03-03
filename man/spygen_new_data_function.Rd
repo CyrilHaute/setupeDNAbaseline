@@ -10,9 +10,11 @@ spygen_new_data_function(old_spygen_data_path, new_spygen_data_path, path_save)
 \item{old_spygen_data_path}{A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".}
 
 \item{new_spygen_data_path}{A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".}
+
+\item{path_save}{A character indicating the path to save data.}
 }
 \value{
-A dataframe in the format site X species
+A dataframe in the format site X species.
 }
 \description{
 This function add new eDNA data to previous ones.

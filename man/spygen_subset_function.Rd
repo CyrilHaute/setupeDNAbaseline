@@ -12,7 +12,7 @@ spygen_subset_function(eDNA_species_data_path, spygen_code_subset)
 \item{spygen_code_subset}{A character or a dataframe indicating which spygen_code to subset the data with. If supply a dataframe, make sure to name the spygen code column "spygen_code"}
 }
 \value{
-A dataframe in the format site X species, subset from eDNA_species_data
+A dataframe in the format site X species, subset from eDNA_species_data.
 }
 \description{
 This function create a subset of eDNA data by spygen_code.

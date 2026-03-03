@@ -12,7 +12,7 @@ shapefile_tracks(eDNA_tracks, path_save)
 \item{path_save}{A character indicating the path to save data.}
 }
 \value{
-Save the shapefile to the path indicated by \code{path_save}
+Save the shapefile to the path indicated by \code{path_save}.
 }
 \description{
 This function convert tracks point as a dataframe into a shapefile.

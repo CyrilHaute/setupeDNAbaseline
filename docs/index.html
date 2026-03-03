@@ -73,13 +73,13 @@
 </h2>
 <p>This step convert raw Spygen eDNA data into a format suitable for analysis.</p>
 <ol style="list-style-type: decimal">
-<li><p>Raw Spygen eDNA data are converted to site X species matrix and species identified multiple times are summed and summarize into one column.</p></li>
-<li><p>The site X species matrix is cleaned by removing misidentified species and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</p></li>
-<li><p>It allows adding new eDNA data to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.</p></li>
+<li><p>Raw Spygen eDNA data are converted to <strong>site X species</strong> matrix and species identified multiple times are summed and summarize into one column.</p></li>
+<li><p>The site X species matrix is cleaned by removing <strong>misidentified species</strong> and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</p></li>
+<li><p>It allows adding <strong>new eDNA data</strong> to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.</p></li>
 <li><p>Create clean user-based data subset.</p></li>
 </ol>
 <blockquote>
-<p>[!CAUTION] This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., species detected outside their distribution range).</p>
+<p>[!CAUTION] This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., <strong>species detected outside their distribution range</strong>).</p>
 </blockquote>
 </div>
 <div class="section level2">
@@ -87,9 +87,9 @@
 </h2>
 <p>This step associate to each Spygen survey a gps track and convert it to a shapefile.</p>
 <ol style="list-style-type: decimal">
-<li><p>Associate to each Spygen survey the closest gps waypoint at the survey date.</p></li>
-<li><p>Associate to each waypoint the closest gps track at the survey date.</p></li>
-<li><p>Convert gps track from point to a polygon as a shapefile.</p></li>
+<li><p>Associate to each Spygen survey the closest <strong>gps waypoint</strong> at the survey date.</p></li>
+<li><p>Associate to each waypoint the closest <strong>gps track</strong> at the survey date.</p></li>
+<li><p>Convert gps track from point to a polygon as a <strong>shapefile</strong>.</p></li>
 </ol>
 </div>
 <div class="section level2">
@@ -127,6 +127,7 @@
 </ul>
 </li>
 </ul>
+<p>The details of all functions used in the repository can be found here : <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html" class="uri">https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html</a></p>
 </div>
 </div>
   </div>

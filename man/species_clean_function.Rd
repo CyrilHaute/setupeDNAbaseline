@@ -7,7 +7,9 @@
 species_clean_function(spygen_matrix, path_save)
 }
 \arguments{
-\item{spygen_matrix}{A dataframe of species eDNA in the format site X species}
+\item{spygen_matrix}{A dataframe of species eDNA in the format site X species.}
+
+\item{path_save}{A character indicating the path to save data.}
 }
 \value{
 A list containing three objects :
