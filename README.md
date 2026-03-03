@@ -1,8 +1,8 @@
 # Setup a baseline for spygen eDNA data
 
-This repository create a baseline to analyse spygen eDNA data.
+This repository create a baseline to analyse ***[Spygen]***(https://www.spygen.com/fr/) eDNA data.
 
-The workflow is separated into two different steps :
+The workflow is separated into two different steps:
 
 ## I. Clean eDNA data
 
@@ -10,7 +10,7 @@ This step convert raw spygen eDNA data into a format suitable for analysis.
 
 1.  Raw spygen eDNA data are converted to site X species matrix and species identified multiple times are summed and summarize into one column.
 
-2.  The site X species matrix is cleaned by removing misidentified species and correct species names according to FishBase.
+2.  The site X species matrix is cleaned by removing misidentified species and correct species names according to ***FishBase***.
 
 3.  It allows adding new eDNA data to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.
 
