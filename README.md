@@ -27,7 +27,14 @@ This step associate to each spygen survey a gps track and convert it to a shapef
 3. Convert gps track from point to a polygon as a shapefile.
 
 
+The workflow has been entirely coded in R language and tried to use as much as possible base R codes.
 
+Required dependencies can be found in the **DESCRIPTION** file and can be installed and load with the folowing function :
+
+```
+## Install required package ----
+devtools::install_deps(upgrade = "never")
+```
 
 
 
