@@ -1,6 +1,6 @@
 # Setup a baseline for spygen eDNA data
 
-This repository create a baseline to analyse ***[Spygen]***(https://www.spygen.com/fr/) eDNA data.
+This repository create a baseline to analyse [Spygen](https://www.spygen.com/fr/) eDNA data.
 
 The workflow is separated into two different steps:
 
