@@ -1,4 +1,4 @@
-Package: setup_eDNA_baseline
+Package: setupeDNAbaseline
 Type: Package
 Title: The Title of the Project
 Version: 0.0.0.9000
@@ -10,8 +10,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0000-0000-0000")))
 Description: A paragraph providing a full description of the project (on 
     several lines...)
-URL: https://github.com/CyrilHaute/setup_eDNA_baseline
-BugReports: https://github.com/CyrilHaute/setup_eDNA_baseline/issues
+URL: https://github.com/CyrilHaute/setupeDNAbaseline
+BugReports: https://github.com/CyrilHaute/setupeDNAbaseline/issues
 License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
