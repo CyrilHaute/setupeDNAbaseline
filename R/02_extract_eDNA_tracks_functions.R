@@ -261,14 +261,19 @@ load_tracks <- function(path){
 }
 
 
-#' Title
+#' spygen_tracks
+#' 
+#' This function attributes to each spygen survey it's closest tracks at the date of the survey.
 #'
-#' @param waypoints 
-#' @param gps_tracks 
-#' @param distance_threshold 
-#' @param path_save 
+#' @param waypoints a dataframe, the "good_distance" one obtained with the "spygen_waypoint" function.
+#' @param gps_tracks a dataframe of tracks coordinates.
+#' @param distance_threshold a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest tracks coordinates.
+#' @param path_save a character indicating the path to save data.
 #'
-#' @returns
+#' @returns a list of three dataframe : 
+#' "high distance" contain spygen survey with distance to the closest tracks > `distance_threshold`;
+#' "good distance" contain spygen survey with distance to the closest tracks < `distance_threshold`;
+#' "na survey" contain spygen survey with no attributed tracks.
 #' @export
 #'
 #' @examples
@@ -292,7 +297,23 @@ spygen_tracks <- function(waypoints,
     
     if(nrow(tracks_eDNA_i) == 0) {
       
-      closest_track <- NA
+      tracks_spygen_i <- cbind(spygen_i[,!colnames(spygen_i) %in% c("Elevation_waypoint_start",
+                                                              "Time_waypoint_start",
+                                                              "Name_waypoint_start",
+                                                              "distance_start",
+                                                              "Elevation_waypoint_end",
+                                                              "Time_waypoint_end",
+                                                              "Name_waypoint_end",
+                                                              "distance_end")],
+                               data.frame(Elevation = NA,
+                                          Time = NA,
+                                          Latitude = NA,
+                                          Longitude = NA,
+                                          extensions = NA,
+                                          `Segment ID` = NA,
+                                          distance_start = NA,
+                                          distance_end = NA,
+                                          check.names = FALSE))
       
     }else{
       
@@ -327,64 +348,64 @@ spygen_tracks <- function(waypoints,
     
   }, mc.cores = 1)
   closest_tracks_bind <- do.call(rbind, closest_tracks)
+
+  # Assess which surveys are beyond the distance threshold, which are below and which with no tracks
   
-  # # Assess which surveys are beyond the distance threshold, which are below and which with no waypoints
-  # 
-  # high_distance1 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & closest_tracks_bind$distance_end > distance_threshold,]
-  # high_distance1 <- high_distance1[!is.na(high_distance1$spygen_code),]
-  # 
-  # high_distance2 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & closest_tracks_bind$distance_end < distance_threshold,]
-  # high_distance2 <- high_distance2[!is.na(high_distance2$spygen_code),]
-  # 
-  # high_distance3 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & is.na(closest_tracks_bind$distance_end),]
-  # high_distance3 <- high_distance3[!is.na(high_distance3$spygen_code),]
-  # 
-  # high_distance4 <- closest_tracks_bind[closest_tracks_bind$distance_start < distance_threshold & closest_tracks_bind$distance_end > distance_threshold,]
-  # high_distance4 <- high_distance4[!is.na(high_distance4$spygen_code),]
-  # 
-  # high_distance <- do.call(rbind, list(high_distance1, high_distance2, high_distance3, high_distance4))
-  # 
-  # good_distance1 <- closest_tracks_bind[closest_tracks_bind$distance_start < distance_threshold & closest_tracks_bind$distance_end < distance_threshold,]
-  # good_distance1 <- good_distance1[!is.na(good_distance1$spygen_code),]
-  # 
-  # good_distance2 <- closest_tracks_bind[closest_tracks_bind$distance_start < distance_threshold & is.na(closest_tracks_bind$distance_end),]
-  # good_distance2 <- good_distance2[!is.na(good_distance2$spygen_code),]
-  # 
-  # good_distance <- do.call(rbind, list(good_distance1, good_distance2))
-  # 
-  # na_survey <- waypoints[which(is.na(closest_tracks)),]
-  # 
-  # if(sum(c(nrow(high_distance), nrow(good_distance), nrow(na_survey))) == nrow(eDNA_metadata)){
-  #   
-  #   print("All good!")
-  #   
-  # }else{
-  #   
-  #   print("Some spygen_id are missing!")
-  #   
-  # }
-  # 
-  # write.csv(high_distance, file = paste0(path_save, "high_distance.csv"), row.names = FALSE)
-  # write.csv(good_distance, file = paste0(path_save, "good_distance.csv"), row.names = FALSE)
-  # write.csv(na_survey, file = paste0(path_save, "na_survey.csv"), row.names = FALSE)
+  high_distance1 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & closest_tracks_bind$distance_end > distance_threshold,]
+  high_distance1 <- high_distance1[!is.na(high_distance1$spygen_code),]
   
-  # to_return <- list(high_distance, good_distance, na_survey)
-  # names(to_return) <- c("high_distance", "good_distance", "na_survey")
+  high_distance2 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & closest_tracks_bind$distance_end < distance_threshold,]
+  high_distance2 <- high_distance2[!is.na(high_distance2$spygen_code),]
   
-  # return(to_return)
+  high_distance3 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & is.na(closest_tracks_bind$distance_end),]
+  high_distance3 <- high_distance3[!is.na(high_distance3$spygen_code),]
   
-  write.csv(closest_tracks_bind, file = paste0(path_save, "closest_tracks_bind.csv"), row.names = FALSE)
+  high_distance4 <- closest_tracks_bind[closest_tracks_bind$distance_start < distance_threshold & closest_tracks_bind$distance_end > distance_threshold,]
+  high_distance4 <- high_distance4[!is.na(high_distance4$spygen_code),]
   
-  return(closest_tracks_bind)
+  tracks_high_distance <- do.call(rbind, list(high_distance1, high_distance2, high_distance3, high_distance4))
+  
+  good_distance1 <- closest_tracks_bind[closest_tracks_bind$distance_start < distance_threshold & closest_tracks_bind$distance_end < distance_threshold,]
+  good_distance1 <- good_distance1[!is.na(good_distance1$spygen_code),]
+  
+  good_distance2 <- closest_tracks_bind[closest_tracks_bind$distance_start < distance_threshold & is.na(closest_tracks_bind$distance_end),]
+  good_distance2 <- good_distance2[!is.na(good_distance2$spygen_code),]
+  
+  tracks_good_distance <- do.call(rbind, list(good_distance1, good_distance2))
+  
+  tracks_na_survey <- closest_tracks_bind[which(is.na(closest_tracks_bind$distance_start)),]
+  
+  if(sum(c(length(unique(tracks_high_distance$spygen_code)),
+           length(unique(tracks_good_distance$spygen_code)),
+           length(unique(tracks_na_survey$spygen_code)))) == nrow(waypoints)){
+    
+    print("All good!")
+    
+  }else{
+    
+    print("Some spygen_id are missing!")
+    
+  }
+  
+  write.csv(tracks_high_distance, file = paste0(path_save, "tracks_high_distance.csv"), row.names = FALSE)
+  write.csv(tracks_good_distance, file = paste0(path_save, "tracks_good_distance.csv"), row.names = FALSE)
+  write.csv(tracks_na_survey, file = paste0(path_save, "tracks_na_survey.csv"), row.names = FALSE)
+  
+  to_return <- list(tracks_high_distance, tracks_good_distance, tracks_na_survey)
+  names(to_return) <- c("tracks_high_distance", "tracks_good_distance", "tracks_na_survey")
+  
+  return(to_return)
   
 }
 
-#' Title
+#' shapefile_tracks
+#' 
+#' This function convert tracks point as a dataframe into a shapefile.
 #'
-#' @param eDNA_tracks 
-#' @param path_save 
+#' @param eDNA_tracks a dataframe, the "tracks_good_distance" one obtained with the "spygen_tracks" function. 
+#' @param path_save a character indicating the path to save data.
 #'
-#' @returns
+#' @returns save the shapefile to the path indicated by `path_save`
 #' @export
 #'
 #' @examples
