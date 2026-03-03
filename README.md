@@ -54,3 +54,4 @@ The repository is structured as follow:
     -   The `01_clean_eDNA/` file contain all results from **step I**;
     -   The `02_eDNA_tracks/` file contain all results from **step II**.
 
+The details of all functions used in the repository can be found here : https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html
