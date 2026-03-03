@@ -1,4 +1,4 @@
-Package: indicateur_ADNe
+Package: setup_eDNA_baseline
 Type: Package
 Title: The Title of the Project
 Version: 0.0.0.9000
@@ -10,8 +10,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0000-0000-0000")))
 Description: A paragraph providing a full description of the project (on 
     several lines...)
-URL: https://github.com/CyrilHaute/indicateur_ADNe
-BugReports: https://github.com/CyrilHaute/indicateur_ADNe/issues
+URL: https://github.com/CyrilHaute/setup_eDNA_baseline
+BugReports: https://github.com/CyrilHaute/setup_eDNA_baseline/issues
 License: {{license}}
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
