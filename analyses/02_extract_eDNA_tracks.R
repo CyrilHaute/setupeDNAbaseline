@@ -11,23 +11,14 @@ source("R/02_extract_eDNA_tracks_functions.R")
 dir.create("outputs/02_eDNA_tracks")
 dir_save <- "outputs/02_eDNA_tracks/"
 
-# Load eDNA metadata
-
-path_metadata <- "data/raw-data/Med_metadonnees_ADNe - v1.2_2018-2025.csv"
-
-metadata <- read.csv(path_metadata, header = TRUE)
-
-metadata$date <- as.Date(metadata$date)
 
 # Load waypoints data
 
-path_waypoint <- "data/raw-data/trace_gps"
-
-waypoints <- load_waypoint(path = path_waypoint)
+waypoints <- load_waypoint(path = "data/raw-data/trace_gps")
 
 # Assign a waypoint to each spygen_code 
 
-spygen_waypoint_output <- spygen_waypoint(eDNA_metadata = metadata,
+spygen_waypoint_output <- spygen_waypoint(eDNA_metadata_path = "data/raw-data/Med_metadonnees_ADNe - v1.2_2018-2025.csv",
                                           waypoints = waypoints,
                                           distance_threshold = 10,
                                           path_save = dir_save)
@@ -36,11 +27,12 @@ spygen_waypoint_output <- spygen_waypoint(eDNA_metadata = metadata,
 
 check_time_output <- check_time(data = spygen_waypoint_output$good_distance)
 
+
 ## Assign a gps track to each spygen_code based on waypoints
 
 # Load gps tracks
 
-gps_tracks <- load_tracks(path = path_waypoint)
+gps_tracks <- load_tracks(path = "data/raw-data/trace_gps")
 
 spygen_tracks_output <- spygen_tracks(waypoints = spygen_waypoint_output$good_distance,
                                       gps_tracks = gps_tracks,

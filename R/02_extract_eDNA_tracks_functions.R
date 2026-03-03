@@ -1,9 +1,11 @@
 
-#' Title
+#' load_waypoint
+#' 
+#' This function load waypoints from gps data.
 #'
-#' @param path 
+#' @param path a character indicating the path to the waypoints.
 #'
-#' @returns
+#' @returns a dataframe of waypoints coordinates.
 #' @export
 #'
 #' @examples
@@ -30,22 +32,33 @@ load_waypoint <- function(path){
 }
 
 
-#' Title
+#' spygen_waypoint
+#' 
+#' This function attributes to each spygen survey it's closest waypoint at the date of the survey.
 #'
-#' @param eDNA_metadata 
-#' @param waypoints 
-#' @param distance_threshold 
-#' @param path_save 
+#' @param eDNA_metadata_path a character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.
+#' @param waypoints a dataframe of waypoints coordinates.
+#' @param distance_threshold a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.
+#' @param path_save a character indicating the path to save data.
 #'
-#' @returns
+#' @returns a list of three dataframe : 
+#' "high distance" contain spygen survey with distance to the closest waypoints > `distance_threshold`;
+#' "good distance" contain spygen survey with distance to the closest waypoints < `distance_threshold`;
+#' "na survey" contain spygen survey with no attributed waypoints.
 #' @export
 #'
 #' @examples
 
-spygen_waypoint <- function(eDNA_metadata,
+spygen_waypoint <- function(eDNA_metadata_path,
                             waypoints,
                             distance_threshold,
                             path_save){
+  
+  # Load metadata
+  
+  eDNA_metadata <- read.csv(eDNA_metadata_path, header = TRUE)
+  
+  eDNA_metadata$date <- as.Date(eDNA_metadata$date)
 
   # Look for each eDNA survey the closest waypoint by date
 
@@ -185,11 +198,13 @@ spygen_waypoint <- function(eDNA_metadata,
 }
 
 
-#' Title
+#' check_time
+#' 
+#' This function calculate the difference in time (minutes) between the waypoint end and start.
 #'
-#' @param data 
+#' @param data a dataframe obtained from the function "spygen_waypoint". It must contain the following columns : "spygen_code", "date", "latitude_start_DD", "longitude_start_DD", "latitude_end_DD", "longitude_end_DD", "project", "time_start", "Time_waypoint_start", "Time_waypoint_end".
 #'
-#' @returns
+#' @returns a dataframe with a column named "diff_time_waypoints", indicating the difference in time (minutes) between the waypoint end and start.
 #' @export
 #'
 #' @examples
@@ -211,11 +226,13 @@ check_time <- function(data) {
 }
 
 
-#' Title
+#' load_tracks
+#' 
+#' This function load tracks from gps data.
 #'
-#' @param path 
+#' @param path a character indicating the path to the waypoints.
 #'
-#' @returns
+#' @returns a dataframe of tracks coordinates.
 #' @export
 #'
 #' @examples
