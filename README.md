@@ -27,16 +27,23 @@ This step associate to each spygen survey a gps track and convert it to a shapef
 3. Convert gps track from point to a polygon as a shapefile.
 
 
-
+## Code R
 
 The workflow has been entirely coded in R language and tried to use as much as possible base R codes.
 
-Required dependencies can be found in the **DESCRIPTION** file and can be installed and load with the folowing function :
+Required dependencies can be found in the **DESCRIPTION** file and can be installed and load with the flowing function :
 
 ```ruby
 ## Install required package ----
 devtools::install_deps(upgrade = "never")
 ```
+
+The repository is structured as follow:
+
+- `data/` : contains raw spygen eDNA and gps data
+- `R/` : contains all functions.
+- `analyses/` : contains scripts to load data and run `R/` functions
+- `outputs/` : contains all results
 
 
 
