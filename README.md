@@ -40,10 +40,16 @@ devtools::install_deps(upgrade = "never")
 
 The repository is structured as follow:
 
-- `data/` : contains raw spygen eDNA and gps data
-- `R/` : contains all functions.
-- `analyses/` : contains scripts to load data and run `R/` functions
-- `outputs/` : contains all results
+- `data/` : contains raw spygen eDNA and gps data;
+- `R/` : contains all functions. 
+The _01_clean_eDNA_functions.R_ script contain all functions for the step I. 
+The _02_extract_eDNA_tracks_functions.R_ contain all functions for the step II;
+- `analyses/` : contains scripts to load data and run `R/` functions. 
+The _01_clean_spygen_data.R_ script run and load script and data necessary for step I.
+The _02_extract_eDNA_tracks.R_ script run and load script and data necessary for step II;
+- `outputs/` : contains all results.
+The `01_clean_eDNA/` file contain all results from step I.
+The `02_eDNA_tracks/` file contain all results from step II.
 
 
 
