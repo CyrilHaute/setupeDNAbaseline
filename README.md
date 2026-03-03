@@ -1,4 +1,3 @@
-![ ](Logo-UMR-Marbec.png)
 
 # Setup a baseline for spygen eDNA data
 
