@@ -7,20 +7,22 @@
 species_clean_function(spygen_matrix, path_save)
 }
 \arguments{
-\item{spygen_matrix}{a dataframe of species eDNA in the format site X species}
+\item{spygen_matrix}{A dataframe of species eDNA in the format site X species}
 }
 \value{
-a list containing three objects :
+A list containing three objects :
 
 A dataframe in the format site X species with new species names checked from FishBase;
+
 A dataframe in the format site X species with old species names before checking from FishBase;
+
 A character vector listing all removed species.
 }
 \description{
 This function clean species eDNA data in terms of species names.
 }
 \details{
-It removes all misidentified species (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format).
+The function removes all misidentified species (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format).
 
 Once misidentified species has been removed, the function check the correct names of remaining species from FishBase.
 

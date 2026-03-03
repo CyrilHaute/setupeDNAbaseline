@@ -7,10 +7,10 @@
 check_time(data)
 }
 \arguments{
-\item{data}{a dataframe obtained from the function "spygen_waypoint". It must contain the following columns : "spygen_code", "date", "latitude_start_DD", "longitude_start_DD", "latitude_end_DD", "longitude_end_DD", "project", "time_start", "Time_waypoint_start", "Time_waypoint_end".}
+\item{data}{A dataframe obtained from the function "spygen_waypoint". It must contain the following columns : "spygen_code", "date", "latitude_start_DD", "longitude_start_DD", "latitude_end_DD", "longitude_end_DD", "project", "time_start", "Time_waypoint_start", "Time_waypoint_end".}
 }
 \value{
-a dataframe with a column named "diff_time_waypoints", indicating the difference in time (minutes) between the waypoint end and start.
+A dataframe with a column named "diff_time_waypoints", indicating the difference in time (minutes) between the waypoint end and start.
 }
 \description{
 This function calculate the difference in time (minutes) between the waypoint end and start.

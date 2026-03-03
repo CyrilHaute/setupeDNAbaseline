@@ -3,9 +3,9 @@
 #' 
 #' This function convert spygen raw data into a site X species matrix.
 #'
-#' @param raw_spygen_path a character indicating the path of spygen raw data. Data has to be in the format ".xlsx".
+#' @param raw_spygen_path A character indicating the path of spygen raw data. Data has to be in the format ".xlsx".
 #'
-#' @returns a dataframe in the format site X species
+#' @returns A dataframe in the format site X species
 #' @export
 #'
 #' @examples 
@@ -134,18 +134,20 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #' 
 #' This function clean species eDNA data in terms of species names. 
 #' 
-#' It removes all misidentified species (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format).
+#' The function removes all misidentified species (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format).
 #' 
 #' Once misidentified species has been removed, the function check the correct names of remaining species from FishBase.
 #' 
 #' Caution : this function does not check for species distribution..................
 #'
-#' @param spygen_matrix a dataframe of species eDNA in the format site X species
+#' @param spygen_matrix A dataframe of species eDNA in the format site X species
 #'
-#' @returns a list containing three objects : 
+#' @returns A list containing three objects : 
 #' 
 #' A dataframe in the format site X species with new species names checked from FishBase;
+#' 
 #' A dataframe in the format site X species with old species names before checking from FishBase;
+#' 
 #' A character vector listing all removed species.
 #' 
 #' @export
@@ -224,7 +226,7 @@ species_clean_function <- function(spygen_matrix,
 #' 
 #' This function add new eDNA data to previous ones.
 #' 
-#' It first convert new raw species data to site X species matrix using the 'convert_to_matrix_function' and then check for correct species names using the 'species_clean_function'.
+#' The function first convert new raw species data to site X species matrix using the 'convert_to_matrix_function' and then check for correct species names using the 'species_clean_function'.
 #' 
 #' The function then look for common spygen code between old and new data, potentially resulting from reanalysis from Spygen (update of reference data base).
 #' 
@@ -236,10 +238,10 @@ species_clean_function <- function(spygen_matrix,
 #' 
 #' If differences have been detected, the function......................
 #'
-#' @param old_spygen_data_path a character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".
-#' @param new_spygen_data_path a character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
+#' @param old_spygen_data_path A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".
+#' @param new_spygen_data_path A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
 #'
-#' @returns a dataframe in the format site X species
+#' @returns A dataframe in the format site X species
 #' @export
 #'
 #' @examples
@@ -388,10 +390,10 @@ spygen_new_data_function <- function(old_spygen_data_path,
 #' 
 #' This function create a subset of eDNA data by spygen_code.
 #'
-#' @param eDNA_species_data_path a character indicating the path of cleaned spygen data. Data has to be in the format ".csv". 
-#' @param spygen_code_subset a character or a dataframe indicating which spygen_code to subset the data with. If supply a dataframe, make sure to name the spygen code column "spygen_code"
+#' @param eDNA_species_data_path A character indicating the path of cleaned spygen data. Data has to be in the format ".csv". 
+#' @param spygen_code_subset A character or a dataframe indicating which spygen_code to subset the data with. If supply a dataframe, make sure to name the spygen code column "spygen_code"
 #'
-#' @returns a dataframe in the format site X species
+#' @returns A dataframe in the format site X species, subset from eDNA_species_data
 #' @export
 #'
 #' @examples

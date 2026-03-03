@@ -7,10 +7,10 @@
 load_tracks(path)
 }
 \arguments{
-\item{path}{a character indicating the path to the waypoints.}
+\item{path}{A character indicating the path to the waypoints.}
 }
 \value{
-a dataframe of tracks coordinates.
+A dataframe of tracks coordinates.
 }
 \description{
 This function load tracks from gps data.

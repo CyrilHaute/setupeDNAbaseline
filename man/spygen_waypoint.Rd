@@ -7,18 +7,21 @@
 spygen_waypoint(eDNA_metadata_path, waypoints, distance_threshold, path_save)
 }
 \arguments{
-\item{eDNA_metadata_path}{a character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.}
+\item{eDNA_metadata_path}{A character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.}
 
-\item{waypoints}{a dataframe of waypoints coordinates.}
+\item{waypoints}{A dataframe of waypoints coordinates.}
 
-\item{distance_threshold}{a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.}
+\item{distance_threshold}{A numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.}
 
-\item{path_save}{a character indicating the path to save data.}
+\item{path_save}{A character indicating the path to save data.}
 }
 \value{
-a list of three dataframe :
+A list of three dataframes :
+
 "high distance" contain spygen survey with distance to the closest waypoints > \code{distance_threshold};
+
 "good distance" contain spygen survey with distance to the closest waypoints < \code{distance_threshold};
+
 "na survey" contain spygen survey with no attributed waypoints.
 }
 \description{

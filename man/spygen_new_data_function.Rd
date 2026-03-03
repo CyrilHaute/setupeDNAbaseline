@@ -7,18 +7,18 @@
 spygen_new_data_function(old_spygen_data_path, new_spygen_data_path, path_save)
 }
 \arguments{
-\item{old_spygen_data_path}{a character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".}
+\item{old_spygen_data_path}{A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".}
 
-\item{new_spygen_data_path}{a character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".}
+\item{new_spygen_data_path}{A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".}
 }
 \value{
-a dataframe in the format site X species
+A dataframe in the format site X species
 }
 \description{
 This function add new eDNA data to previous ones.
 }
 \details{
-It first convert new raw species data to site X species matrix using the 'convert_to_matrix_function' and then check for correct species names using the 'species_clean_function'.
+The function first convert new raw species data to site X species matrix using the 'convert_to_matrix_function' and then check for correct species names using the 'species_clean_function'.
 
 The function then look for common spygen code between old and new data, potentially resulting from reanalysis from Spygen (update of reference data base).
 

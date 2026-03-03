@@ -7,10 +7,10 @@
 load_waypoint(path)
 }
 \arguments{
-\item{path}{a character indicating the path to the waypoints.}
+\item{path}{A character indicating the path to the waypoints.}
 }
 \value{
-a dataframe of waypoints coordinates.
+A dataframe of waypoints coordinates.
 }
 \description{
 This function load waypoints from gps data.

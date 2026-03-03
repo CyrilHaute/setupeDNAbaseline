@@ -3,9 +3,9 @@
 #' 
 #' This function load waypoints from gps data.
 #'
-#' @param path a character indicating the path to the waypoints.
+#' @param path A character indicating the path to the waypoints.
 #'
-#' @returns a dataframe of waypoints coordinates.
+#' @returns A dataframe of waypoints coordinates.
 #' @export
 #'
 #' @examples
@@ -36,14 +36,17 @@ load_waypoint <- function(path){
 #' 
 #' This function attributes to each spygen survey it's closest waypoint at the date of the survey.
 #'
-#' @param eDNA_metadata_path a character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.
-#' @param waypoints a dataframe of waypoints coordinates.
-#' @param distance_threshold a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.
-#' @param path_save a character indicating the path to save data.
+#' @param eDNA_metadata_path A character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.
+#' @param waypoints A dataframe of waypoints coordinates.
+#' @param distance_threshold A numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.
+#' @param path_save A character indicating the path to save data.
 #'
-#' @returns a list of three dataframe : 
+#' @returns A list of three dataframes : 
+#' 
 #' "high distance" contain spygen survey with distance to the closest waypoints > `distance_threshold`;
+#' 
 #' "good distance" contain spygen survey with distance to the closest waypoints < `distance_threshold`;
+#' 
 #' "na survey" contain spygen survey with no attributed waypoints.
 #' @export
 #'
@@ -202,9 +205,9 @@ spygen_waypoint <- function(eDNA_metadata_path,
 #' 
 #' This function calculate the difference in time (minutes) between the waypoint end and start.
 #'
-#' @param data a dataframe obtained from the function "spygen_waypoint". It must contain the following columns : "spygen_code", "date", "latitude_start_DD", "longitude_start_DD", "latitude_end_DD", "longitude_end_DD", "project", "time_start", "Time_waypoint_start", "Time_waypoint_end".
+#' @param data A dataframe obtained from the function "spygen_waypoint". It must contain the following columns : "spygen_code", "date", "latitude_start_DD", "longitude_start_DD", "latitude_end_DD", "longitude_end_DD", "project", "time_start", "Time_waypoint_start", "Time_waypoint_end".
 #'
-#' @returns a dataframe with a column named "diff_time_waypoints", indicating the difference in time (minutes) between the waypoint end and start.
+#' @returns A dataframe with a column named "diff_time_waypoints", indicating the difference in time (minutes) between the waypoint end and start.
 #' @export
 #'
 #' @examples
@@ -230,9 +233,9 @@ check_time <- function(data) {
 #' 
 #' This function load tracks from gps data.
 #'
-#' @param path a character indicating the path to the waypoints.
+#' @param path A character indicating the path to the waypoints.
 #'
-#' @returns a dataframe of tracks coordinates.
+#' @returns A dataframe of tracks coordinates.
 #' @export
 #'
 #' @examples
@@ -265,14 +268,17 @@ load_tracks <- function(path){
 #' 
 #' This function attributes to each spygen survey it's closest tracks at the date of the survey.
 #'
-#' @param waypoints a dataframe, the "good_distance" one obtained with the "spygen_waypoint" function.
-#' @param gps_tracks a dataframe of tracks coordinates.
-#' @param distance_threshold a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest tracks coordinates.
-#' @param path_save a character indicating the path to save data.
+#' @param waypoints A dataframe, the "good_distance" one obtained with the "spygen_waypoint" function.
+#' @param gps_tracks A dataframe of tracks coordinates.
+#' @param distance_threshold A numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest tracks coordinates.
+#' @param path_save A character indicating the path to save data.
 #'
-#' @returns a list of three dataframe : 
+#' @returns A list of three dataframe : 
+#' 
 #' "high distance" contain spygen survey with distance to the closest tracks > `distance_threshold`;
+#' 
 #' "good distance" contain spygen survey with distance to the closest tracks < `distance_threshold`;
+#' 
 #' "na survey" contain spygen survey with no attributed tracks.
 #' @export
 #'
@@ -402,10 +408,10 @@ spygen_tracks <- function(waypoints,
 #' 
 #' This function convert tracks point as a dataframe into a shapefile.
 #'
-#' @param eDNA_tracks a dataframe, the "tracks_good_distance" one obtained with the "spygen_tracks" function. 
-#' @param path_save a character indicating the path to save data.
+#' @param eDNA_tracks A dataframe, the "tracks_good_distance" one obtained with the "spygen_tracks" function. 
+#' @param path_save A character indicating the path to save data.
 #'
-#' @returns save the shapefile to the path indicated by `path_save`
+#' @returns Save the shapefile to the path indicated by `path_save`
 #' @export
 #'
 #' @examples

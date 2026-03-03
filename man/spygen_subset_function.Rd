@@ -7,12 +7,12 @@
 spygen_subset_function(eDNA_species_data_path, spygen_code_subset)
 }
 \arguments{
-\item{eDNA_species_data_path}{a character indicating the path of cleaned spygen data. Data has to be in the format ".csv".}
+\item{eDNA_species_data_path}{A character indicating the path of cleaned spygen data. Data has to be in the format ".csv".}
 
-\item{spygen_code_subset}{a character or a dataframe indicating which spygen_code to subset the data with. If supply a dataframe, make sure to name the spygen code column "spygen_code"}
+\item{spygen_code_subset}{A character or a dataframe indicating which spygen_code to subset the data with. If supply a dataframe, make sure to name the spygen code column "spygen_code"}
 }
 \value{
-a dataframe in the format site X species
+A dataframe in the format site X species, subset from eDNA_species_data
 }
 \description{
 This function create a subset of eDNA data by spygen_code.

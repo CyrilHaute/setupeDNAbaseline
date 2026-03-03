@@ -56,29 +56,35 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>eDNA_metadata_path</dt>
-<dd><p>a character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.</p></dd>
+<dd><p>A character indicating eDNA metadata path. These metadata includes spygen survey coordinates and dates.</p></dd>
 
 
 <dt>waypoints</dt>
-<dd><p>a dataframe of waypoints coordinates.</p></dd>
+<dd><p>A dataframe of waypoints coordinates.</p></dd>
 
 
 <dt>distance_threshold</dt>
-<dd><p>a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.</p></dd>
+<dd><p>A numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest waypoint coordinates.</p></dd>
 
 
 <dt>path_save</dt>
-<dd><p>a character indicating the path to save data.</p></dd>
+<dd><p>A character indicating the path to save data.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>a list of three dataframe :
-"high distance" contain spygen survey with distance to the closest waypoints &gt; <code>distance_threshold</code>;
-"good distance" contain spygen survey with distance to the closest waypoints &lt; <code>distance_threshold</code>;
-"na survey" contain spygen survey with no attributed waypoints.</p>
+<p>A list of three dataframes :</p>
+
+
+<p>"high distance" contain spygen survey with distance to the closest waypoints &gt; <code>distance_threshold</code>;</p>
+
+
+<p>"good distance" contain spygen survey with distance to the closest waypoints &lt; <code>distance_threshold</code>;</p>
+
+
+<p>"na survey" contain spygen survey with no attributed waypoints.</p>
     </div>
 
   </div>

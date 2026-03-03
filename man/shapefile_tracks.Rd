@@ -7,12 +7,12 @@
 shapefile_tracks(eDNA_tracks, path_save)
 }
 \arguments{
-\item{eDNA_tracks}{a dataframe, the "tracks_good_distance" one obtained with the "spygen_tracks" function.}
+\item{eDNA_tracks}{A dataframe, the "tracks_good_distance" one obtained with the "spygen_tracks" function.}
 
-\item{path_save}{a character indicating the path to save data.}
+\item{path_save}{A character indicating the path to save data.}
 }
 \value{
-save the shapefile to the path indicated by \code{path_save}
+Save the shapefile to the path indicated by \code{path_save}
 }
 \description{
 This function convert tracks point as a dataframe into a shapefile.

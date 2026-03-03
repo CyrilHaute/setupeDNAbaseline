@@ -7,18 +7,21 @@
 spygen_tracks(waypoints, gps_tracks, distance_threshold, path_save)
 }
 \arguments{
-\item{waypoints}{a dataframe, the "good_distance" one obtained with the "spygen_waypoint" function.}
+\item{waypoints}{A dataframe, the "good_distance" one obtained with the "spygen_waypoint" function.}
 
-\item{gps_tracks}{a dataframe of tracks coordinates.}
+\item{gps_tracks}{A dataframe of tracks coordinates.}
 
-\item{distance_threshold}{a numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest tracks coordinates.}
+\item{distance_threshold}{A numeric indicating the maximal distance threshold in meter between a spygen survey coordinates and the closest tracks coordinates.}
 
-\item{path_save}{a character indicating the path to save data.}
+\item{path_save}{A character indicating the path to save data.}
 }
 \value{
-a list of three dataframe :
+A list of three dataframe :
+
 "high distance" contain spygen survey with distance to the closest tracks > \code{distance_threshold};
+
 "good distance" contain spygen survey with distance to the closest tracks < \code{distance_threshold};
+
 "na survey" contain spygen survey with no attributed tracks.
 }
 \description{
