@@ -4,7 +4,7 @@ This repository create a baseline to analyse spygen eDNA data.
 
 The workflow is separated into two different steps :
 
-## Clean eDNA data
+## I. Clean eDNA data
 
 This step convert raw spygen eDNA data into a format suitable for analysis.
 
@@ -16,7 +16,7 @@ This step convert raw spygen eDNA data into a format suitable for analysis.
 
 4. Create clean user-based data subset.
 
-## Extract eDNA gps tracks
+## II. Extract eDNA gps tracks
 
 This step associate to each spygen survey a gps track and convert it to a shapefile.
 
@@ -25,6 +25,9 @@ This step associate to each spygen survey a gps track and convert it to a shapef
 2. Associate to each waypoint the closest gps track at the survey date.
 
 3. Convert gps track from point to a polygon as a shapefile.
+
+
+
 
 
 
