@@ -29,7 +29,7 @@ This step associate to each spygen survey a gps track and convert it to a shapef
 
 3.  Convert gps track from point to a polygon as a shapefile.
 
-## <img src="assets/Rlogo.png" width="28" style="vertical-align:-6px;"> code
+## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"> code
 
 The workflow has been entirely coded in R language and tried to use as much as possible base R codes.
 
