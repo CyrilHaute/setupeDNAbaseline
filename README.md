@@ -9,11 +9,11 @@ The workflow is separated into two different steps:
 
 This step convert raw Spygen eDNA data into a format suitable for analysis.
 
-1.  Raw Spygen eDNA data are converted to site X species matrix and species identified multiple times are summed and summarize into one column.
+1.  Raw Spygen eDNA data are converted to **site X species** matrix and species identified multiple times are summed and summarize into one column.
 
-2.  The site X species matrix is cleaned by removing misidentified species and correct species names according to [FishBase](https://www.fishbase.se/search.php).
+2.  The site X species matrix is cleaned by removing **misidentified species** and correct species names according to [FishBase](https://www.fishbase.se/search.php).
 
-3.  It allows adding new eDNA data to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.
+3.  It allows adding **new eDNA data** to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.
 
 4.  Create clean user-based data subset.
 
@@ -24,11 +24,11 @@ This step convert raw Spygen eDNA data into a format suitable for analysis.
 
 This step associate to each Spygen survey a gps track and convert it to a shapefile.
 
-1.  Associate to each Spygen survey the closest gps waypoint at the survey date.
+1.  Associate to each Spygen survey the closest **gps waypoint** at the survey date.
 
-2.  Associate to each waypoint the closest gps track at the survey date.
+2.  Associate to each waypoint the closest **gps track** at the survey date.
 
-3.  Convert gps track from point to a polygon as a shapefile.
+3.  Convert gps track from point to a polygon as a **shapefile**.
 
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"> code
 
