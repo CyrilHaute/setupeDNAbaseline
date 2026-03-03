@@ -18,7 +18,7 @@ This step convert raw Spygen eDNA data into a format suitable for analysis.
 4.  Create clean user-based data subset.
 
 > [!CAUTION]
-> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., species detected outside their distribution range).
+> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 

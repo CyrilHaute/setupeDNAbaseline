@@ -5,7 +5,7 @@
 #'
 #' @param raw_spygen_path A character indicating the path of spygen raw data. Data has to be in the format ".xlsx".
 #'
-#' @returns A dataframe in the format site X species
+#' @returns A dataframe in the format site X species.
 #' @export
 #'
 #' @examples 
@@ -140,7 +140,8 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #' 
 #' Caution : this function does not check for species distribution..................
 #'
-#' @param spygen_matrix A dataframe of species eDNA in the format site X species
+#' @param spygen_matrix A dataframe of species eDNA in the format site X species.
+#' @param path_save A character indicating the path to save data.
 #'
 #' @returns A list containing three objects : 
 #' 
@@ -240,8 +241,9 @@ species_clean_function <- function(spygen_matrix,
 #'
 #' @param old_spygen_data_path A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".
 #' @param new_spygen_data_path A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
+#' @param path_save A character indicating the path to save data.
 #'
-#' @returns A dataframe in the format site X species
+#' @returns A dataframe in the format site X species.
 #' @export
 #'
 #' @examples
@@ -393,7 +395,7 @@ spygen_new_data_function <- function(old_spygen_data_path,
 #' @param eDNA_species_data_path A character indicating the path of cleaned spygen data. Data has to be in the format ".csv". 
 #' @param spygen_code_subset A character or a dataframe indicating which spygen_code to subset the data with. If supply a dataframe, make sure to name the spygen code column "spygen_code"
 #'
-#' @returns A dataframe in the format site X species, subset from eDNA_species_data
+#' @returns A dataframe in the format site X species, subset from eDNA_species_data.
 #' @export
 #'
 #' @examples

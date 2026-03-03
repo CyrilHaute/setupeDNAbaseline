@@ -411,7 +411,7 @@ spygen_tracks <- function(waypoints,
 #' @param eDNA_tracks A dataframe, the "tracks_good_distance" one obtained with the "spygen_tracks" function. 
 #' @param path_save A character indicating the path to save data.
 #'
-#' @returns Save the shapefile to the path indicated by `path_save`
+#' @returns Save the shapefile to the path indicated by `path_save`.
 #' @export
 #'
 #' @examples
