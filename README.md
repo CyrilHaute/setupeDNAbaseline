@@ -65,7 +65,8 @@ To use the R native pipe, follow the instructions:
 - Click on R **Tools**;
 - Then click on **Global Options**;
 - Then click on **Code**;
-- Check the box **Use native pipe operator, |> (requires R 4.1+)**
+- Check the box **Use native pipe operator, |> (requires R 4.1+)**.
+
 By doing so, we don't need to load any package from `tidyverse`.
   
 Data can be accessible through [marbec-data](https://marbec-data.ird.fr/#/signin).
@@ -98,6 +99,8 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eD
 | SPY180624 | nb_seq | 7238 | 27013 | 0 | 220 |
 | SPY181146 | nb_rep | 3 | 11 | 0 | 0 |
 | SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 |
+
+As you can see, the function return a dataframe containing species not spelled in the binomial format (e.g., **A_regius_U_cirrosa**).
 
 2.  The `species_clean` function clean the site X species matrix by
     removing **misnamed species** (missing names, identified at the family level
