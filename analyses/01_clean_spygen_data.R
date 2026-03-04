@@ -26,8 +26,7 @@ colnames(spygen_matrix_clean$spygen_matrix_clean)[which_diff]
 colnames(spygen_matrix_clean$spygen_matrix_old)[which_diff]
 
 
-# Créer une fonction qui permet d'ajouter de nouvelles données aux anciennes, supprimer les doublons de l'ancien fichier (Med) car corresponds à une nouvelle version de la base de ref
-# si la version est la même, verifier que les espèces et le nombre de read sont les mêmes. Normalement on est sensé ecrasé 
+# This function allows adding new eDNA data to previous ones
 
 spygen1_2 <- spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_eDNA/1.spygen_2018_2025.csv",
                                       new_spygen_data_path = "data/raw-data/eDNA_raw_data/2.Teleo_SC21076_DPH_15_08-12-2025.xlsx",

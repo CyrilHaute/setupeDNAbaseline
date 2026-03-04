@@ -669,22 +669,6 @@ multiple times are summed and summarize into one column.</li>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="left">SPY181147</td>
-<td align="left">nb_rep</td>
-<td align="right">2</td>
-<td align="right">11</td>
-<td align="right">0</td>
-<td align="right">6</td>
-</tr>
-<tr class="even">
-<td align="left">SPY181147</td>
-<td align="left">nb_seq</td>
-<td align="right">336</td>
-<td align="right">37470</td>
-<td align="right">0</td>
-<td align="right">7221</td>
-</tr>
 </tbody>
 </table>
 <ol start="2" style="list-style-type: decimal">
@@ -704,6 +688,8 @@ names</strong> before checking from FishBase;</p></li>
 <li><p>A character vector listing all <strong>removed
 species</strong>.</p></li>
 </ul>
+<p>By doing so, it allows users to follow the steps of cleaning and
+check the removed species and which have been their names corrected.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>spygen_matrix_clean <span class="kw">&lt;-</span> species_clean_function(spygen_matrix <span class="kw">=</span> spygen_matrix,</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                                              path_save <span class="kw">=</span> paste0(dir_save, <span class="st">&quot;1.spygen_2018_2025.csv&quot;</span>))</span></code></pre></div>
 <table>
@@ -750,30 +736,40 @@ species</strong>.</p></li>
 <td align="right">0</td>
 <td align="right">152</td>
 </tr>
-<tr class="odd">
-<td align="left">SPY181147</td>
-<td align="left">nb_rep</td>
-<td align="right">2</td>
-<td align="right">11</td>
-<td align="right">6</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left">SPY181147</td>
-<td align="left">nb_seq</td>
-<td align="right">336</td>
-<td align="right">37470</td>
-<td align="right">7221</td>
-<td align="right">139</td>
-</tr>
 </tbody>
 </table>
+<p>For the next step, save as <strong>.csv</strong> the dataframe with
+new species names called <strong>spygen_matrix_clean</strong>:</p>
+<pre><code>write.csv(spygen_matrix_clean$spygen_matrix_clean, file = &quot;my/path/to/outputs/spygen_matrix_clean.csv&quot;, row.names = FALSE)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>It allows adding <strong>new eDNA data</strong> to previous one,
-by checking for duplicate and replace or not with new data if
-differences are detected. This step creates data versions.</p></li>
-<li><p>Create clean user-based data subset.</p></li>
+<li>The <code>spygen_new_data</code> function allows adding <strong>new
+eDNA data</strong> to previous one, by checking for duplicate and
+replace or not with new data if differences are detected.</li>
 </ol>
+<blockquote>
+<p>[!IMPORTANT] To work properly, the function need to add the new
+Spygen data in the order they’ve been sent by Spygen!</p>
+</blockquote>
+<p>This function requires the path of <strong>old eDNA data</strong> (in
+format <strong>.csv</strong>) and the path of <strong>new eDNA
+data</strong> (in <strong>.xlsx</strong> format).</p>
+<p>The function return a dataframe with new eDNA data.</p>
+<pre><code>new_spygen_data &lt;- spygen_new_data_function(old_spygen_data_path = &quot;my/path/to/outputs/spygen_matrix_clean.csv&quot;,
+                                            new_spygen_data_path = &quot;my/path/to/new/raw_eDNA_data.xlsx&quot;,
+                                            path_save = &quot;my/path/to/outputs/new_spygen_data.csv&quot;)</code></pre>
+<p>By doing so, this function creates successively new eDNA files,
+allowing to follow data and the reference database version.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>The <code>spygen_subset</code> function is a user friendly function
+that create <strong>subset</strong> of eDNA data.</li>
+</ol>
+<p>This function requires a path of <strong>cleaned eDNA data</strong>
+(in format <strong>.csv</strong>) and a character vector of spygen code
+or a dataframe containing a column <strong>spygen_code</strong>.</p>
+<pre><code>subset_eDNA &lt;- spygen_subset_function(eDNA_species_data_path = &quot;my/path/to/outputs/spygen_matrix_clean.csv&quot;,
+                                      spygen_code_subset = c(&quot;SPY180624&quot;, &quot;SPY181146&quot;, &quot;SPY181147&quot;))</code></pre>
+<p>The function return a subset dataframe of eDNA data including only
+species present in the subset.</p>
 <blockquote>
 <p>[!CAUTION] This step only convert data to a suitable format for
 analysis with only basic cleaning step. This does not exempt users from
@@ -797,8 +793,8 @@ code</h2>
 language and tried to use as much as possible base R codes.</p>
 <p>Required dependencies can be found in the <code>DESCRIPTION</code>
 file and can be installed and load with the flowing function :</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">## Install required package ----</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>devtools<span class="kw">::</span><span class="at">install_deps</span>(upgrade <span class="kw">=</span> <span class="st">&quot;never&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">## Install required package ----</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>devtools<span class="kw">::</span><span class="at">install_deps</span>(upgrade <span class="kw">=</span> <span class="st">&quot;never&quot;</span>)</span></code></pre></div>
 <p>The repository is structured as follow:</p>
 <ul>
 <li><code>data/</code> : contains raw Spygen eDNA and gps data;</li>

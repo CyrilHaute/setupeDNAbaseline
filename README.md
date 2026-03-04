@@ -41,8 +41,6 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eD
 | SPY180624 | nb_seq | 7238 | 27013 | 0 | 220 |
 | SPY181146 | nb_rep | 3 | 11 | 0 | 0 |
 | SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 |
-| SPY181147 | nb_rep | 2 | 11 | 0 | 6 |
-| SPY181147 | nb_seq | 336 | 37470 | 0 | 7221 |
 
 2.  The `species_clean` function clean the site X species matrix by
     removing **misnamed species** and correct species names according to
@@ -61,8 +59,12 @@ It returns a list containing three objects :
 
 - A character vector listing all **removed species**.
 
+By doing so, it allows users to follow the steps of cleaning and check
+the removed species and which have been their names corrected.
+
 ``` ruby
-spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
+spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
+                                              path_save = paste0(dir_save, "1.spygen_2018_2025.csv"))
 ```
 
 | spygen_code | nb | Dicentrarchus labrax | Chromis chromis | Sciaena umbra | Sphyraena viridensis |
@@ -71,17 +73,48 @@ spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
 | SPY180624 | nb_seq | 7238 | 27013 | 220 | 155 |
 | SPY181146 | nb_rep | 3 | 11 | 0 | 2 |
 | SPY181146 | nb_seq | 3804 | 20232 | 0 | 152 |
-| SPY181147 | nb_rep | 2 | 11 | 6 | 2 |
-| SPY181147 | nb_seq | 336 | 37470 | 7221 | 139 |
 
-3.  It allows adding **new eDNA data** to previous one, by checking for
-    duplicate and replace or not with new data if differences are
-    detected. This step creates data versions.
+For the next step, save as **.csv** the dataframe with new species names
+called **spygen_matrix_clean**:
 
-4.  Create clean user-based data subset.
+    write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/spygen_matrix_clean.csv", row.names = FALSE)
 
-> [!CAUTION] 
-> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+3.  The `spygen_new_data` function allows adding **new eDNA data** to
+    previous one, by checking for duplicate and replace or not with new
+    data if differences are detected.
+
+> \[!IMPORTANT\] To work properly, the function need to add the new
+> Spygen data in the order they’ve been sent by Spygen!
+
+This function requires the path of **old eDNA data** (in format
+**.csv**) and the path of **new eDNA data** (in **.xlsx** format).
+
+The function return a dataframe with new eDNA data.
+
+    new_spygen_data <- spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
+                                                new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
+                                                path_save = "my/path/to/outputs/new_spygen_data.csv")
+
+By doing so, this function creates successively new eDNA files, allowing
+to follow data and the reference database version.
+
+4.  The `spygen_subset` function is a user friendly function that create
+    **subset** of eDNA data.
+
+This function requires a path of **cleaned eDNA data** (in format
+**.csv**) and a character vector of spygen code or a dataframe
+containing a column **spygen_code**.
+
+    subset_eDNA <- spygen_subset_function(eDNA_species_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
+                                          spygen_code_subset = c("SPY180624", "SPY181146", "SPY181147"))
+
+The function return a subset dataframe of eDNA data including only
+species present in the subset.
+
+> \[!CAUTION\] This step only convert data to a suitable format for
+> analysis with only basic cleaning step. This does not exempt users
+> from checking the list of species returned by the functions (e.g.,
+> **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
