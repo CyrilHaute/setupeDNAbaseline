@@ -25,6 +25,34 @@ install.packages("devtools")
 devtools::install_deps(upgrade = "never")
 ```
 
+## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
+
+The repository is structured as follow:
+
+- `data/` : contains raw Spygen eDNA and gps data:
+  - The `eDNA_raw_data/` file contain all eDNA raw data;
+  - The `trace_gps/` file contain gps data.
+- `R/` : contains all functions:
+  - The *01_clean_eDNA_functions.R* script contain all functions for the
+    **step I**;
+  - The *02_extract_eDNA_tracks_functions.R* script contain all
+    functions for the **step II**.
+- `analyses/` : contains scripts to load data and run `R/` functions:
+  - The *01_clean_spygen_data.R* script run and load script and data
+    necessary for **step I**;
+  - The *02_extract_eDNA_tracks.R* script run and load script and data
+    necessary for **step II**.
+- `outputs/` : contains all results:
+  - The `01_clean_eDNA/` file contain all results from **step I**;
+  - The `02_eDNA_tracks/` file contain all results from **step II**.
+  
+You can just follow the `analyses/` scripts to use the workflow.
+  
+Data can be accessible through [marbec-data](https://marbec-data.ird.fr/#/signin).
+
+The details of all functions used in the repository can be found here :
+<https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>
+
 The workflow is separated into two different steps:
 
 ## I. Clean eDNA data
@@ -110,7 +138,7 @@ new_spygen_data <- spygen_new_data_function(old_spygen_data_path = "my/path/to/o
 ```
 
 By doing so, this function creates successively new eDNA files, allowing
-to follow data and the reference database version.
+to follow data and the reference database **version**.
 
 4.  The `spygen_subset` function is a user friendly function that create
     **subset** of eDNA data.
@@ -142,29 +170,3 @@ a shapefile.
     date.
 
 3.  Convert gps track from point to a polygon as a **shapefile**.
-
-## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
-
-The repository is structured as follow:
-
-- `data/` : contains raw Spygen eDNA and gps data:
-  - The `eDNA_raw_data/` file contain all eDNA raw data;
-  - The `trace_gps/` file contain gps data.
-- `R/` : contains all functions:
-  - The *01_clean_eDNA_functions.R* script contain all functions for the
-    **step I**;
-  - The *02_extract_eDNA_tracks_functions.R* script contain all
-    functions for the **step II**.
-- `analyses/` : contains scripts to load data and run `R/` functions:
-  - The *01_clean_spygen_data.R* script run and load script and data
-    necessary for **step I**;
-  - The *02_extract_eDNA_tracks.R* script run and load script and data
-    necessary for **step II**.
-- `outputs/` : contains all results:
-  - The `01_clean_eDNA/` file contain all results from **step I**;
-  - The `02_eDNA_tracks/` file contain all results from **step II**.
-  
-Data can be accessible through [marbec-data](https://marbec-data.ird.fr/#/signin).
-
-The details of all functions used in the repository can be found here :
-<https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>
