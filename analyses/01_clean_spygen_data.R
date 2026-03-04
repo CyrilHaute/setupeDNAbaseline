@@ -54,7 +54,7 @@ spygen5_6 <- spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_e
 test <- read.csv("data/raw-data/Med_metadonnees_ADNe - v1.2_2018-2025.csv", header = TRUE)
 spain_test <- test[test$country == "Spain",]
 
-subset_test <- spygen_subset_function(eDNA_species_data_path = "outputs/1.Results_Med_2018-Oct2025_site_species_matrix.csv",
+subset_test <- spygen_subset_function(eDNA_species_data_path = "outputs/01_clean_eDNA/1.spygen_2018_2025.csv",
                                       spygen_code_subset = spain_test) # If spygen_code_subset is a dataframe
-subset_test2 <- spygen_subset_function(eDNA_species_data_path = "outputs/1.Results_Med_2018-Oct2025_site_species_matrix.csv",
+subset_test2 <- spygen_subset_function(eDNA_species_data_path = "outputs/01_clean_eDNA/1.spygen_2018_2025.csv",
                                        spygen_code_subset = spain_test$spygen_code) # If spygen_code_subset is a vector of character
