@@ -1,7 +1,16 @@
-
 # Setup a baseline for Spygen eDNA data
 
-This repository create a baseline to analyse [Spygen](https://www.spygen.com/fr/) eDNA data.
+This repository provides a **user friendly** interface to create a baseline to analyse [Spygen](https://www.spygen.com/fr/) **eDNA data**. It guides users with one function per action to complete in a specific order, all automatically.
+
+## Installation
+
+You can clone the repository from [GitHub](https://github.com/) with:
+
+``` ruby
+install.packages("devtools")
+
+devtools::install_github("CyrilHaute/setupeDNAbaseline")
+```
 
 The workflow is separated into two different steps:
 
@@ -9,16 +18,25 @@ The workflow is separated into two different steps:
 
 This step convert raw Spygen eDNA data into a format suitable for analysis.
 
-1.  Raw Spygen eDNA data are converted to **site X species** matrix and species identified multiple times are summed and summarize into one column.
+1.  The `convert_to_matrix` function convert raw Spygen eDNA data to **site X species** matrix. Species identified multiple times are summed and summarize into one column.
 
-2.  The site X species matrix is cleaned by removing **misidentified species** and correct species names according to [FishBase](https://www.fishbase.se/search.php).
+This function requires only one argument, the path to raw Spygen data (in **.xlsx** format!) and return an **uncleaned** site X species matrix :
+
+```         
+spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eDNA_data.xlsx")
+```
+
+```{r echo = FALSE, results = 'asis'}
+knitr::kable(head(read.csv("outputs/01_clean_eDNA/unclean_spygen_matrix.csv", header = TRUE, check.names = FALSE)[,1:8]))
+```
+
+2.  The `species_clean` function clean the site X species matrix by removing **misnamed species** and correct species names according to [FishBase](https://www.fishbase.se/search.php).
 
 3.  It allows adding **new eDNA data** to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.
 
 4.  Create clean user-based data subset.
 
-> [!CAUTION]
-> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+> [!CAUTION] This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
@@ -30,7 +48,7 @@ This step associate to each Spygen survey a gps track and convert it to a shapef
 
 3.  Convert gps track from point to a polygon as a **shapefile**.
 
-## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"> code
+## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
 The workflow has been entirely coded in ***R*** language and tried to use as much as possible base R codes.
 
@@ -54,4 +72,4 @@ The repository is structured as follow:
     -   The `01_clean_eDNA/` file contain all results from **step I**;
     -   The `02_eDNA_tracks/` file contain all results from **step II**.
 
-The details of all functions used in the repository can be found here : https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html
+The details of all functions used in the repository can be found here : <https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>

@@ -8,13 +8,14 @@
 source("R/01_clean_eDNA_functions.R")
 
 # Set directory to save cleaned eDNA data
+dir.create("outputs")
 dir.create("outputs/01_clean_eDNA")
 dir_save <- "outputs/01_clean_eDNA/"
 
 # This function convert spygen raw data to a site X species matrix
 
 spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "data/raw-data/eDNA_raw_data/1.Results_Med_2018-Oct2025.xlsx")
-
+# write.csv(spygen_matrix, file = "outputs/01_clean_eDNA/unclean_spygen_matrix.csv", row.names = FALSE)
 
 # This function remove misidentified species and check their names from FishBase
 

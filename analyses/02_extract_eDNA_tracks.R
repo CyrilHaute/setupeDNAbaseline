@@ -8,6 +8,7 @@
 source("R/02_extract_eDNA_tracks_functions.R")
 
 # Set directory to save extracted eDNA tracks
+dir.create("outputs")
 dir.create("outputs/02_eDNA_tracks")
 dir_save <- "outputs/02_eDNA_tracks/"
 
