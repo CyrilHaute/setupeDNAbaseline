@@ -1,6 +1,10 @@
+
 # Setup a baseline for Spygen eDNA data
 
-This repository provides a **user friendly** interface to create a baseline to analyse [Spygen](https://www.spygen.com/fr/) **eDNA data**. It guides users with one function per action to complete in a specific order, all automatically.
+This repository provides a **user friendly** interface to create a
+baseline to analyse [Spygen](https://www.spygen.com/fr/) **eDNA data**.
+It guides users with one function per action to complete in a specific
+order, all automatically.
 
 ## Installation
 
@@ -16,44 +20,65 @@ The workflow is separated into two different steps:
 
 ## I. Clean eDNA data
 
-This step convert raw Spygen eDNA data into a format suitable for analysis.
+This step convert raw Spygen eDNA data into a format suitable for
+analysis.
 
-1.  The `convert_to_matrix` function convert raw Spygen eDNA data to **site X species** matrix. Species identified multiple times are summed and summarize into one column.
+1.  The `convert_to_matrix` function convert raw Spygen eDNA data to
+    **site X species** matrix. Species identified multiple times are
+    summed and summarize into one column.
 
-This function requires only one argument, the path to raw Spygen data (in **.xlsx** format!) and return an **uncleaned** site X species matrix :
+This function requires only one argument, the path to raw Spygen data
+(in **.xlsx** format!) and return an **uncleaned** site X species matrix
+:
 
-```ruby       
+``` ruby
 spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eDNA_data.xlsx")
 ```
 
-```{r echo = FALSE, results = 'asis'}
-knitr::kable(head(read.csv("unclean_spygen_matrix.csv", header = TRUE, check.names = FALSE)[,1:8]))
-```
+| spygen_code | nb | Dicentrarchus labrax | Chromis chromis | A_regius_U_cirrosa | Sciaena umbra | S_chrysotaenia_S_sphyraena |
+|:---|:---|---:|---:|---:|---:|---:|
+| SPY180624 | nb_rep | 5 | 9 | 0 | 1 | 0 |
+| SPY180624 | nb_seq | 7238 | 27013 | 0 | 220 | 0 |
+| SPY181146 | nb_rep | 3 | 11 | 0 | 0 | 0 |
+| SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 | 0 |
+| SPY181147 | nb_rep | 2 | 11 | 0 | 6 | 0 |
+| SPY181147 | nb_seq | 336 | 37470 | 0 | 7221 | 0 |
 
-2.  The `species_clean` function clean the site X species matrix by removing **misnamed species** and correct species names according to [FishBase](https://www.fishbase.se/search.php).
+2.  The `species_clean` function clean the site X species matrix by
+    removing **misnamed species** and correct species names according to
+    [FishBase](https://www.fishbase.se/search.php).
 
-3.  It allows adding **new eDNA data** to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.
+3.  It allows adding **new eDNA data** to previous one, by checking for
+    duplicate and replace or not with new data if differences are
+    detected. This step creates data versions.
 
 4.  Create clean user-based data subset.
 
-> [!CAUTION] 
-> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+> \[!CAUTION\] This step only convert data to a suitable format for
+> analysis with only basic cleaning step. This does not exempt users
+> from checking the list of species returned by the functions (e.g.,
+> **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
-This step associate to each Spygen survey a gps track and convert it to a shapefile.
+This step associate to each Spygen survey a gps track and convert it to
+a shapefile.
 
-1.  Associate to each Spygen survey the closest **gps waypoint** at the survey date.
+1.  Associate to each Spygen survey the closest **gps waypoint** at the
+    survey date.
 
-2.  Associate to each waypoint the closest **gps track** at the survey date.
+2.  Associate to each waypoint the closest **gps track** at the survey
+    date.
 
 3.  Convert gps track from point to a polygon as a **shapefile**.
 
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
-The workflow has been entirely coded in ***R*** language and tried to use as much as possible base R codes.
+The workflow has been entirely coded in ***R*** language and tried to
+use as much as possible base R codes.
 
-Required dependencies can be found in the `DESCRIPTION` file and can be installed and load with the flowing function :
+Required dependencies can be found in the `DESCRIPTION` file and can be
+installed and load with the flowing function :
 
 ``` ruby
 ## Install required package ----
@@ -62,15 +87,20 @@ devtools::install_deps(upgrade = "never")
 
 The repository is structured as follow:
 
--   `data/` : contains raw Spygen eDNA and gps data;
--   `R/` : contains all functions:
-    -   The *01_clean_eDNA_functions.R* script contain all functions for the **step I**;
-    -   The *02_extract_eDNA_tracks_functions.R* script contain all functions for the **step II**.
--   `analyses/` : contains scripts to load data and run `R/` functions:
-    -   The *01_clean_spygen_data.R* script run and load script and data necessary for **step I**;
-    -   The *02_extract_eDNA_tracks.R* script run and load script and data necessary for **step II**.
--   `outputs/` : contains all results:
-    -   The `01_clean_eDNA/` file contain all results from **step I**;
-    -   The `02_eDNA_tracks/` file contain all results from **step II**.
+- `data/` : contains raw Spygen eDNA and gps data;
+- `R/` : contains all functions:
+  - The *01_clean_eDNA_functions.R* script contain all functions for the
+    **step I**;
+  - The *02_extract_eDNA_tracks_functions.R* script contain all
+    functions for the **step II**.
+- `analyses/` : contains scripts to load data and run `R/` functions:
+  - The *01_clean_spygen_data.R* script run and load script and data
+    necessary for **step I**;
+  - The *02_extract_eDNA_tracks.R* script run and load script and data
+    necessary for **step II**.
+- `outputs/` : contains all results:
+  - The `01_clean_eDNA/` file contain all results from **step I**;
+  - The `02_eDNA_tracks/` file contain all results from **step II**.
 
-The details of all functions used in the repository can be found here : <https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>
+The details of all functions used in the repository can be found here :
+<https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>

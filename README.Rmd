@@ -1,3 +1,7 @@
+---
+output: github_document
+---
+
 # Setup a baseline for Spygen eDNA data
 
 This repository provides a **user friendly** interface to create a baseline to analyse [Spygen](https://www.spygen.com/fr/) **eDNA data**. It guides users with one function per action to complete in a specific order, all automatically.
