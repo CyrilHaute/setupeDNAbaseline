@@ -22,12 +22,20 @@ This step convert raw Spygen eDNA data into a format suitable for analysis.
 
 This function requires only one argument, the path to raw Spygen data (in **.xlsx** format!) and return an **uncleaned** site X species matrix :
 
-```         
+```ruby      
 spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eDNA_data.xlsx")
 ```
 
 ```{r echo = FALSE, results = 'asis'}
-knitr::kable(head(read.csv("outputs/01_clean_eDNA/unclean_spygen_matrix.csv", header = TRUE, check.names = FALSE)[,1:8]))
+example <- data.frame(spygen_code = c("SPY180624", "SPY180624", "SPY181146", "SPY181146", "SPY181147", "SPY181147"),
+                      nb = c("nb_rep", "nb_seq", "nb_rep", "nb_seq", "nb_rep", "nb_seq"),
+                      `Dicentrarchus labrax` = c(5, 7238, 3, 3804, 2, 336),
+                      `Chromis chromis` = c(9, 27013, 11, 20232, 11, 37470),
+                      A_regius_U_cirrosa = c(0, 0, 0, 0, 0, 0),
+                      `Sciaena umbra` = c(1, 220, 0, 0, 6, 7221),
+                      S_chrysotaenia_S_sphyraena = c(0, 0, 0, 0, 0, 0),
+                      check.names = FALSE)
+knitr::kable(example)
 ```
 
 2.  The `species_clean` function clean the site X species matrix by removing **misnamed species** and correct species names according to [FishBase](https://www.fishbase.se/search.php).
