@@ -75,6 +75,7 @@ the removed species and which have been their names corrected.
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
                                               path_save = paste0(dir_save, "1.spygen_2018_2025.csv"))
 ```
+Here is the cleaned site X matrix dataframe with new species names (`spygen_matrix_clean$spygen_matrix_clean`):
 
 | spygen_code | nb | Dicentrarchus labrax | Chromis chromis | Sciaena umbra | Sphyraena viridensis |
 |:---|:---|---:|---:|---:|---:|
