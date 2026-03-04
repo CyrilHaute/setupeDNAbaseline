@@ -10,10 +10,10 @@ order, all automatically.
 
 You can clone the repository from [GitHub](https://github.com/) with:
 
-``` ruby
-install.packages("devtools")
+To clone the repository from [GitHub](https://github.com/), open R and go to your Terminal or open directly a Terminal and do:
 
-devtools::install_github("CyrilHaute/setupeDNAbaseline")
+``` ruby
+git clone https://github.com/CyrilHaute/setupeDNAbaseline
 ```
 
 The workflow is separated into two different steps:
