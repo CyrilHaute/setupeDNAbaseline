@@ -18,6 +18,9 @@ Required dependencies can be found in the `DESCRIPTION` file and can be
 installed and load with the flowing function :
 
 ``` ruby
+## Install devtools package ----
+install.packages("devtools")
+
 ## Install required package ----
 devtools::install_deps(upgrade = "never")
 ```
