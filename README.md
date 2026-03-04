@@ -58,7 +58,7 @@ The repository is structured as follow:
 You can just follow the `analyses/` scripts to use the workflow. 
 
 The scripts and functions have been written as much as possible in base R. For instance, we did not used the `tidyverse` library. 
-However, we used the R native pipe operator **|>** so we don't need to load any package from `tidyverse`. 
+However, we used the R native pipe operator `|>`. 
 
 To use the R native pipe, follow the instructions:
 
@@ -66,6 +66,7 @@ To use the R native pipe, follow the instructions:
 - Then click on **Global Options**;
 - Then click on **Code**;
 - Check the box **Use native pipe operator, |> (requires R 4.1+)**
+By doing so, we don't need to load any package from `tidyverse`.
   
 Data can be accessible through [marbec-data](https://marbec-data.ird.fr/#/signin).
 
