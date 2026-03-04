@@ -28,7 +28,7 @@ analysis.
     summed and summarize into one column.
 
 This function requires only one argument, the path to raw Spygen data
-(in **.xlsx** format!) and return an **uncleaned** site X species matrix
+(in format **.xlsx**) and return an **uncleaned** site X species matrix
 :
 
 ``` ruby
@@ -89,7 +89,7 @@ write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/sp
 > To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!
 
 This function requires the path of **old eDNA data** (in format
-**.csv**) and the path of **new eDNA data** (in **.xlsx** format).
+**.csv**) and the path of **new eDNA data** (in format **.xlsx**).
 
 The function return a dataframe with new eDNA data.
 
