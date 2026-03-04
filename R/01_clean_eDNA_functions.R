@@ -313,63 +313,69 @@ spygen_new_data_function <- function(old_spygen_data_path,
        
        join_old_new[is.na(join_old_new)] <- 0
        
-     }else{ # Otherwise,.....................
+     }else{ # Otherwise, consider the new data
+       
+       test <- spygen_matrix_old_clean |> 
+         merge(spygen_matrix_new_clean, all = TRUE)
        
        spygen_new_diff <- spygen_new_common[,c("spygen_code", "nb", any_diff)]
        
        spygen_old_diff <- spygen_old_common[,c("spygen_code", "nb", any_diff)]
        
-       test <- by(
+       test <- spygen_new_diff |> 
          
-         subset(spygen_matrix_new_clean, spygen_code %in% common_spygen_code),
-         
-         INDICES = list(
-           spygen_matrix_new_clean$spygen_code[
-             spygen_matrix_new_clean$spygen_code %in% common_spygen_code
-           ],
-           spygen_matrix_new_clean$nb[
-             spygen_matrix_new_clean$spygen_code %in% common_spygen_code
-           ]
-         ),
-         
-         FUN = function(df) {
-           data.frame(
-             spygen_code = df$spygen_code[1],
-             nb = df$nb[1],
-             seq_tot = sum(
-               rowSums(df[ , !(names(df) %in% c("spygen_code", "nb"))])
-             )
-           )
-         }
-         
-       )
-       test <- do.call(rbind, test)
        
-       test2 <- by(
-         
-         subset(spygen_matrix_old_clean, spygen_code %in% common_spygen_code),
-         
-         INDICES = list(
-           spygen_matrix_old_clean$spygen_code[
-             spygen_matrix_old_clean$spygen_code %in% common_spygen_code
-           ],
-           spygen_matrix_old_clean$nb[
-             spygen_matrix_old_clean$spygen_code %in% common_spygen_code
-           ]
-         ),
-         
-         FUN = function(df) {
-           data.frame(
-             spygen_code = df$spygen_code[1],
-             nb = df$nb[1],
-             seq_tot = sum(
-               rowSums(df[ , !(names(df) %in% c("spygen_code", "nb"))])
-             )
-           )
-         }
-         
-       )
-       test2 <- do.call(rbind, test2)
+       # test <- by(
+       #   
+       #   subset(spygen_matrix_new_clean, spygen_code %in% common_spygen_code),
+       #   
+       #   INDICES = list(
+       #     spygen_matrix_new_clean$spygen_code[
+       #       spygen_matrix_new_clean$spygen_code %in% common_spygen_code
+       #     ],
+       #     spygen_matrix_new_clean$nb[
+       #       spygen_matrix_new_clean$spygen_code %in% common_spygen_code
+       #     ]
+       #   ),
+       #   
+       #   FUN = function(df) {
+       #     data.frame(
+       #       spygen_code = df$spygen_code[1],
+       #       nb = df$nb[1],
+       #       seq_tot = sum(
+       #         rowSums(df[ , !(names(df) %in% c("spygen_code", "nb"))])
+       #       )
+       #     )
+       #   }
+       #   
+       # )
+       # test <- do.call(rbind, test)
+       # 
+       # test2 <- by(
+       #   
+       #   subset(spygen_matrix_old_clean, spygen_code %in% common_spygen_code),
+       #   
+       #   INDICES = list(
+       #     spygen_matrix_old_clean$spygen_code[
+       #       spygen_matrix_old_clean$spygen_code %in% common_spygen_code
+       #     ],
+       #     spygen_matrix_old_clean$nb[
+       #       spygen_matrix_old_clean$spygen_code %in% common_spygen_code
+       #     ]
+       #   ),
+       #   
+       #   FUN = function(df) {
+       #     data.frame(
+       #       spygen_code = df$spygen_code[1],
+       #       nb = df$nb[1],
+       #       seq_tot = sum(
+       #         rowSums(df[ , !(names(df) %in% c("spygen_code", "nb"))])
+       #       )
+       #     )
+       #   }
+       #   
+       # )
+       # test2 <- do.call(rbind, test2)
 
      }
      

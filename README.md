@@ -25,6 +25,15 @@ install.packages("devtools")
 devtools::install_deps(upgrade = "never")
 ```
 
+Otherwise, you can install it as a **R package**:
+
+``` ruby
+## Install devtools package ----
+install.packages("devtools")
+
+devtools::install_github("CyrilHaute/setupeDNAbaseline")
+```
+
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
 The repository is structured as follow:
@@ -46,7 +55,17 @@ The repository is structured as follow:
   - The `01_clean_eDNA/` file contain all results from **step I**;
   - The `02_eDNA_tracks/` file contain all results from **step II**.
   
-You can just follow the `analyses/` scripts to use the workflow.
+You can just follow the `analyses/` scripts to use the workflow. 
+
+The scripts and functions have been written as much as possible in base R. For instance, we did not used the `tidyverse` library. 
+However, we used the R native pipe operator **|>** so we don't need to load any package from `tidyverse`. 
+
+To use the R native pipe, follow the instructions:
+
+- Click on R **Tools**;
+- Then click on **Global Options**;
+- Then click on **Code**;
+- Check the box **Use native pipe operator, |> (requires R 4.1+)**
   
 Data can be accessible through [marbec-data](https://marbec-data.ird.fr/#/signin).
 
@@ -80,8 +99,9 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eD
 | SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 |
 
 2.  The `species_clean` function clean the site X species matrix by
-    removing **misnamed species** and correct species names according to
-    [FishBase](https://www.fishbase.se/search.php).
+    removing **misnamed species** (missing names, identified at the family level
+    or as spp., sp., all species not spelled in the binomial format) and correct 
+    species names according to [FishBase](https://www.fishbase.se/search.php).
 
 This function requires the **uncleaned site X species matrix** obtained
 with the `convert_to_matrix` function.
@@ -96,8 +116,8 @@ It returns a list containing three objects :
 
 - A character vector listing all **removed species**.
 
-By doing so, it allows users to follow the steps of cleaning and check
-the removed species and which have been their names corrected.
+This allows users to follow the cleaning steps and check which species have 
+been removed and which names have been corrected.
 
 ``` ruby
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
