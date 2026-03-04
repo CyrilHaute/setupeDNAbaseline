@@ -14,6 +14,14 @@ To clone the repository from [GitHub](https://github.com/), open R and go to you
 git clone https://github.com/CyrilHaute/setupeDNAbaseline
 ```
 
+Required dependencies can be found in the `DESCRIPTION` file and can be
+installed and load with the flowing function :
+
+``` ruby
+## Install required package ----
+devtools::install_deps(upgrade = "never")
+```
+
 The workflow is separated into two different steps:
 
 ## I. Clean eDNA data
@@ -133,20 +141,11 @@ a shapefile.
 
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
-The workflow has been entirely coded in ***R*** language and tried to
-use as much as possible base R codes.
-
-Required dependencies can be found in the `DESCRIPTION` file and can be
-installed and load with the flowing function :
-
-``` ruby
-## Install required package ----
-devtools::install_deps(upgrade = "never")
-```
-
 The repository is structured as follow:
 
-- `data/` : contains raw Spygen eDNA and gps data;
+- `data/` : contains raw Spygen eDNA and gps data:
+  - The `eDNA_raw_data/` file contain all eDNA raw data;
+  - The `trace_gps/` file contain gps data.
 - `R/` : contains all functions:
   - The *01_clean_eDNA_functions.R* script contain all functions for the
     **step I**;

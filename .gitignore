@@ -45,7 +45,7 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-data/raw-data/
+data/
 
 outputs/02_eDNA_tracks/
 outputs/01_clean_eDNA/
