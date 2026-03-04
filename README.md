@@ -54,10 +54,8 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eD
 
 4.  Create clean user-based data subset.
 
-> \[!CAUTION\] This step only convert data to a suitable format for
-> analysis with only basic cleaning step. This does not exempt users
-> from checking the list of species returned by the functions (e.g.,
-> **species detected outside their distribution range**).
+> [!CAUTION]
+> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
