@@ -66,15 +66,29 @@
 <div class="section level1">
 <div class="page-header"><h1 id="setup-a-baseline-for-spygen-edna-data">Setup a baseline for Spygen eDNA data<a class="anchor" aria-label="anchor" href="#setup-a-baseline-for-spygen-edna-data"></a>
 </h1></div>
-<p>This repository create a baseline to analyse <a href="https://www.spygen.com/fr/" class="external-link">Spygen</a> eDNA data.</p>
+<p>This repository provides a <strong>user friendly</strong> interface to create a baseline to analyse <a href="https://www.spygen.com/fr/" class="external-link">Spygen</a> <strong>eDNA data</strong>. It guides users with one function per action to complete in a specific order, all automatically.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can clone the repository from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"CyrilHaute/setupeDNAbaseline"</span><span class="op">)</span></span></code></pre></div>
 <p>The workflow is separated into two different steps:</p>
+</div>
 <div class="section level2">
 <h2 id="i-clean-edna-data">I. Clean eDNA data<a class="anchor" aria-label="anchor" href="#i-clean-edna-data"></a>
 </h2>
 <p>This step convert raw Spygen eDNA data into a format suitable for analysis.</p>
 <ol style="list-style-type: decimal">
-<li><p>Raw Spygen eDNA data are converted to <strong>site X species</strong> matrix and species identified multiple times are summed and summarize into one column.</p></li>
-<li><p>The site X species matrix is cleaned by removing <strong>misidentified species</strong> and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</p></li>
+<li>The <code>convert_to_matrix</code> function convert raw Spygen eDNA data to <strong>site X species</strong> matrix. Species identified multiple times are summed and summarize into one column.</li>
+</ol>
+<p>This function requires only one argument, the path to raw Spygen data (in <strong>.xlsx</strong> format!) and return an <strong>uncleaned</strong> site X species matrix :</p>
+<pre><code><span><span class="va">spygen_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/convert_to_matrix_function.html">convert_to_matrix_function</a></span><span class="op">(</span>raw_spygen_path <span class="op">=</span> <span class="st">"my/path/to/raw_eDNA_data.xlsx"</span><span class="op">)</span></span></code></pre>
+<p><code>{r echo = FALSE, results = 'asis'} knitr::kable(head(read.csv("outputs/01_clean_eDNA/unclean_spygen_matrix.csv", header = TRUE, check.names = FALSE)[,1:8]))</code></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</p></li>
 <li><p>It allows adding <strong>new eDNA data</strong> to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.</p></li>
 <li><p>Create clean user-based data subset.</p></li>
 </ol>
@@ -98,7 +112,7 @@
 </h2>
 <p>The workflow has been entirely coded in <strong><em>R</em></strong> language and tried to use as much as possible base R codes.</p>
 <p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the flowing function :</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Install required package ----</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span>upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></code></pre></div>
 <p>The repository is structured as follow:</p>

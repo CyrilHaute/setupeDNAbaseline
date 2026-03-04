@@ -1,1 +1,5 @@
 url: https://cyrilhaute.github.io/setupeDNAbaseline/
+
+output:
+  github_document:
+    toc: false
