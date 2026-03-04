@@ -35,18 +35,45 @@ This function requires only one argument, the path to raw Spygen data
 spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eDNA_data.xlsx")
 ```
 
-| spygen_code | nb | Dicentrarchus labrax | Chromis chromis | A_regius_U_cirrosa | Sciaena umbra | S_chrysotaenia_S_sphyraena |
-|:---|:---|---:|---:|---:|---:|---:|
-| SPY180624 | nb_rep | 5 | 9 | 0 | 1 | 0 |
-| SPY180624 | nb_seq | 7238 | 27013 | 0 | 220 | 0 |
-| SPY181146 | nb_rep | 3 | 11 | 0 | 0 | 0 |
-| SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 | 0 |
-| SPY181147 | nb_rep | 2 | 11 | 0 | 6 | 0 |
-| SPY181147 | nb_seq | 336 | 37470 | 0 | 7221 | 0 |
+| spygen_code | nb | Dicentrarchus labrax | Chromis chromis | A_regius_U_cirrosa | Sciaena umbra |
+|:---|:---|---:|---:|---:|---:|
+| SPY180624 | nb_rep | 5 | 9 | 0 | 1 |
+| SPY180624 | nb_seq | 7238 | 27013 | 0 | 220 |
+| SPY181146 | nb_rep | 3 | 11 | 0 | 0 |
+| SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 |
+| SPY181147 | nb_rep | 2 | 11 | 0 | 6 |
+| SPY181147 | nb_seq | 336 | 37470 | 0 | 7221 |
 
 2.  The `species_clean` function clean the site X species matrix by
     removing **misnamed species** and correct species names according to
     [FishBase](https://www.fishbase.se/search.php).
+
+This function requires the **uncleaned site X species matrix** obtained
+with the `convert_to_matrix` function.
+
+It returns a list containing three objects :
+
+- A dataframe in the format site X species with **new species names**
+  checked from FishBase;
+
+- A dataframe in the format site X species with **old species names**
+  before checking from FishBase;
+
+- A character vector listing all **removed species**.
+
+``` ruby
+spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
+                                              path_save = paste0(dir_save, "1.spygen_2018_2025.csv"))
+```
+
+| spygen_code | nb | Dicentrarchus labrax | Chromis chromis | Sciaena umbra | Sphyraena viridensis |
+|:---|:---|---:|---:|---:|---:|
+| SPY180624 | nb_rep | 5 | 9 | 1 | 1 |
+| SPY180624 | nb_seq | 7238 | 27013 | 220 | 155 |
+| SPY181146 | nb_rep | 3 | 11 | 0 | 2 |
+| SPY181146 | nb_seq | 3804 | 20232 | 0 | 152 |
+| SPY181147 | nb_rep | 2 | 11 | 6 | 2 |
+| SPY181147 | nb_seq | 336 | 37470 | 7221 | 139 |
 
 3.  It allows adding **new eDNA data** to previous one, by checking for
     duplicate and replace or not with new data if differences are
@@ -54,8 +81,10 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eD
 
 4.  Create clean user-based data subset.
 
-> [!CAUTION]
-> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+> \[!CAUTION\] This step only convert data to a suitable format for
+> analysis with only basic cleaning step. This does not exempt users
+> from checking the list of species returned by the functions (e.g.,
+> **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 

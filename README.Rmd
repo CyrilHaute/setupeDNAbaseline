@@ -37,12 +37,37 @@ example <- data.frame(spygen_code = c("SPY180624", "SPY180624", "SPY181146", "SP
                       `Chromis chromis` = c(9, 27013, 11, 20232, 11, 37470),
                       A_regius_U_cirrosa = c(0, 0, 0, 0, 0, 0),
                       `Sciaena umbra` = c(1, 220, 0, 0, 6, 7221),
-                      S_chrysotaenia_S_sphyraena = c(0, 0, 0, 0, 0, 0),
                       check.names = FALSE)
 knitr::kable(example)
 ```
 
 2.  The `species_clean` function clean the site X species matrix by removing **misnamed species** and correct species names according to [FishBase](https://www.fishbase.se/search.php).
+
+This function requires the **uncleaned site X species matrix** obtained with the `convert_to_matrix` function. 
+
+It returns a list containing three objects : 
+
+   - A dataframe in the format site X species with **new species names** checked from FishBase;
+
+   - A dataframe in the format site X species with **old species names** before checking from FishBase;
+
+   - A character vector listing all **removed species**.
+   
+```ruby      
+spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
+                                              path_save = paste0(dir_save, "1.spygen_2018_2025.csv"))
+```
+
+```{r echo = FALSE, results = 'asis'}
+example <- data.frame(spygen_code = c("SPY180624", "SPY180624", "SPY181146", "SPY181146", "SPY181147", "SPY181147"),
+                      nb = c("nb_rep", "nb_seq", "nb_rep", "nb_seq", "nb_rep", "nb_seq"),
+                      `Dicentrarchus labrax` = c(5, 7238, 3, 3804, 2, 336),
+                      `Chromis chromis` = c(9, 27013, 11, 20232, 11, 37470),
+                      `Sciaena umbra` = c(1, 220, 0, 0, 6, 7221),
+                      `Sphyraena viridensis` = c(1, 155, 2, 152, 2, 139),
+                      check.names = FALSE)
+knitr::kable(example)
+```
 
 3.  It allows adding **new eDNA data** to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.
 
