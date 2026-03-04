@@ -141,7 +141,6 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #' Caution : this function does not check for species distribution..................
 #'
 #' @param spygen_matrix A dataframe of species eDNA in the format site X species.
-#' @param path_save A character indicating the path to save data.
 #'
 #' @returns A list containing three objects : 
 #' 
@@ -155,8 +154,7 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #'
 #' @examples
 
-species_clean_function <- function(spygen_matrix,
-                                   path_save) {
+species_clean_function <- function(spygen_matrix) {
   
   species_names <- colnames(spygen_matrix)
   species_names <- species_names[! species_names %in% c("spygen_code", "nb")]
@@ -213,9 +211,7 @@ species_clean_function <- function(spygen_matrix,
 
   to_return <- list(spygen_clean, old_spygen_name, bad_mask)
   names(to_return) <- c("spygen_matrix_clean", "spygen_matrix_old", "removed_species")
-  
-  write.csv(to_return$spygen_matrix_clean, file = path_save, row.names = FALSE)
-  
+
   return(to_return)
   
   # END

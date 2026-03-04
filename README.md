@@ -62,8 +62,7 @@ It returns a list containing three objects :
 - A character vector listing all **removed species**.
 
 ``` ruby
-spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
-                                              path_save = paste0(dir_save, "1.spygen_2018_2025.csv"))
+spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
 ```
 
 | spygen_code | nb | Dicentrarchus labrax | Chromis chromis | Sciaena umbra | Sphyraena viridensis |
@@ -81,10 +80,8 @@ spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
 
 4.  Create clean user-based data subset.
 
-> \[!CAUTION\] This step only convert data to a suitable format for
-> analysis with only basic cleaning step. This does not exempt users
-> from checking the list of species returned by the functions (e.g.,
-> **species detected outside their distribution range**).
+> [!CAUTION] 
+> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 

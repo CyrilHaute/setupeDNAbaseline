@@ -85,10 +85,158 @@
 <li>The <code>convert_to_matrix</code> function convert raw Spygen eDNA data to <strong>site X species</strong> matrix. Species identified multiple times are summed and summarize into one column.</li>
 </ol>
 <p>This function requires only one argument, the path to raw Spygen data (in <strong>.xlsx</strong> format!) and return an <strong>uncleaned</strong> site X species matrix :</p>
-<pre><code><span><span class="va">spygen_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/convert_to_matrix_function.html">convert_to_matrix_function</a></span><span class="op">(</span>raw_spygen_path <span class="op">=</span> <span class="st">"my/path/to/raw_eDNA_data.xlsx"</span><span class="op">)</span></span></code></pre>
-<p><code>{r echo = FALSE, results = 'asis'} knitr::kable(head(read.csv("outputs/01_clean_eDNA/unclean_spygen_matrix.csv", header = TRUE, check.names = FALSE)[,1:8]))</code></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spygen_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/convert_to_matrix_function.html">convert_to_matrix_function</a></span><span class="op">(</span>raw_spygen_path <span class="op">=</span> <span class="st">"my/path/to/raw_eDNA_data.xlsx"</span><span class="op">)</span></span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">spygen_code</th>
+<th align="left">nb</th>
+<th align="right">Dicentrarchus labrax</th>
+<th align="right">Chromis chromis</th>
+<th align="right">A_regius_U_cirrosa</th>
+<th align="right">Sciaena umbra</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">SPY180624</td>
+<td align="left">nb_rep</td>
+<td align="right">5</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">SPY180624</td>
+<td align="left">nb_seq</td>
+<td align="right">7238</td>
+<td align="right">27013</td>
+<td align="right">0</td>
+<td align="right">220</td>
+</tr>
+<tr class="odd">
+<td align="left">SPY181146</td>
+<td align="left">nb_rep</td>
+<td align="right">3</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">SPY181146</td>
+<td align="left">nb_seq</td>
+<td align="right">3804</td>
+<td align="right">20232</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">SPY181147</td>
+<td align="left">nb_rep</td>
+<td align="right">2</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">SPY181147</td>
+<td align="left">nb_seq</td>
+<td align="right">336</td>
+<td align="right">37470</td>
+<td align="right">0</td>
+<td align="right">7221</td>
+</tr>
+</tbody>
+</table>
 <ol start="2" style="list-style-type: decimal">
-<li><p>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</p></li>
+<li>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</li>
+</ol>
+<p>This function requires the <strong>uncleaned site X species matrix</strong> obtained with the <code>convert_to_matrix</code> function.</p>
+<p>It returns a list containing three objects :</p>
+<ul>
+<li><p>A dataframe in the format site X species with <strong>new species names</strong> checked from FishBase;</p></li>
+<li><p>A dataframe in the format site X species with <strong>old species names</strong> before checking from FishBase;</p></li>
+<li><p>A character vector listing all <strong>removed species</strong>.</p></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spygen_matrix_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/species_clean_function.html">species_clean_function</a></span><span class="op">(</span>spygen_matrix <span class="op">=</span> <span class="va">spygen_matrix</span>,</span>
+<span>                                              path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_save</span>, <span class="st">"1.spygen_2018_2025.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">spygen_code</th>
+<th align="left">nb</th>
+<th align="right">Dicentrarchus labrax</th>
+<th align="right">Chromis chromis</th>
+<th align="right">Sciaena umbra</th>
+<th align="right">Sphyraena viridensis</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">SPY180624</td>
+<td align="left">nb_rep</td>
+<td align="right">5</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">SPY180624</td>
+<td align="left">nb_seq</td>
+<td align="right">7238</td>
+<td align="right">27013</td>
+<td align="right">220</td>
+<td align="right">155</td>
+</tr>
+<tr class="odd">
+<td align="left">SPY181146</td>
+<td align="left">nb_rep</td>
+<td align="right">3</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">SPY181146</td>
+<td align="left">nb_seq</td>
+<td align="right">3804</td>
+<td align="right">20232</td>
+<td align="right">0</td>
+<td align="right">152</td>
+</tr>
+<tr class="odd">
+<td align="left">SPY181147</td>
+<td align="left">nb_rep</td>
+<td align="right">2</td>
+<td align="right">11</td>
+<td align="right">6</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">SPY181147</td>
+<td align="left">nb_seq</td>
+<td align="right">336</td>
+<td align="right">37470</td>
+<td align="right">7221</td>
+<td align="right">139</td>
+</tr>
+</tbody>
+</table>
+<ol start="3" style="list-style-type: decimal">
 <li><p>It allows adding <strong>new eDNA data</strong> to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.</p></li>
 <li><p>Create clean user-based data subset.</p></li>
 </ol>
@@ -112,7 +260,7 @@
 </h2>
 <p>The workflow has been entirely coded in <strong><em>R</em></strong> language and tried to use as much as possible base R codes.</p>
 <p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the flowing function :</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Install required package ----</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span>upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></code></pre></div>
 <p>The repository is structured as follow:</p>
