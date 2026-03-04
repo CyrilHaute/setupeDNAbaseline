@@ -118,7 +118,7 @@ The function return a subset dataframe of eDNA data including only
 species present in the subset.
 
 > [!CAUTION] 
-This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+The **step I** only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
