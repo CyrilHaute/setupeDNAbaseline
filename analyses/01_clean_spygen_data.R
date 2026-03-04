@@ -8,6 +8,7 @@
 source("R/01_clean_eDNA_functions.R")
 
 # Set directory to save cleaned eDNA data
+dir.create("data")
 dir.create("outputs")
 dir.create("outputs/01_clean_eDNA")
 dir_save <- "outputs/01_clean_eDNA/"
