@@ -290,6 +290,8 @@ spygen_new_data_function <- function(old_spygen_data_path,
      
      spygen_old_common <- spygen_old_common[,colnames(spygen_old_common) %in% col_new]
      
+     ################################ nb espèce entre nouveau et ancien data peut être différent !
+     
      # Look at differences between old and new data
      # Order species in alphabetic order
      spygen_old_common <- spygen_old_common[, c("spygen_code", "nb", sort(setdiff(names(spygen_old_common), c("spygen_code", "nb"))))]
@@ -314,16 +316,27 @@ spygen_new_data_function <- function(old_spygen_data_path,
        join_old_new[is.na(join_old_new)] <- 0
        
      }else{ # Otherwise, consider the new data
-       
-       test <- spygen_matrix_old_clean |> 
-         merge(spygen_matrix_new_clean, all = TRUE)
-       
+
+       # Look at the differences between old and new data
        spygen_new_diff <- spygen_new_common[,c("spygen_code", "nb", any_diff)]
        
        spygen_old_diff <- spygen_old_common[,c("spygen_code", "nb", any_diff)]
        
-       test <- spygen_new_diff |> 
-         
+       # For the common spygen_code with differences only, consider the new data
+       spygen_matrix_old_clean[,c("spygen_code", "nb", any_diff)][spygen_matrix_old_clean[,c("spygen_code", "nb", any_diff)]$spygen_code %in% spygen_old_diff$spygen_code,] <- spygen_new_diff
+       
+       # Then join the two old and new data
+       
+       join_old_new <- spygen_matrix_old_clean |> 
+         merge(spygen_matrix_new_clean, all = TRUE)
+       
+       # Check if some common spygen_code with differences are still in the data, this should lead to more than two replicates per spygen_code
+       
+       test <- join_old_new |> 
+         dplyr::group_by(spygen_code) |> 
+         dplyr::summarise(n = dplyr::n())
+       
+       if(any(test$n == 3)) { stop("Error in joining old and new data") }
        
        # test <- by(
        #   
