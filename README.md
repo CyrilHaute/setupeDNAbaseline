@@ -8,8 +8,6 @@ order, all automatically.
 
 ## Installation
 
-You can clone the repository from [GitHub](https://github.com/) with:
-
 To clone the repository from [GitHub](https://github.com/), open R and go to your Terminal or open directly a Terminal and do:
 
 ``` ruby
