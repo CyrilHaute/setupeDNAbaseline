@@ -233,7 +233,7 @@ species_clean_function <- function(spygen_matrix) {
 #' 
 #' If no difference detected, the function join the new data to the old ones with no changes in common data.
 #' 
-#' If differences have been detected, the function......................
+#' If differences have been detected, the function will replace the old data with new data.
 #'
 #' @param old_spygen_data_path A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".
 #' @param new_spygen_data_path A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
@@ -322,10 +322,10 @@ spygen_new_data_function <- function(old_spygen_data_path,
        
        spygen_old_diff <- spygen_old_common[,c("spygen_code", "nb", any_diff)]
        
-       # For the common spygen_code with differences only, consider the new data
+       # For the spygen_code common in the old data, replace the data with that from the new data.
        spygen_matrix_old_clean[,c("spygen_code", "nb", any_diff)][spygen_matrix_old_clean[,c("spygen_code", "nb", any_diff)]$spygen_code %in% spygen_old_diff$spygen_code,] <- spygen_new_diff
        
-       # Then join the two old and new data
+       # Then join old and new data
        
        join_old_new <- spygen_matrix_old_clean |> 
          merge(spygen_matrix_new_clean, all = TRUE)

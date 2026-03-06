@@ -208,10 +208,17 @@
 <li><p>A dataframe in the format site X species with <strong>old species names</strong> before checking from FishBase;</p></li>
 <li><p>A character vector listing all <strong>removed species</strong>.</p></li>
 </ul>
+<<<<<<< HEAD
 <p>This allows users to follow the cleaning steps and check which species have been removed and which names have been corrected.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spygen_matrix_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/species_clean_function.html">species_clean_function</a></span><span class="op">(</span>spygen_matrix <span class="op">=</span> <span class="va">spygen_matrix</span><span class="op">)</span></span></code></pre></div>
 <p>Here is the cleaned site X matrix dataframe with new species names (<code>spygen_matrix_clean$spygen_matrix_clean</code>):</p>
+=======
+<p>By doing so, it allows users to follow the steps of cleaning and check the removed species and which have been their names corrected.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spygen_matrix_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/species_clean_function.html">species_clean_function</a></span><span class="op">(</span>spygen_matrix <span class="op">=</span> <span class="va">spygen_matrix</span>,</span>
+<span>                                              path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_save</span>, <span class="st">"1.spygen_2018_2025.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+>>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="16%">
@@ -265,8 +272,12 @@
 </tbody>
 </table>
 <p>For the next step, save as <strong>.csv</strong> the dataframe with new species names called <strong>spygen_matrix_clean</strong>:</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">spygen_matrix_clean</span><span class="op">$</span><span class="va">spygen_matrix_clean</span>, file <span class="op">=</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+=======
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">write.csv</span>(spygen_matrix_clean<span class="sc">$</span>spygen_matrix_clean, <span class="at">file =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+>>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 <ol start="3" style="list-style-type: decimal">
 <li>The <code>spygen_new_data</code> function allows adding <strong>new eDNA data</strong> to previous one, by checking for duplicate and replace or not with new data if differences are detected.</li>
 </ol>
@@ -275,16 +286,27 @@
 </blockquote>
 <p>This function requires the path of <strong>old eDNA data</strong> (in format <strong>.csv</strong>) and the path of <strong>new eDNA data</strong> (in <strong>.xlsx</strong> format).</p>
 <p>The function return a dataframe with new eDNA data.</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>new_spygen_data <span class="ot">&lt;-</span> <span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                                            <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                                            <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span></code></pre></div>
+=======
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>new_spygen_data <span class="ot">&lt;-</span> <span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                                            <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                                            <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span></code></pre></div>
+>>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 <p>By doing so, this function creates successively new eDNA files, allowing to follow data and the reference database version.</p>
 <ol start="4" style="list-style-type: decimal">
 <li>The <code>spygen_subset</code> function is a user friendly function that create <strong>subset</strong> of eDNA data.</li>
 </ol>
 <p>This function requires a path of <strong>cleaned eDNA data</strong> (in format <strong>.csv</strong>) and a character vector of spygen code or a dataframe containing a column <strong>spygen_code</strong>.</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
+=======
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
+>>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 <p>The function return a subset dataframe of eDNA data including only species present in the subset.</p>
 <blockquote>
 <p>[!CAUTION] This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., <strong>species detected outside their distribution range</strong>).</p>
@@ -300,6 +322,46 @@
 <li><p>Convert gps track from point to a polygon as a <strong>shapefile</strong>.</p></li>
 </ol>
 </div>
+<<<<<<< HEAD
+=======
+<div class="section level2">
+<h2 id="id_-code">
+<img src="Rlogo.png" width="28" style="vertical-align:-6px;"> code<a class="anchor" aria-label="anchor" href="#id_-code"></a>
+</h2>
+<p>The workflow has been entirely coded in <strong><em>R</em></strong> language and tried to use as much as possible base R codes.</p>
+<p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the flowing function :</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Install required package ----</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span>upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></code></pre></div>
+<p>The repository is structured as follow:</p>
+<ul>
+<li>
+<code>data/</code> : contains raw Spygen eDNA and gps data;</li>
+<li>
+<code>R/</code> : contains all functions:
+<ul>
+<li>The <em>01_clean_eDNA_functions.R</em> script contain all functions for the <strong>step I</strong>;</li>
+<li>The <em>02_extract_eDNA_tracks_functions.R</em> script contain all functions for the <strong>step II</strong>.</li>
+</ul>
+</li>
+<li>
+<code>analyses/</code> : contains scripts to load data and run <code>R/</code> functions:
+<ul>
+<li>The <em>01_clean_spygen_data.R</em> script run and load script and data necessary for <strong>step I</strong>;</li>
+<li>The <em>02_extract_eDNA_tracks.R</em> script run and load script and data necessary for <strong>step II</strong>.</li>
+</ul>
+</li>
+<li>
+<code>outputs/</code> : contains all results:
+<ul>
+<li>The <code>01_clean_eDNA/</code> file contain all results from <strong>step I</strong>;</li>
+<li>The <code>02_eDNA_tracks/</code> file contain all results from <strong>step II</strong>.</li>
+</ul>
+</li>
+</ul>
+<p>The details of all functions used in the repository can be found here : <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html" class="uri">https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html</a></p>
+</div>
+>>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 </div>
   </div>
 
