@@ -40,6 +40,8 @@ devtools::install_github("CyrilHaute/setupeDNAbaseline")
 
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
+**You can just follow the `analyses/` scripts to use the workflow.**
+
 The repository is structured as follow:
 
 - `data/` : contains raw Spygen eDNA and gps data:

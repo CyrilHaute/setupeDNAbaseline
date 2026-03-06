@@ -37,6 +37,8 @@ devtools::install_github("CyrilHaute/setupeDNAbaseline")
 
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
+**You can just follow the `analyses/` scripts to use the workflow.**
+
 The repository is structured as follow:
 
 - `data/` : contains raw Spygen eDNA and gps data:
@@ -155,7 +157,7 @@ write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/sp
     previous one, by checking for duplicate and replace or not with new
     data if differences are detected.
 
-> [!IMPORTANT]
+> [!IMPORTANT] 
 > To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!
 
 This function requires the path of **old eDNA data** (in format
