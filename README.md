@@ -8,20 +8,33 @@ order, all automatically.
 
 ## Installation
 
-<<<<<<< HEAD
 To clone the repository from [GitHub](https://github.com/), open R and
 go to your Terminal or open directly a Terminal and do:
-=======
-You can clone the repository from [GitHub](https://github.com/) with:
->>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 
 ``` ruby
+git clone https://github.com/CyrilHaute/setupeDNAbaseline
+```
+
+Required dependencies can be found in the `DESCRIPTION` file and can be
+installed and load with the flowing function :
+
+``` ruby
+## Install devtools package ----
+install.packages("devtools")
+
+## Install required package ----
+devtools::install_deps(upgrade = "never")
+```
+
+Otherwise, you can install it as a **R package**:
+
+``` ruby
+## Install devtools package ----
 install.packages("devtools")
 
 devtools::install_github("CyrilHaute/setupeDNAbaseline")
 ```
 
-<<<<<<< HEAD
 ## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
 
 The repository is structured as follow:
@@ -64,8 +77,6 @@ Data can be accessible through
 The details of all functions used in the repository can be found here :
 <https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>
 
-=======
->>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 The workflow is separated into two different steps:
 
 ## I. Clean eDNA data
@@ -78,7 +89,7 @@ analysis.
     summed and summarize into one column.
 
 This function requires only one argument, the path to raw Spygen data
-(in **.xlsx** format!) and return an **uncleaned** site X species matrix
+(in format **.xlsx**) and return an **uncleaned** site X species matrix
 :
 
 ``` ruby
@@ -92,7 +103,6 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "my/path/to/raw_eD
 | SPY181146 | nb_rep | 3 | 11 | 0 | 0 |
 | SPY181146 | nb_seq | 3804 | 20232 | 0 | 0 |
 
-<<<<<<< HEAD
 As you can see, the function return a dataframe containing species not
 spelled in the binomial format (e.g., **A_regius_U_cirrosa**).
 
@@ -100,10 +110,6 @@ spelled in the binomial format (e.g., **A_regius_U_cirrosa**).
     removing **misnamed species** (missing names, identified at the
     family level or as spp., sp., all species not spelled in the
     binomial format) and correct species names according to
-=======
-2.  The `species_clean` function clean the site X species matrix by
-    removing **misnamed species** and correct species names according to
->>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
     [FishBase](https://www.fishbase.se/search.php).
 
 This function requires the **uncleaned site X species matrix** obtained
@@ -119,23 +125,15 @@ It returns a list containing three objects :
 
 - A character vector listing all **removed species**.
 
-<<<<<<< HEAD
 This allows users to follow the cleaning steps and check which species
 have been removed and which names have been corrected.
-=======
-By doing so, it allows users to follow the steps of cleaning and check
-the removed species and which have been their names corrected.
->>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 
 ``` ruby
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
 ```
-<<<<<<< HEAD
 
 Here is the cleaned site X matrix dataframe with new species names
 (`spygen_matrix_clean$spygen_matrix_clean`):
-=======
->>>>>>> 06a9e421830b343862dc47a8a55aa044e58d7574
 
 | spygen_code | nb | Dicentrarchus labrax | Chromis chromis | Sciaena umbra | Sphyraena viridensis |
 |:---|:---|---:|---:|---:|---:|
@@ -147,7 +145,9 @@ Here is the cleaned site X matrix dataframe with new species names
 For the next step, save as **.csv** the dataframe with new species names
 called **spygen_matrix_clean**:
 
-    write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/spygen_matrix_clean.csv", row.names = FALSE)
+``` ruby
+write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/spygen_matrix_clean.csv", row.names = FALSE)
+```
 
 3.  The `spygen_new_data` function allows adding **new eDNA data** to
     previous one, by checking for duplicate and replace or not with new
@@ -198,36 +198,3 @@ a shapefile.
     date.
 
 3.  Convert gps track from point to a polygon as a **shapefile**.
-
-## <img src="Rlogo.png" width="28" style="vertical-align:-6px;"/> code
-
-The workflow has been entirely coded in ***R*** language and tried to
-use as much as possible base R codes.
-
-Required dependencies can be found in the `DESCRIPTION` file and can be
-installed and load with the flowing function :
-
-``` ruby
-## Install required package ----
-devtools::install_deps(upgrade = "never")
-```
-
-The repository is structured as follow:
-
-- `data/` : contains raw Spygen eDNA and gps data;
-- `R/` : contains all functions:
-  - The *01_clean_eDNA_functions.R* script contain all functions for the
-    **step I**;
-  - The *02_extract_eDNA_tracks_functions.R* script contain all
-    functions for the **step II**.
-- `analyses/` : contains scripts to load data and run `R/` functions:
-  - The *01_clean_spygen_data.R* script run and load script and data
-    necessary for **step I**;
-  - The *02_extract_eDNA_tracks.R* script run and load script and data
-    necessary for **step II**.
-- `outputs/` : contains all results:
-  - The `01_clean_eDNA/` file contain all results from **step I**;
-  - The `02_eDNA_tracks/` file contain all results from **step II**.
-
-The details of all functions used in the repository can be found here :
-<https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html>
