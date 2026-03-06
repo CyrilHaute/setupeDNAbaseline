@@ -70,11 +70,69 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can clone the repository from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<p>To clone the repository from <a href="https://github.com/" class="external-link">GitHub</a>, open R and go to your Terminal or open directly a Terminal and do:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git clone https:<span class="ss">//</span>github<span class="at">.com</span><span class="kw">/</span><span class="dt">CyrilHaute</span><span class="kw">/</span>setupeDNAbaseline</span></code></pre></div>
+<p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the flowing function :</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Install devtools package ----</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Install required package ----</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span>upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></code></pre></div>
+<p>Otherwise, you can install it as a <strong>R package</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Install devtools package ----</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"CyrilHaute/setupeDNAbaseline"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="id_-code">
+<img src="Rlogo.png" width="28" style="vertical-align:-6px;"> code<a class="anchor" aria-label="anchor" href="#id_-code"></a>
+</h2>
+<p>The repository is structured as follow:</p>
+<ul>
+<li>
+<code>data/</code> : contains raw Spygen eDNA and gps data:
+<ul>
+<li>The <code>eDNA_raw_data/</code> file contain all eDNA raw data;</li>
+<li>The <code>trace_gps/</code> file contain gps data.</li>
+</ul>
+</li>
+<li>
+<code>R/</code> : contains all functions:
+<ul>
+<li>The <em>01_clean_eDNA_functions.R</em> script contain all functions for the <strong>step I</strong>;</li>
+<li>The <em>02_extract_eDNA_tracks_functions.R</em> script contain all functions for the <strong>step II</strong>.</li>
+</ul>
+</li>
+<li>
+<code>analyses/</code> : contains scripts to load data and run <code>R/</code> functions:
+<ul>
+<li>The <em>01_clean_spygen_data.R</em> script run and load script and data necessary for <strong>step I</strong>;</li>
+<li>The <em>02_extract_eDNA_tracks.R</em> script run and load script and data necessary for <strong>step II</strong>.</li>
+</ul>
+</li>
+<li>
+<code>outputs/</code> : contains all results:
+<ul>
+<li>The <code>01_clean_eDNA/</code> file contain all results from <strong>step I</strong>;</li>
+<li>The <code>02_eDNA_tracks/</code> file contain all results from <strong>step II</strong>.</li>
+</ul>
+</li>
+</ul>
+<p>You can just follow the <code>analyses/</code> scripts to use the workflow.</p>
+<p>The scripts and functions have been written as much as possible in base R. For instance, we did not used the <code>tidyverse</code> library. However, we used the R native pipe operator <code>|&gt;</code>.</p>
+<p>To use the R native pipe, follow the instructions:</p>
+<ul>
+<li>Click on R <strong>Tools</strong>;</li>
+<li>Then click on <strong>Global Options</strong>;</li>
+<li>Then click on <strong>Code</strong>;</li>
+<li>Check the box <strong>Use native pipe operator, |&gt; (requires R 4.1+)</strong>.</li>
+</ul>
+<p>By doing so, we don’t need to load any package from <code>tidyverse</code>.</p>
+<p>Data can be accessible through <a href="https://marbec-data.ird.fr/#/signin" class="external-link">marbec-data</a>.</p>
+<p>The details of all functions used in the repository can be found here : <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html" class="uri">https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html</a></p>
 <p>The workflow is separated into two different steps:</p>
 </div>
 <div class="section level2">
@@ -84,8 +142,8 @@
 <ol style="list-style-type: decimal">
 <li>The <code>convert_to_matrix</code> function convert raw Spygen eDNA data to <strong>site X species</strong> matrix. Species identified multiple times are summed and summarize into one column.</li>
 </ol>
-<p>This function requires only one argument, the path to raw Spygen data (in <strong>.xlsx</strong> format!) and return an <strong>uncleaned</strong> site X species matrix :</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>This function requires only one argument, the path to raw Spygen data (in format <strong>.xlsx</strong>) and return an <strong>uncleaned</strong> site X species matrix :</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spygen_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/convert_to_matrix_function.html">convert_to_matrix_function</a></span><span class="op">(</span>raw_spygen_path <span class="op">=</span> <span class="st">"my/path/to/raw_eDNA_data.xlsx"</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -137,26 +195,11 @@
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="left">SPY181147</td>
-<td align="left">nb_rep</td>
-<td align="right">2</td>
-<td align="right">11</td>
-<td align="right">0</td>
-<td align="right">6</td>
-</tr>
-<tr class="even">
-<td align="left">SPY181147</td>
-<td align="left">nb_seq</td>
-<td align="right">336</td>
-<td align="right">37470</td>
-<td align="right">0</td>
-<td align="right">7221</td>
-</tr>
 </tbody>
 </table>
+<p>As you can see, the function return a dataframe containing species not spelled in the binomial format (e.g., <strong>A_regius_U_cirrosa</strong>).</p>
 <ol start="2" style="list-style-type: decimal">
-<li>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</li>
+<li>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format) and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</li>
 </ol>
 <p>This function requires the <strong>uncleaned site X species matrix</strong> obtained with the <code>convert_to_matrix</code> function.</p>
 <p>It returns a list containing three objects :</p>
@@ -165,9 +208,10 @@
 <li><p>A dataframe in the format site X species with <strong>old species names</strong> before checking from FishBase;</p></li>
 <li><p>A character vector listing all <strong>removed species</strong>.</p></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">spygen_matrix_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/species_clean_function.html">species_clean_function</a></span><span class="op">(</span>spygen_matrix <span class="op">=</span> <span class="va">spygen_matrix</span>,</span>
-<span>                                              path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_save</span>, <span class="st">"1.spygen_2018_2025.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This allows users to follow the cleaning steps and check which species have been removed and which names have been corrected.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spygen_matrix_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/species_clean_function.html">species_clean_function</a></span><span class="op">(</span>spygen_matrix <span class="op">=</span> <span class="va">spygen_matrix</span><span class="op">)</span></span></code></pre></div>
+<p>Here is the cleaned site X matrix dataframe with new species names (<code>spygen_matrix_clean$spygen_matrix_clean</code>):</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="16%">
@@ -218,28 +262,30 @@
 <td align="right">0</td>
 <td align="right">152</td>
 </tr>
-<tr class="odd">
-<td align="left">SPY181147</td>
-<td align="left">nb_rep</td>
-<td align="right">2</td>
-<td align="right">11</td>
-<td align="right">6</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left">SPY181147</td>
-<td align="left">nb_seq</td>
-<td align="right">336</td>
-<td align="right">37470</td>
-<td align="right">7221</td>
-<td align="right">139</td>
-</tr>
 </tbody>
 </table>
+<p>For the next step, save as <strong>.csv</strong> the dataframe with new species names called <strong>spygen_matrix_clean</strong>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">spygen_matrix_clean</span><span class="op">$</span><span class="va">spygen_matrix_clean</span>, file <span class="op">=</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li><p>It allows adding <strong>new eDNA data</strong> to previous one, by checking for duplicate and replace or not with new data if differences are detected. This step creates data versions.</p></li>
-<li><p>Create clean user-based data subset.</p></li>
+<li>The <code>spygen_new_data</code> function allows adding <strong>new eDNA data</strong> to previous one, by checking for duplicate and replace or not with new data if differences are detected.</li>
 </ol>
+<blockquote>
+<p>[!IMPORTANT] To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!</p>
+</blockquote>
+<p>This function requires the path of <strong>old eDNA data</strong> (in format <strong>.csv</strong>) and the path of <strong>new eDNA data</strong> (in <strong>.xlsx</strong> format).</p>
+<p>The function return a dataframe with new eDNA data.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>new_spygen_data <span class="ot">&lt;-</span> <span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                                            <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                                            <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span></code></pre></div>
+<p>By doing so, this function creates successively new eDNA files, allowing to follow data and the reference database version.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>The <code>spygen_subset</code> function is a user friendly function that create <strong>subset</strong> of eDNA data.</li>
+</ol>
+<p>This function requires a path of <strong>cleaned eDNA data</strong> (in format <strong>.csv</strong>) and a character vector of spygen code or a dataframe containing a column <strong>spygen_code</strong>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
+<p>The function return a subset dataframe of eDNA data including only species present in the subset.</p>
 <blockquote>
 <p>[!CAUTION] This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., <strong>species detected outside their distribution range</strong>).</p>
 </blockquote>
@@ -253,43 +299,6 @@
 <li><p>Associate to each waypoint the closest <strong>gps track</strong> at the survey date.</p></li>
 <li><p>Convert gps track from point to a polygon as a <strong>shapefile</strong>.</p></li>
 </ol>
-</div>
-<div class="section level2">
-<h2 id="id_-code">
-<img src="Rlogo.png" width="28" style="vertical-align:-6px;"> code<a class="anchor" aria-label="anchor" href="#id_-code"></a>
-</h2>
-<p>The workflow has been entirely coded in <strong><em>R</em></strong> language and tried to use as much as possible base R codes.</p>
-<p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the flowing function :</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## Install required package ----</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span>upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></code></pre></div>
-<p>The repository is structured as follow:</p>
-<ul>
-<li>
-<code>data/</code> : contains raw Spygen eDNA and gps data;</li>
-<li>
-<code>R/</code> : contains all functions:
-<ul>
-<li>The <em>01_clean_eDNA_functions.R</em> script contain all functions for the <strong>step I</strong>;</li>
-<li>The <em>02_extract_eDNA_tracks_functions.R</em> script contain all functions for the <strong>step II</strong>.</li>
-</ul>
-</li>
-<li>
-<code>analyses/</code> : contains scripts to load data and run <code>R/</code> functions:
-<ul>
-<li>The <em>01_clean_spygen_data.R</em> script run and load script and data necessary for <strong>step I</strong>;</li>
-<li>The <em>02_extract_eDNA_tracks.R</em> script run and load script and data necessary for <strong>step II</strong>.</li>
-</ul>
-</li>
-<li>
-<code>outputs/</code> : contains all results:
-<ul>
-<li>The <code>01_clean_eDNA/</code> file contain all results from <strong>step I</strong>;</li>
-<li>The <code>02_eDNA_tracks/</code> file contain all results from <strong>step II</strong>.</li>
-</ul>
-</li>
-</ul>
-<p>The details of all functions used in the repository can be found here : <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html" class="uri">https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html</a></p>
 </div>
 </div>
   </div>
