@@ -110,7 +110,9 @@ spelled in the binomial format (e.g., **A_regius_U_cirrosa**).
     removing **misnamed species** (missing names, identified at the
     family level or as spp., sp., all species not spelled in the
     binomial format) and correct species names according to
-    [FishBase](https://www.fishbase.se/search.php).
+    [FishBase](https://www.fishbase.se/search.php) or
+    [WORMS](https://marinespecies.org/index.php) in case FishBase return
+    NA.
 
 This function requires the **uncleaned site X species matrix** obtained
 with the `convert_to_matrix` function.
@@ -153,20 +155,26 @@ write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/sp
     previous one, by checking for duplicate and replace or not with new
     data if differences are detected.
 
-> [!IMPORTANT] 
-> To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!
+> [!IMPORTANT] To work properly, the function need to add the new
+> Spygen data in the order they’ve been sent by Spygen!
 
 This function requires the path of **old eDNA data** (in format
-**.csv**) and the path of **new eDNA data** (in **.xlsx** format).
+**.csv**), the path of **new eDNA data** (in **.xlsx** format) and the
+**path** to save data.
 
-The function return a dataframe with new eDNA data.
+The function save new data at the indicated path.
 
-    new_spygen_data <- spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
-                                                new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
-                                                path_save = "my/path/to/outputs/new_spygen_data.csv")
+    spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
+                             new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
+                             path_save = "my/path/to/outputs/new_spygen_data.csv")
 
 By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
+
+To load data created either with the `species_clean` or
+`spygen_new_data` functions, do:
+
+    read.csv("my/path/to/outputs/new_spygen_data.csv", header = TRUE, check.names = FALSE)
 
 4.  The `spygen_subset` function is a user friendly function that create
     **subset** of eDNA data.
@@ -181,8 +189,10 @@ containing a column **spygen_code**.
 The function return a subset dataframe of eDNA data including only
 species present in the subset.
 
-> [!CAUTION] 
-> This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+> [!CAUTION] This step only convert data to a suitable format for
+> analysis, with only basic cleaning step. This does not exempt users
+> from checking the list of species returned by the functions (e.g.,
+> **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 

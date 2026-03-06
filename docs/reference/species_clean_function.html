@@ -50,7 +50,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">species_clean_function</span><span class="op">(</span><span class="va">spygen_matrix</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">species_clean_function</span><span class="op">(</span><span class="va">spygen_matrix</span>, <span class="va">path_save</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,7 +78,7 @@
     <h2>Details</h2>
     <p>The function removes all misidentified species (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format).</p>
 <p>Once misidentified species has been removed, the function check the correct names of remaining species from FishBase.</p>
-<p>Caution : this function does not check for species distribution..................</p>
+<p>Caution : this function only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., species detected outside their distribution range).</p>
     </div>
 
   </div>

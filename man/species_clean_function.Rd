@@ -4,7 +4,7 @@
 \alias{species_clean_function}
 \title{species_clean_function}
 \usage{
-species_clean_function(spygen_matrix)
+species_clean_function(spygen_matrix, path_save)
 }
 \arguments{
 \item{spygen_matrix}{A dataframe of species eDNA in the format site X species.}
@@ -26,5 +26,5 @@ The function removes all misidentified species (missing names, identified at the
 
 Once misidentified species has been removed, the function check the correct names of remaining species from FishBase.
 
-Caution : this function does not check for species distribution..................
+Caution : this function only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., species detected outside their distribution range).
 }

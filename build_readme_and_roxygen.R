@@ -1,4 +1,12 @@
+# help : https://rdatatoolbox.github.io/
+
 #### Générer la documentation à partir de roxygen ####
+
+# Ajout d'une description
+rcompendium::add_description()
+
+# Ajout de package dans description :
+usethis::use_package(package = "name_package")
 
 devtools::document() # Cela va créer NAMESPACE
 
@@ -6,6 +14,9 @@ devtools::install()
 
 # Ajout d'une licence
 rcompendium::add_license(license = "GPL-2")
+
+# Ajout d'une description
+rcompendium::add_description()
 
 # Faire attention à avoir un nom de repo sans majuscule ni underscore
 

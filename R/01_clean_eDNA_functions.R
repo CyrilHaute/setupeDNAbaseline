@@ -138,7 +138,7 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #' 
 #' Once misidentified species has been removed, the function check the correct names of remaining species from FishBase.
 #' 
-#' Caution : this function does not check for species distribution..................
+#' Caution : this function only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., species detected outside their distribution range).
 #'
 #' @param spygen_matrix A dataframe of species eDNA in the format site X species.
 #'
@@ -154,7 +154,8 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #'
 #' @examples
 
-species_clean_function <- function(spygen_matrix) {
+species_clean_function <- function(spygen_matrix,
+                                   path_save) {
   
   species_names <- colnames(spygen_matrix)
   species_names <- species_names[! species_names %in% c("spygen_code", "nb")]
@@ -186,28 +187,25 @@ species_clean_function <- function(spygen_matrix) {
   
   validname <- rfishbase::validate_names(spygen_clean_species_names)
   
-  remove_genus <- grep("Genus Species", validname)
-  
-  if(length(remove_genus) == 0) {
+  if(any(is.na(validname))){
+    
+    na_species <- spygen_clean_species_names[which(is.na(validname))]
+    
+    validname_worms <- as.data.frame(worrms::wm_records_names(na_species))$valid_name
+    
+    validname[which(is.na(validname))] <- validname_worms
     
     validname_clean <- validname
     
   }else{
     
-    validname_clean <- validname[-remove_genus]
+    validname_clean <- validname
     
   }
-  
+
   old_spygen_name <- spygen_clean
   
   colnames(spygen_clean)[! colnames(spygen_clean) %in% c("spygen_code", "nb")] <- validname_clean
-  
-  
-  # Sort species name by alphabethic order
-  
-  # old_spygen_name <- old_spygen_name[, c("spygen_code", sort(setdiff(names(old_spygen_name), "spygen_code")))]
-  # 
-  # spygen_clean <- spygen_clean[, c("spygen_code", sort(setdiff(names(spygen_clean), "spygen_code")))]
 
   to_return <- list(spygen_clean, old_spygen_name, bad_mask)
   names(to_return) <- c("spygen_matrix_clean", "spygen_matrix_old", "removed_species")
@@ -239,7 +237,7 @@ species_clean_function <- function(spygen_matrix) {
 #' @param new_spygen_data_path A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
 #' @param path_save A character indicating the path to save data.
 #'
-#' @returns A dataframe in the format site X species.
+#' @returns Save new data to `path_save`.
 #' @export
 #'
 #' @examples
@@ -287,11 +285,29 @@ spygen_new_data_function <- function(old_spygen_data_path,
      
      # Consider only common species in both new and old data
      col_new <- colnames(spygen_new_common)
+     col_old <- colnames(spygen_old_common)
      
+     common_species <- col_old[which(col_old %in% col_new)]
+
      spygen_old_common <- spygen_old_common[,colnames(spygen_old_common) %in% col_new]
      
-     ################################ nb espèce entre nouveau et ancien data peut être différent !
+     # Check for new species in new data
      
+     new_species <- col_new[which((col_new %in% col_old) == FALSE)]
+     
+     if(length(new_species) != 0){
+       
+       add_new_species <- spygen_new_common[,colnames(spygen_new_common) %in% c("spygen_code", "nb", new_species)]
+       
+       spygen_old_common <- spygen_old_common |> 
+         merge(add_new_species, all = TRUE)
+       
+     }else{
+       
+       spygen_old_common <- spygen_old_common
+       
+     }
+
      # Look at differences between old and new data
      # Order species in alphabetic order
      spygen_old_common <- spygen_old_common[, c("spygen_code", "nb", sort(setdiff(names(spygen_old_common), c("spygen_code", "nb"))))]
@@ -336,7 +352,7 @@ spygen_new_data_function <- function(old_spygen_data_path,
          dplyr::group_by(spygen_code) |> 
          dplyr::summarise(n = dplyr::n())
        
-       if(any(test$n == 3)) { stop("Error in joining old and new data") }
+       if(any(test$n != 2)) { stop("Error in joining old and new data") }
        
        # test <- by(
        #   
@@ -394,14 +410,29 @@ spygen_new_data_function <- function(old_spygen_data_path,
      
    }
   
-  write.csv(join_old_new, file = path_save, row.names = FALSE)
+  nb_rep <- join_old_new[join_old_new$nb == "nb_rep",]
+  nb_rep <- nb_rep[,!colnames(nb_rep) %in% "nb"]
+  nb_rep <- nb_rep[, c("spygen_code", sort(setdiff(names(nb_rep), "spygen_code")))] # Sort species name by alphabethic order
   
-  return(join_old_new)
+  nb_seq <- join_old_new[join_old_new$nb == "nb_seq",]
+  nb_seq <- nb_seq[,!colnames(nb_seq) %in% "nb"]
+  nb_seq <- nb_seq[, c("spygen_code", sort(setdiff(names(nb_seq), "spygen_code")))]
   
+  occurrence <- nb_rep
+  species <- occurrence[,!colnames(nb_seq) %in% "spygen_code"]
+  species[species > 0] <- 1
+  occurrence_final <- cbind(occurrence[colnames(occurrence) == "spygen_code"], species)
+  occurrence_final <- occurrence_final[, c("spygen_code", sort(setdiff(names(occurrence_final), "spygen_code")))]
+  
+  dir.create(path_save)
+  write.csv(join_old_new, file = paste0(path_save, "all.csv"), row.names = FALSE)
+  write.csv(nb_rep, file = paste0(path_save, "rep.csv"), row.names = FALSE)
+  write.csv(nb_seq, file = paste0(path_save, "seq.csv"), row.names = FALSE)
+  write.csv(occurrence_final, file = paste0(path_save, "occ.csv"), row.names = FALSE)
+
   # END
 
 }
-
 
 #' spygen_subset_function
 #' 

@@ -14,7 +14,7 @@ spygen_new_data_function(old_spygen_data_path, new_spygen_data_path, path_save)
 \item{path_save}{A character indicating the path to save data.}
 }
 \value{
-A dataframe in the format site X species.
+Save new data to \code{path_save}.
 }
 \description{
 This function add new eDNA data to previous ones.

@@ -199,7 +199,7 @@
 </table>
 <p>As you can see, the function return a dataframe containing species not spelled in the binomial format (e.g., <strong>A_regius_U_cirrosa</strong>).</p>
 <ol start="2" style="list-style-type: decimal">
-<li>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format) and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a>.</li>
+<li>The <code>species_clean</code> function clean the site X species matrix by removing <strong>misnamed species</strong> (missing names, identified at the family level or as spp., sp., all species not spelled in the binomial format) and correct species names according to <a href="https://www.fishbase.se/search.php" class="external-link">FishBase</a> or <a href="https://marinespecies.org/index.php" class="external-link">WORMS</a> in case FishBase return NA.</li>
 </ol>
 <p>This function requires the <strong>uncleaned site X species matrix</strong> obtained with the <code>convert_to_matrix</code> function.</p>
 <p>It returns a list containing three objects :</p>
@@ -273,21 +273,23 @@
 <blockquote>
 <p>[!IMPORTANT] To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!</p>
 </blockquote>
-<p>This function requires the path of <strong>old eDNA data</strong> (in format <strong>.csv</strong>) and the path of <strong>new eDNA data</strong> (in <strong>.xlsx</strong> format).</p>
-<p>The function return a dataframe with new eDNA data.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>new_spygen_data <span class="ot">&lt;-</span> <span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                                            <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                                            <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span></code></pre></div>
+<p>This function requires the path of <strong>old eDNA data</strong> (in format <strong>.csv</strong>), the path of <strong>new eDNA data</strong> (in <strong>.xlsx</strong> format) and the <strong>path</strong> to save data.</p>
+<p>The function save new data at the indicated path.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                         <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                         <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span></code></pre></div>
 <p>By doing so, this function creates successively new eDNA files, allowing to follow data and the reference database version.</p>
+<p>To load data created either with the <code>species_clean</code> or <code>spygen_new_data</code> functions, do:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>The <code>spygen_subset</code> function is a user friendly function that create <strong>subset</strong> of eDNA data.</li>
 </ol>
 <p>This function requires a path of <strong>cleaned eDNA data</strong> (in format <strong>.csv</strong>) and a character vector of spygen code or a dataframe containing a column <strong>spygen_code</strong>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
 <p>The function return a subset dataframe of eDNA data including only species present in the subset.</p>
 <blockquote>
-<p>[!CAUTION] This step only convert data to a suitable format for analysis with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., <strong>species detected outside their distribution range</strong>).</p>
+<p>[!CAUTION] This step only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., <strong>species detected outside their distribution range</strong>).</p>
 </blockquote>
 </div>
 <div class="section level2">
