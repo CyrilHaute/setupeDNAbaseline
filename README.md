@@ -164,9 +164,11 @@ This function requires the path of **old eDNA data** (in format
 
 The function save new data at the indicated path.
 
+``` ruby
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                              path_save = "my/path/to/outputs/new_spygen_data.csv")
+```                          
 
 By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
@@ -174,7 +176,9 @@ to follow data and the reference database version.
 To load data created either with the `species_clean` or
 `spygen_new_data` functions, do:
 
+``` ruby
     read.csv("my/path/to/outputs/new_spygen_data.csv", header = TRUE, check.names = FALSE)
+```    
 
 4.  The `spygen_subset` function is a user friendly function that create
     **subset** of eDNA data.
@@ -183,8 +187,10 @@ This function requires a path of **cleaned eDNA data** (in format
 **.csv**) and a character vector of spygen code or a dataframe
 containing a column **spygen_code**.
 
+``` ruby
     subset_eDNA <- spygen_subset_function(eDNA_species_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                                           spygen_code_subset = c("SPY180624", "SPY181146", "SPY181147"))
+```                                          
 
 The function return a subset dataframe of eDNA data including only
 species present in the subset.
