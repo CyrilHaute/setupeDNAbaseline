@@ -154,8 +154,7 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #'
 #' @examples
 
-species_clean_function <- function(spygen_matrix,
-                                   path_save) {
+species_clean_function <- function(spygen_matrix) {
   
   species_names <- colnames(spygen_matrix)
   species_names <- species_names[! species_names %in% c("spygen_code", "nb")]

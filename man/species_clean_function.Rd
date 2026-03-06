@@ -4,7 +4,7 @@
 \alias{species_clean_function}
 \title{species_clean_function}
 \usage{
-species_clean_function(spygen_matrix, path_save)
+species_clean_function(spygen_matrix)
 }
 \arguments{
 \item{spygen_matrix}{A dataframe of species eDNA in the format site X species.}

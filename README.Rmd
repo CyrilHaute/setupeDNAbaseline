@@ -60,8 +60,6 @@ The repository is structured as follow:
 - `outputs/` : contains all results:
   - The `01_clean_eDNA/` file contain all results from **step I**;
   - The `02_eDNA_tracks/` file contain all results from **step II**.
-  
-You can just follow the `analyses/` scripts to use the workflow. 
 
 The scripts and functions have been written as much as possible in base R. For instance, we did not used the `tidyverse` library. 
 However, we used the R native pipe operator `|>`. 
