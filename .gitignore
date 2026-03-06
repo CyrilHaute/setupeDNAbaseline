@@ -49,3 +49,4 @@ data/
 
 outputs/02_eDNA_tracks/
 outputs/01_clean_eDNA/
+build_readme_and_roxygen.R

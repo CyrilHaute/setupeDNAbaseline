@@ -30,5 +30,5 @@ Otherwise, once identified, the function look at differences between old and new
 
 If no difference detected, the function join the new data to the old ones with no changes in common data.
 
-If differences have been detected, the function......................
+If differences have been detected, the function will replace the old data with new data.
 }
