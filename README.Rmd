@@ -210,16 +210,15 @@ This step associate to each Spygen survey a gps track and convert it to a shapef
 The `load_waypoint` function requires only gps data path.
 
 The `spygen_waypoint` function requires the path of Spygen metadata (containing start and end coordinates), 
-the waypoints data obtained with the `load_waypoint` function and a threshold indicating the maximal distance
-in meter between a spygen survey coordinates and the closest waypoint coordinates.
+the waypoints data obtained with the `load_waypoint` function, and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest waypoint.
 
 It returns a list containing three objects :
 
 - A dataframe named **high distance** containing spygen survey with distance to the closest
-waypoints greater than the **distance threshold**;
+waypoints **greater** than the distance threshold;
 
 - A dataframe named **good distance** containing spygen survey with distance to the closest
-waypoints smaller than the **distance threshold**;
+waypoints **smaller** than the distance threshold;
 
 - A dataframe named **na survey** containing spygen survey with **no attributed waypoints**.
 
@@ -236,7 +235,7 @@ spygen_waypoint_output <- spygen_waypoint(eDNA_metadata_path = "data/metadata.cs
 
 The `load_tracks` function requires only gps data path.
 
-The `spygen_tracks` function requires the waypoints data obtained with the `spygen_waypoint` function (**spygen_waypoint_output$good_distance**) and a threshold indicating the maximal distance in meter between a spygen survey coordinates and the closest track coordinates.
+The `spygen_tracks` function requires the waypoints data obtained with the `spygen_waypoint` function (**spygen_waypoint_output$good_distance**), and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest track.
 
 It returns the same thing as for the `spygen_waypoint` function, except it's for tracks.
 
@@ -258,3 +257,9 @@ The function requires the tracks coordinates obtained with the `spygen_tracks_ou
 shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
                  path_save = "path/to/save/data")
 ```
+
+It return a shapefile of Spygen tracks as follow:
+
+<img src="Rplot.png">
+
+<img src="Rplot01.png">

@@ -54,24 +54,24 @@ shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
 
 # Viz tracks shape
 
-load_tracks <- terra::vect("outputs/02_eDNA_tracks/tracks_shp/tracks.shp")
-waypoints_shp <- read.csv("outputs/02_eDNA_tracks/good_distance.csv", header = TRUE)
-waypoints_shp_end <- terra::vect(waypoints_shp, geom = c("Longitude_waypoint_end", "Latitude_waypoint_end"), crs = terra::crs(load_tracks))
-waypoints_shp_start <- terra::vect(waypoints_shp, geom = c("Longitude_waypoint_start", "Latitude_waypoint_start"), crs = terra::crs(load_tracks))
-
-leaflet::leaflet() |>
-  leaflet::addTiles() |>
-  leaflet::addCircleMarkers(
-    data = waypoints_shp_end,
-    radius = 2,
-    color = "red",
-    fillOpacity = 0.7
-  ) |>
-  leaflet::addCircleMarkers(
-    data = waypoints_shp_start,
-    radius = 2,
-    color = "green",
-    fillOpacity = 0.7
-  ) |>
-  leaflet::addPolygons(data = load_tracks,
-                       color = "blue")
+# load_tracks <- terra::vect("outputs/02_eDNA_tracks/tracks_shp/tracks.shp")
+# waypoints_shp <- read.csv("outputs/02_eDNA_tracks/good_distance.csv", header = TRUE)
+# waypoints_shp_end <- terra::vect(waypoints_shp, geom = c("Longitude_waypoint_end", "Latitude_waypoint_end"), crs = terra::crs(load_tracks))
+# waypoints_shp_start <- terra::vect(waypoints_shp, geom = c("Longitude_waypoint_start", "Latitude_waypoint_start"), crs = terra::crs(load_tracks))
+# 
+# leaflet::leaflet() |>
+#   leaflet::addTiles() |>
+#   leaflet::addCircleMarkers(
+#     data = waypoints_shp_end,
+#     radius = 2,
+#     color = "red",
+#     fillOpacity = 0.7
+#   ) |>
+#   leaflet::addCircleMarkers(
+#     data = waypoints_shp_start,
+#     radius = 2,
+#     color = "green",
+#     fillOpacity = 0.7
+#   ) |>
+#   leaflet::addPolygons(data = load_tracks,
+#                        color = "blue")

@@ -154,8 +154,8 @@ write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/sp
     previous one, by checking for duplicate and replace or not with new
     data if differences are detected.
 
-> [!IMPORTANT] 
-> To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!
+> \[!IMPORTANT\] To work properly, the function need to add the new
+> Spygen data in the order they’ve been sent by Spygen!
 
 This function requires the path of **old eDNA data** (in format
 **.csv**), the path of **new eDNA data** (in **.xlsx** format) and the
@@ -188,8 +188,10 @@ containing a column **spygen_code**.
 The function return a subset dataframe of eDNA data including only
 species present in the subset.
 
-> [!CAUTION] 
-> This step only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
+> \[!CAUTION\] This step only convert data to a suitable format for
+> analysis, with only basic cleaning step. This does not exempt users
+> from checking the list of species returned by the functions (e.g.,
+> **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
@@ -203,19 +205,19 @@ The `load_waypoint` function requires only gps data path.
 
 The `spygen_waypoint` function requires the path of Spygen metadata
 (containing start and end coordinates), the waypoints data obtained with
-the `load_waypoint` function and a threshold indicating the maximal
-distance in meter between a spygen survey coordinates and the closest
-waypoint coordinates.
+the `load_waypoint` function, and a threshold indicating the maximum
+distance in meters between the coordinates of a Spygen survey and the
+coordinates of the nearest waypoint.
 
 It returns a list containing three objects :
 
 - A dataframe named **high distance** containing spygen survey with
-  distance to the closest waypoints greater than the **distance
-  threshold**;
+  distance to the closest waypoints **greater** than the distance
+  threshold;
 
 - A dataframe named **good distance** containing spygen survey with
-  distance to the closest waypoints smaller than the **distance
-  threshold**;
+  distance to the closest waypoints **smaller** than the distance
+  threshold;
 
 - A dataframe named **na survey** containing spygen survey with **no
   attributed waypoints**.
@@ -236,9 +238,9 @@ The `load_tracks` function requires only gps data path.
 
 The `spygen_tracks` function requires the waypoints data obtained with
 the `spygen_waypoint` function
-(**spygen_waypoint_output\$good_distance**) and a threshold indicating
-the maximal distance in meter between a spygen survey coordinates and
-the closest track coordinates.
+(**spygen_waypoint_output\$good_distance**), and a threshold indicating
+the maximum distance in meters between the coordinates of a Spygen
+survey and the coordinates of the nearest track.
 
 It returns the same thing as for the `spygen_waypoint` function, except
 it’s for tracks.
@@ -263,3 +265,9 @@ The function requires the tracks coordinates obtained with the
 shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
                  path_save = "path/to/save/data")
 ```
+
+It return a shapefile of Spygen tracks as follow:
+
+<img src="Rplot.png">
+
+<img src="Rplot01.png">

@@ -299,11 +299,11 @@
 <li>The <code>load_waypoint</code> and <code>spygen_waypoint</code> functions associate to each Spygen survey the closest <strong>gps waypoint</strong> at the survey date.</li>
 </ol>
 <p>The <code>load_waypoint</code> function requires only gps data path.</p>
-<p>The <code>spygen_waypoint</code> function requires the path of Spygen metadata (containing start and end coordinates), the waypoints data obtained with the <code>load_waypoint</code> function and a threshold indicating the maximal distance in meter between a spygen survey coordinates and the closest waypoint coordinates.</p>
+<p>The <code>spygen_waypoint</code> function requires the path of Spygen metadata (containing start and end coordinates), the waypoints data obtained with the <code>load_waypoint</code> function, and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest waypoint.</p>
 <p>It returns a list containing three objects :</p>
 <ul>
-<li><p>A dataframe named <strong>high distance</strong> containing spygen survey with distance to the closest waypoints greater than the <strong>distance threshold</strong>;</p></li>
-<li><p>A dataframe named <strong>good distance</strong> containing spygen survey with distance to the closest waypoints smaller than the <strong>distance threshold</strong>;</p></li>
+<li><p>A dataframe named <strong>high distance</strong> containing spygen survey with distance to the closest waypoints <strong>greater</strong> than the distance threshold;</p></li>
+<li><p>A dataframe named <strong>good distance</strong> containing spygen survey with distance to the closest waypoints <strong>smaller</strong> than the distance threshold;</p></li>
 <li><p>A dataframe named <strong>na survey</strong> containing spygen survey with <strong>no attributed waypoints</strong>.</p></li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -317,7 +317,7 @@
 <li>The <code>load_tracks</code> and <code>spygen_tracks</code> functions associate to each waypoint the closest <strong>gps track</strong> at the survey date.</li>
 </ol>
 <p>The <code>load_tracks</code> function requires only gps data path.</p>
-<p>The <code>spygen_tracks</code> function requires the waypoints data obtained with the <code>spygen_waypoint</code> function (<strong>spygen_waypoint_output$good_distance</strong>) and a threshold indicating the maximal distance in meter between a spygen survey coordinates and the closest track coordinates.</p>
+<p>The <code>spygen_tracks</code> function requires the waypoints data obtained with the <code>spygen_waypoint</code> function (<strong>spygen_waypoint_output$good_distance</strong>), and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest track.</p>
 <p>It returns the same thing as for the <code>spygen_waypoint</code> function, except it’s for tracks.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gps_tracks</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_tracks.html">load_tracks</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/trace_gps"</span><span class="op">)</span></span>
@@ -333,6 +333,9 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/shapefile_tracks.html">shapefile_tracks</a></span><span class="op">(</span>eDNA_tracks <span class="op">=</span> <span class="va">spygen_tracks_output</span><span class="op">$</span><span class="va">tracks_good_distance</span>,</span>
 <span>                 path_save <span class="op">=</span> <span class="st">"path/to/save/data"</span><span class="op">)</span></span></code></pre></div>
+<p>It return a shapefile of Spygen tracks as follow:</p>
+<p><img src="Rplot.png"></p>
+<p><img src="Rplot01.png"></p>
 </div>
 </div>
   </div>
