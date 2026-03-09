@@ -154,8 +154,8 @@ write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/sp
     previous one, by checking for duplicate and replace or not with new
     data if differences are detected.
 
-> \[!IMPORTANT\] To work properly, the function need to add the new
-> Spygen data in the order they’ve been sent by Spygen!
+> [!IMPORTANT] 
+> To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!
 
 This function requires the path of **old eDNA data** (in format
 **.csv**), the path of **new eDNA data** (in **.xlsx** format) and the
@@ -188,10 +188,8 @@ containing a column **spygen_code**.
 The function return a subset dataframe of eDNA data including only
 species present in the subset.
 
-> \[!CAUTION\] This step only convert data to a suitable format for
-> analysis, with only basic cleaning step. This does not exempt users
-> from checking the list of species returned by the functions (e.g.,
-> **species detected outside their distribution range**).
+> [!CAUTION] 
+> This step only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
 
 ## II. Extract eDNA gps tracks
 
@@ -266,7 +264,8 @@ shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
                  path_save = "path/to/save/data")
 ```
 
-It return a shapefile of Spygen tracks as follow:
+It return a shapefile of Spygen tracks as follow (with green and red dot
+representing waypoints start and end, respectively):
 
 <img src="Rplot.png">
 

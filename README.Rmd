@@ -258,7 +258,7 @@ shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
                  path_save = "path/to/save/data")
 ```
 
-It return a shapefile of Spygen tracks as follow:
+It return a shapefile of Spygen tracks as follow (with green and red dot representing waypoints start and end, respectively):
 
 <img src="Rplot.png">
 
