@@ -612,7 +612,7 @@ order, all automatically.</p>
 open directly a Terminal and do:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git clone https:<span class="ss">//</span>github<span class="at">.com</span><span class="kw">/</span><span class="dt">CyrilHaute</span><span class="kw">/</span>setupeDNAbaseline</span></code></pre></div>
 <p>Required dependencies can be found in the <code>DESCRIPTION</code>
-file and can be installed and load with the flowing function :</p>
+file and can be installed and load with the following function :</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">## Install devtools package ----</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>install<span class="at">.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
@@ -659,8 +659,9 @@ data necessary for <strong>step II</strong>.</li>
 </ul>
 <p>The scripts and functions have been written as much as possible in
 base R. For instance, we did not used the <code>tidyverse</code>
-library. However, we used the R native pipe operator
-<code>|&gt;</code>.</p>
+library. However, we used the R native pipe operator <code>|&gt;</code>
+instead of <code>%&gt;%</code> that requires to load
+<code>tidyverse</code>.</p>
 <p>To use the R native pipe, follow the instructions:</p>
 <ul>
 <li>Click on R <strong>Tools</strong>;</li>
@@ -669,8 +670,6 @@ library. However, we used the R native pipe operator
 <li>Check the box <strong>Use native pipe operator, |&gt; (requires R
 4.1+)</strong>.</li>
 </ul>
-<p>By doing so, we don’t need to load any package from
-<code>tidyverse</code>.</p>
 <p>Data can be accessible through <a href="https://marbec-data.ird.fr/#/signin">marbec-data</a>.</p>
 <p>The details of all functions used in the repository can be found here
 : <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html">https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html</a></p>
@@ -852,13 +851,63 @@ checking the list of species returned by the functions (e.g.,
 <p>This step associate to each Spygen survey a gps track and convert it
 to a shapefile.</p>
 <ol style="list-style-type: decimal">
-<li><p>Associate to each Spygen survey the closest <strong>gps
-waypoint</strong> at the survey date.</p></li>
-<li><p>Associate to each waypoint the closest <strong>gps track</strong>
-at the survey date.</p></li>
-<li><p>Convert gps track from point to a polygon as a
-<strong>shapefile</strong>.</p></li>
+<li>The <code>load_waypoint</code> and <code>spygen_waypoint</code>
+functions associate to each Spygen survey the closest <strong>gps
+waypoint</strong> at the survey date.</li>
 </ol>
+<p>The <code>load_waypoint</code> function requires only gps data
+path.</p>
+<p>The <code>spygen_waypoint</code> function requires the path of Spygen
+metadata (containing start and end coordinates), the waypoints data
+obtained with the <code>load_waypoint</code> function and a threshold
+indicating the maximal distance in meter between a spygen survey
+coordinates and the closest waypoint coordinates.</p>
+<p>It returns a list containing three objects :</p>
+<ul>
+<li><p>A dataframe named <strong>high distance</strong> containing
+spygen survey with distance to the closest waypoints greater than the
+<strong>distance threshold</strong>;</p></li>
+<li><p>A dataframe named <strong>good distance</strong> containing
+spygen survey with distance to the closest waypoints smaller than the
+<strong>distance threshold</strong>;</p></li>
+<li><p>A dataframe named <strong>na survey</strong> containing spygen
+survey with <strong>no attributed waypoints</strong>.</p></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>waypoints <span class="kw">&lt;-</span> load_waypoint(path <span class="kw">=</span> <span class="st">&quot;data/trace_gps&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>spygen_waypoint_output <span class="kw">&lt;-</span> spygen_waypoint(eDNA_metadata_path <span class="kw">=</span> <span class="st">&quot;data/metadata.csv&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                                          waypoints <span class="kw">=</span> waypoints,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>                                          distance_threshold <span class="kw">=</span> <span class="dv">10</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>                                          path_save <span class="kw">=</span> <span class="st">&quot;path/to/save/data&quot;</span>)</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>The <code>load_tracks</code> and <code>spygen_tracks</code>
+functions associate to each waypoint the closest <strong>gps
+track</strong> at the survey date.</li>
+</ol>
+<p>The <code>load_tracks</code> function requires only gps data
+path.</p>
+<p>The <code>spygen_tracks</code> function requires the waypoints data
+obtained with the <code>spygen_waypoint</code> function
+(<strong>spygen_waypoint_output$good_distance</strong>) and a threshold
+indicating the maximal distance in meter between a spygen survey
+coordinates and the closest track coordinates.</p>
+<p>It returns the same thing as for the <code>spygen_waypoint</code>
+function, except it’s for tracks.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>gps_tracks <span class="kw">&lt;-</span> load_tracks(path <span class="kw">=</span> <span class="st">&quot;data/trace_gps&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>spygen_tracks_output <span class="kw">&lt;-</span> spygen_tracks(waypoints <span class="kw">=</span> spygen_waypoint_output<span class="va">$good_distance</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                                      gps_tracks <span class="kw">=</span> gps_tracks,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>                                      distance_threshold <span class="kw">=</span> <span class="dv">10</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>                                      path_save <span class="kw">=</span> <span class="st">&quot;path/to/save/data&quot;</span>)</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Finally, the <code>shapefile_tracks</code> function convert gps
+track from point to a polygon as a <strong>shapefile</strong>.</li>
+</ol>
+<p>The function requires the tracks coordinates obtained with the
+<code>spygen_tracks_output</code> function
+(<strong>spygen_tracks_output$tracks_good_distance</strong>).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>shapefile_tracks(eDNA_tracks <span class="kw">=</span> spygen_tracks_output<span class="va">$tracks_good_distance</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                 path_save <span class="kw">=</span> <span class="st">&quot;path/to/save/data&quot;</span>)</span></code></pre></div>
 
 </body>
 </html>

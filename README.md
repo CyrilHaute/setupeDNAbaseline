@@ -16,7 +16,7 @@ git clone https://github.com/CyrilHaute/setupeDNAbaseline
 ```
 
 Required dependencies can be found in the `DESCRIPTION` file and can be
-installed and load with the flowing function :
+installed and load with the following function :
 
 ``` ruby
 ## Install devtools package ----
@@ -60,7 +60,8 @@ The repository is structured as follow:
 
 The scripts and functions have been written as much as possible in base
 R. For instance, we did not used the `tidyverse` library. However, we
-used the R native pipe operator `|>`.
+used the R native pipe operator `|>` instead of `%>%` that requires to
+load `tidyverse`.
 
 To use the R native pipe, follow the instructions:
 
@@ -68,8 +69,6 @@ To use the R native pipe, follow the instructions:
 - Then click on **Global Options**;
 - Then click on **Code**;
 - Check the box **Use native pipe operator, \|\> (requires R 4.1+)**.
-
-By doing so, we don’t need to load any package from `tidyverse`.
 
 Data can be accessible through
 [marbec-data](https://marbec-data.ird.fr/#/signin).
@@ -164,11 +163,9 @@ This function requires the path of **old eDNA data** (in format
 
 The function save new data at the indicated path.
 
-``` ruby
-spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
-                         new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
-                         path_save = "my/path/to/outputs/new_spygen_data.csv")
-```                          
+    spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
+                             new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
+                             path_save = "my/path/to/outputs/new_spygen_data.csv")
 
 By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
@@ -176,9 +173,7 @@ to follow data and the reference database version.
 To load data created either with the `species_clean` or
 `spygen_new_data` functions, do:
 
-``` ruby
-read.csv("my/path/to/outputs/new_spygen_data.csv", header = TRUE, check.names = FALSE)
-```    
+    read.csv("my/path/to/outputs/new_spygen_data.csv", header = TRUE, check.names = FALSE)
 
 4.  The `spygen_subset` function is a user friendly function that create
     **subset** of eDNA data.
@@ -187,10 +182,8 @@ This function requires a path of **cleaned eDNA data** (in format
 **.csv**) and a character vector of spygen code or a dataframe
 containing a column **spygen_code**.
 
-``` ruby
-subset_eDNA <- spygen_subset_function(eDNA_species_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
-                                      spygen_code_subset = c("SPY180624", "SPY181146", "SPY181147"))
-```                                          
+    subset_eDNA <- spygen_subset_function(eDNA_species_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
+                                          spygen_code_subset = c("SPY180624", "SPY181146", "SPY181147"))
 
 The function return a subset dataframe of eDNA data including only
 species present in the subset.
@@ -203,10 +196,70 @@ species present in the subset.
 This step associate to each Spygen survey a gps track and convert it to
 a shapefile.
 
-1.  Associate to each Spygen survey the closest **gps waypoint** at the
-    survey date.
+1.  The `load_waypoint` and `spygen_waypoint` functions associate to
+    each Spygen survey the closest **gps waypoint** at the survey date.
 
-2.  Associate to each waypoint the closest **gps track** at the survey
-    date.
+The `load_waypoint` function requires only gps data path.
 
-3.  Convert gps track from point to a polygon as a **shapefile**.
+The `spygen_waypoint` function requires the path of Spygen metadata
+(containing start and end coordinates), the waypoints data obtained with
+the `load_waypoint` function and a threshold indicating the maximal
+distance in meter between a spygen survey coordinates and the closest
+waypoint coordinates.
+
+It returns a list containing three objects :
+
+- A dataframe named **high distance** containing spygen survey with
+  distance to the closest waypoints greater than the **distance
+  threshold**;
+
+- A dataframe named **good distance** containing spygen survey with
+  distance to the closest waypoints smaller than the **distance
+  threshold**;
+
+- A dataframe named **na survey** containing spygen survey with **no
+  attributed waypoints**.
+
+``` ruby
+waypoints <- load_waypoint(path = "data/trace_gps")
+
+spygen_waypoint_output <- spygen_waypoint(eDNA_metadata_path = "data/metadata.csv",
+                                          waypoints = waypoints,
+                                          distance_threshold = 10,
+                                          path_save = "path/to/save/data")
+```
+
+2.  The `load_tracks` and `spygen_tracks` functions associate to each
+    waypoint the closest **gps track** at the survey date.
+
+The `load_tracks` function requires only gps data path.
+
+The `spygen_tracks` function requires the waypoints data obtained with
+the `spygen_waypoint` function
+(**spygen_waypoint_output\$good_distance**) and a threshold indicating
+the maximal distance in meter between a spygen survey coordinates and
+the closest track coordinates.
+
+It returns the same thing as for the `spygen_waypoint` function, except
+it’s for tracks.
+
+``` ruby
+gps_tracks <- load_tracks(path = "data/trace_gps")
+
+spygen_tracks_output <- spygen_tracks(waypoints = spygen_waypoint_output$good_distance,
+                                      gps_tracks = gps_tracks,
+                                      distance_threshold = 10,
+                                      path_save = "path/to/save/data")
+```
+
+3.  Finally, the `shapefile_tracks` function convert gps track from
+    point to a polygon as a **shapefile**.
+
+The function requires the tracks coordinates obtained with the
+`spygen_tracks_output` function
+(**spygen_tracks_output\$tracks_good_distance**).
+
+``` ruby
+shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
+                 path_save = "path/to/save/data")
+```

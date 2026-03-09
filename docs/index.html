@@ -72,7 +72,7 @@
 </h2>
 <p>To clone the repository from <a href="https://github.com/" class="external-link">GitHub</a>, open R and go to your Terminal or open directly a Terminal and do:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git clone https:<span class="ss">//</span>github<span class="at">.com</span><span class="kw">/</span><span class="dt">CyrilHaute</span><span class="kw">/</span>setupeDNAbaseline</span></code></pre></div>
-<p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the flowing function :</p>
+<p>Required dependencies can be found in the <code>DESCRIPTION</code> file and can be installed and load with the following function :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Install devtools package ----</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
@@ -122,8 +122,7 @@
 </ul>
 </li>
 </ul>
-<p>You can just follow the <code>analyses/</code> scripts to use the workflow.</p>
-<p>The scripts and functions have been written as much as possible in base R. For instance, we did not used the <code>tidyverse</code> library. However, we used the R native pipe operator <code>|&gt;</code>.</p>
+<p>The scripts and functions have been written as much as possible in base R. For instance, we did not used the <code>tidyverse</code> library. However, we used the R native pipe operator <code>|&gt;</code> instead of <code>%&gt;%</code> that requires to load <code>tidyverse</code>.</p>
 <p>To use the R native pipe, follow the instructions:</p>
 <ul>
 <li>Click on R <strong>Tools</strong>;</li>
@@ -131,7 +130,6 @@
 <li>Then click on <strong>Code</strong>;</li>
 <li>Check the box <strong>Use native pipe operator, |&gt; (requires R 4.1+)</strong>.</li>
 </ul>
-<p>By doing so, we don’t need to load any package from <code>tidyverse</code>.</p>
 <p>Data can be accessible through <a href="https://marbec-data.ird.fr/#/signin" class="external-link">marbec-data</a>.</p>
 <p>The details of all functions used in the repository can be found here : <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html" class="uri">https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html</a></p>
 <p>The workflow is separated into two different steps:</p>
@@ -298,10 +296,43 @@
 </h2>
 <p>This step associate to each Spygen survey a gps track and convert it to a shapefile.</p>
 <ol style="list-style-type: decimal">
-<li><p>Associate to each Spygen survey the closest <strong>gps waypoint</strong> at the survey date.</p></li>
-<li><p>Associate to each waypoint the closest <strong>gps track</strong> at the survey date.</p></li>
-<li><p>Convert gps track from point to a polygon as a <strong>shapefile</strong>.</p></li>
+<li>The <code>load_waypoint</code> and <code>spygen_waypoint</code> functions associate to each Spygen survey the closest <strong>gps waypoint</strong> at the survey date.</li>
 </ol>
+<p>The <code>load_waypoint</code> function requires only gps data path.</p>
+<p>The <code>spygen_waypoint</code> function requires the path of Spygen metadata (containing start and end coordinates), the waypoints data obtained with the <code>load_waypoint</code> function and a threshold indicating the maximal distance in meter between a spygen survey coordinates and the closest waypoint coordinates.</p>
+<p>It returns a list containing three objects :</p>
+<ul>
+<li><p>A dataframe named <strong>high distance</strong> containing spygen survey with distance to the closest waypoints greater than the <strong>distance threshold</strong>;</p></li>
+<li><p>A dataframe named <strong>good distance</strong> containing spygen survey with distance to the closest waypoints smaller than the <strong>distance threshold</strong>;</p></li>
+<li><p>A dataframe named <strong>na survey</strong> containing spygen survey with <strong>no attributed waypoints</strong>.</p></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">waypoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_waypoint.html">load_waypoint</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/trace_gps"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">spygen_waypoint_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/spygen_waypoint.html">spygen_waypoint</a></span><span class="op">(</span>eDNA_metadata_path <span class="op">=</span> <span class="st">"data/metadata.csv"</span>,</span>
+<span>                                          waypoints <span class="op">=</span> <span class="va">waypoints</span>,</span>
+<span>                                          distance_threshold <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                                          path_save <span class="op">=</span> <span class="st">"path/to/save/data"</span><span class="op">)</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>The <code>load_tracks</code> and <code>spygen_tracks</code> functions associate to each waypoint the closest <strong>gps track</strong> at the survey date.</li>
+</ol>
+<p>The <code>load_tracks</code> function requires only gps data path.</p>
+<p>The <code>spygen_tracks</code> function requires the waypoints data obtained with the <code>spygen_waypoint</code> function (<strong>spygen_waypoint_output$good_distance</strong>) and a threshold indicating the maximal distance in meter between a spygen survey coordinates and the closest track coordinates.</p>
+<p>It returns the same thing as for the <code>spygen_waypoint</code> function, except it’s for tracks.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gps_tracks</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_tracks.html">load_tracks</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/trace_gps"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">spygen_tracks_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/spygen_tracks.html">spygen_tracks</a></span><span class="op">(</span>waypoints <span class="op">=</span> <span class="va">spygen_waypoint_output</span><span class="op">$</span><span class="va">good_distance</span>,</span>
+<span>                                      gps_tracks <span class="op">=</span> <span class="va">gps_tracks</span>,</span>
+<span>                                      distance_threshold <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                                      path_save <span class="op">=</span> <span class="st">"path/to/save/data"</span><span class="op">)</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Finally, the <code>shapefile_tracks</code> function convert gps track from point to a polygon as a <strong>shapefile</strong>.</li>
+</ol>
+<p>The function requires the tracks coordinates obtained with the <code>spygen_tracks_output</code> function (<strong>spygen_tracks_output$tracks_good_distance</strong>).</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/shapefile_tracks.html">shapefile_tracks</a></span><span class="op">(</span>eDNA_tracks <span class="op">=</span> <span class="va">spygen_tracks_output</span><span class="op">$</span><span class="va">tracks_good_distance</span>,</span>
+<span>                 path_save <span class="op">=</span> <span class="st">"path/to/save/data"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>

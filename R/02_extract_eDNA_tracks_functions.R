@@ -66,28 +66,34 @@ spygen_waypoint <- function(eDNA_metadata_path,
   # Look for each eDNA survey the closest waypoint by date
 
   closest_waypoint <- pbmcapply::pbmclapply(1:nrow(eDNA_metadata), function(i) {
-
+    
+    # Survey i
     spygen_i <- eDNA_metadata[i,]
 
     date_i <- spygen_i$date
-
+    
+    # Select waypoints at the date of the survey i
     waypoints_date_i <- waypoints[waypoints$date == date_i,]
 
-    if(nrow(waypoints_date_i) == 0) {
+    if(nrow(waypoints_date_i) == 0) { # If no waypoints at this date => NA
 
       closest_point_bind <- NA
 
-    }else{
+    }else{ # Otherwise assess the closest waypoint to the survey
 
+      # Start by vectorizing the waypoint data
       waypoints_i_vect <- terra::vect(waypoints_date_i, geom = c("Longitude", "Latitude"), crs = "WGS84", keepgeom = TRUE)
-
+      
+      # As there are coordinates for the survey start and end, we need to assess the closest waypoint to both point
       spygen_i_start <- spygen_i[, !colnames(spygen_i) %in% c("latitude_end_DD", "longitude_end_DD")]
       spygen_i_end <- spygen_i[, !colnames(spygen_i) %in% c("latitude_start_DD", "longitude_start_DD")]
 
-      if(any(is.na(unlist(spygen_i_end[,colnames(spygen_i_end) %in% c("latitude_end_DD", "longitude_end_DD")])))) {
+      # Coordinates point end are NA ?
+      if(any(is.na(unlist(spygen_i_end[,colnames(spygen_i_end) %in% c("latitude_end_DD", "longitude_end_DD")])))) { # If yes, vectorize spygen start data only
 
         spygen_i_start_vect <- terra::vect(spygen_i_start, geom = c("longitude_start_DD", "latitude_start_DD"), crs = "WGS84", keepgeom = TRUE)
 
+        # Which waypoint is the closest to spygen start ?
         nn_cell_start <- terra::as.data.frame(terra::nearest(spygen_i_start_vect, waypoints_i_vect))
         nn_cell_end <- data.frame(from_id = NA,
                                   from_x = NA,
@@ -95,16 +101,19 @@ spygen_waypoint <- function(eDNA_metadata_path,
                                   to_id = NA,
                                   distance = NA)
 
-      }else{
+      }else{ # If no, vectorize both spygen start and end data
 
         spygen_i_start_vect <- terra::vect(spygen_i_start, geom = c("longitude_start_DD", "latitude_start_DD"), crs = "WGS84", keepgeom = TRUE)
         spygen_i_end_vect <- terra::vect(spygen_i_end, geom = c("longitude_end_DD", "latitude_end_DD"), crs = "WGS84", keepgeom = TRUE)
 
+        # Which waypoint is the closest to spygen start and end ?
         nn_cell_start <- terra::as.data.frame(terra::nearest(spygen_i_start_vect, waypoints_i_vect))
         nn_cell_end <- terra::as.data.frame(terra::nearest(spygen_i_end_vect, waypoints_i_vect))
 
       }
-
+      
+      # Select the closest start waypoint
+      # If NA, return NA
       if(any(is.na(c(nn_cell_start$from_x, nn_cell_start$from_y)))) {
 
         spygen_i_waypoint_start <- waypoints_date_i[1,][!colnames(waypoints_date_i) %in% c("date", "Description")]
@@ -116,15 +125,18 @@ spygen_waypoint <- function(eDNA_metadata_path,
 
         spygen_i_waypoint_start$distance_start <- NA
 
-      }else{
+      }else{ # Otherwise select the waypoint
 
         spygen_i_waypoint_start <- waypoints_date_i[nn_cell_start$to_id,][!colnames(waypoints_date_i) %in% c("date", "Description")]
         colnames(spygen_i_waypoint_start) <- paste0(colnames(spygen_i_waypoint_start), sep = "_waypoint_start")
 
+        # Indicate the distance between the survey and the waypoint
         spygen_i_waypoint_start$distance_start <- nn_cell_start$distance
 
       }
 
+      # Select the closest end waypoint
+      # If NA, return NA
       if(any(is.na(c(nn_cell_end$from_x, nn_cell_end$from_y)))) {
 
         spygen_i_waypoint_end <- waypoints_date_i[1,][!colnames(waypoints_date_i) %in% c("date", "Description")]
@@ -136,11 +148,12 @@ spygen_waypoint <- function(eDNA_metadata_path,
 
         spygen_i_waypoint_end$distance_end <- NA
 
-      }else{
+      }else{ # Otherwise select the waypoint
 
         spygen_i_waypoint_end <- waypoints_date_i[nn_cell_end$to_id,][!colnames(waypoints_date_i) %in% c("date", "Description")]
         colnames(spygen_i_waypoint_end) <- paste0(colnames(spygen_i_waypoint_end), sep = "_waypoint_end")
 
+        # Indicate the distance between the survey and the waypoin
         spygen_i_waypoint_end$distance_end <- nn_cell_end$distance
 
       }
@@ -179,16 +192,20 @@ spygen_waypoint <- function(eDNA_metadata_path,
 
   na_survey <- eDNA_metadata[which(is.na(closest_waypoint)),]
 
+  # The sum number of rows of each sub dataset should be equal to the number of rows in metadata
   if(sum(c(nrow(high_distance), nrow(good_distance), nrow(na_survey))) == nrow(eDNA_metadata)){
 
+    # If yes, all good
     print("All good!")
 
   }else{
 
+    # If no, there is a problem
     print("Some spygen_id are missing!")
 
   }
 
+  # Save data
   write.csv(high_distance, file = paste0(path_save, "high_distance.csv"), row.names = FALSE)
   write.csv(good_distance, file = paste0(path_save, "good_distance.csv"), row.names = FALSE)
   write.csv(na_survey, file = paste0(path_save, "na_survey.csv"), row.names = FALSE)
@@ -295,13 +312,15 @@ spygen_tracks <- function(waypoints,
   
   closest_tracks <- pbmcapply::pbmclapply(1:nrow(waypoints), function(i) {
     
+    # Waypoint i 
     spygen_i <- waypoints[i,]
     
     date_i <- spygen_i$date
     
+    # Select tracks at the date of the survey i
     tracks_eDNA_i <- gps_tracks[gps_tracks$date %in% date_i,]
     
-    if(nrow(tracks_eDNA_i) == 0) {
+    if(nrow(tracks_eDNA_i) == 0) {  # If no tracks at this date => NA
       
       tracks_spygen_i <- cbind(spygen_i[,!colnames(spygen_i) %in% c("Elevation_waypoint_start",
                                                               "Time_waypoint_start",
@@ -321,8 +340,9 @@ spygen_tracks <- function(waypoints,
                                           distance_end = NA,
                                           check.names = FALSE))
       
-    }else{
+    }else{ # Otherwise assess the closest track to the survey
       
+      # Start by vectorizing the track and survey start + end data
       tracks_eDNA_i_vect <- terra::vect(tracks_eDNA_i, geom = c("Longitude", "Latitude"), crs = "WGS84", keepgeom = TRUE)
       
       spygen_i_start <- spygen_i[, colnames(spygen_i) %in% c("spygen_code", "Time_waypoint_start", "Latitude_waypoint_start", "Longitude_waypoint_start")]
@@ -331,16 +351,21 @@ spygen_tracks <- function(waypoints,
       spygen_i_start_vect <- terra::vect(spygen_i_start, geom = c("Longitude_waypoint_start", "Latitude_waypoint_start"), crs = "WGS84", keepgeom = TRUE)
       spygen_i_end_vect <- terra::vect(spygen_i_end, geom = c("Longitude_waypoint_end", "Latitude_waypoint_end"), crs = "WGS84", keepgeom = TRUE)
       
+      # Assess the distance of waypoint start and end to the closest track
       nn_cell_start <- terra::as.data.frame(terra::nearest(spygen_i_start_vect, tracks_eDNA_i_vect))
       nn_cell_end <- terra::as.data.frame(terra::nearest(spygen_i_end_vect, tracks_eDNA_i_vect))
       
+      # Select all the point between point start and end to get the track
       tracks_spygen_i <- tracks_eDNA_i[nn_cell_start$to_id:nn_cell_end$to_id,]
       
+      # Remove column date
       tracks_spygen_i <- tracks_spygen_i[,which(!colnames(tracks_spygen_i) == "date")]
       
+      # Indicate the distance between the track and the waypoint start+end 
       tracks_spygen_i$distance_start <- nn_cell_start$distance
       tracks_spygen_i$distance_end <- nn_cell_end$distance
       
+      # Add survey info
       tracks_spygen_i <- cbind(spygen_i[,!colnames(spygen_i) %in% c("Elevation_waypoint_start",
                                                                     "Time_waypoint_start",
                                                                     "Name_waypoint_start",
@@ -354,7 +379,7 @@ spygen_tracks <- function(waypoints,
     
   }, mc.cores = 1)
   closest_tracks_bind <- do.call(rbind, closest_tracks)
-
+  
   # Assess which surveys are beyond the distance threshold, which are below and which with no tracks
   
   high_distance1 <- closest_tracks_bind[closest_tracks_bind$distance_start > distance_threshold & closest_tracks_bind$distance_end > distance_threshold,]
@@ -381,18 +406,22 @@ spygen_tracks <- function(waypoints,
   
   tracks_na_survey <- closest_tracks_bind[which(is.na(closest_tracks_bind$distance_start)),]
   
+  # The sum number of unique spygen code of each sub dataset should be equal to the number of unique spygen code in metadata
   if(sum(c(length(unique(tracks_high_distance$spygen_code)),
            length(unique(tracks_good_distance$spygen_code)),
            length(unique(tracks_na_survey$spygen_code)))) == nrow(waypoints)){
     
+    # If yes, all good
     print("All good!")
     
   }else{
     
+    # If no, there is a problem
     print("Some spygen_id are missing!")
     
   }
   
+  # Save data
   write.csv(tracks_high_distance, file = paste0(path_save, "tracks_high_distance.csv"), row.names = FALSE)
   write.csv(tracks_good_distance, file = paste0(path_save, "tracks_good_distance.csv"), row.names = FALSE)
   write.csv(tracks_na_survey, file = paste0(path_save, "tracks_na_survey.csv"), row.names = FALSE)
@@ -418,13 +447,14 @@ spygen_tracks <- function(waypoints,
 
 shapefile_tracks <- function(eDNA_tracks,
                              path_save){
+
+  # Vectorize tracks
+  eDNA_i_shp <- terra::vect(eDNA_tracks, geom = c("Longitude", "Latitude"), crs = "WGS84")
   
-  eDNA_bind <- eDNA_tracks[!is.na(eDNA_tracks$spygen_code),]
-  
-  eDNA_i_shp <- terra::vect(eDNA_bind, geom = c("Longitude", "Latitude"), crs = "WGS84")
-  
+  # Assess the convex hull (the smallest set of point that contains the track)
   create_shp <- terra::convHull(eDNA_i_shp, by = "spygen_code")
   
+  # Save it as a shapefile
   terra::writeVector(create_shp, file = paste0(path_save, "tracks.shp"), overwrite = TRUE)
 
 }
