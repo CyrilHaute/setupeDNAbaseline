@@ -30,7 +30,7 @@ convert_to_matrix_function <- function(raw_spygen_path){
     
     if(length(row_spy) != 1) { 
       
-      stop(print("No or more than one ... detected"))
+      stop(print("No or more than one SPY column detected"))
       
     }else{
         
