@@ -12,34 +12,16 @@
 
 convert_to_matrix_function <- function(raw_spygen_path){
   
-  # Load raw spygen data
+  # Load raw spygen data (can take time for large file)
   raw_data <- readxl::read_xlsx(raw_spygen_path, col_names = FALSE)
   
   
-  # Find row and column containing "SPY" 
+  # Find row and column containing "SPY". If no "SPY" detected, that might be because of a pool, check for that
 
   row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("SPY", raw_data[i,])) }))
 
-  col_spy <- which(grepl("SPY", raw_data[row_spy,]))
-  
-  # If no "SPY" detected, that might be because of a pool, check for that
-  
-  if(length(c(row_spy, col_spy)) == 0) {
-    
-    row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("^[0-9]+-[0-9]+$", raw_data[i,])) }))
-    
-    if(length(row_spy) != 1) { 
-      
-      stop(print("No or more than one SPY column detected"))
-      
-    }else{
-        
-      col_spy <- which(grepl("^[0-9]+-[0-9]+$", raw_data[row_spy,]))
-      
-      }
+  col_spy <- which(grepl("SPY|[0-9]+-[0-9]+$", raw_data[row_spy,]))
 
-  }
-  
   
   # Flip the dataframe and select select spygen_code column
   
@@ -48,6 +30,16 @@ convert_to_matrix_function <- function(raw_spygen_path){
   data_spygen <- data_fliped[,row_spy:ncol(data_fliped)]
   
   
+  # Find row and column containing the species database "db"
+
+  col_db <- which(sapply(1:ncol(data_spygen), function(i) { any(grepl("db", data_spygen[,i])) }))
+
+  row_db <- which(grepl("db", data_spygen[,col_db]))
+
+  db <- unique(as.vector(t(data_spygen[,col_db:ncol(data_spygen)][row_db,][-1])))
+  db <- db[which(!is.na(db))]
+  
+
   # Find row and column containing "scientific_name" 
   
   col_sn <- which(sapply(1:ncol(data_spygen), function(i) { any(grepl("scientific_name", data_spygen[,i])) }))
@@ -107,9 +99,9 @@ convert_to_matrix_function <- function(raw_spygen_path){
   
   # If no "SPY" in spygen code because of pool, change pool code to match our format
   
-  if(any(grepl("SPY", data_all_sum$spygen_code) == TRUE) == FALSE) {
+  if(any(grepl("SPY", data_all_sum$spygen_code) == FALSE)) {
 
-    data_all_sum$spygen_code <- stringr::str_replace_all(data_all_sum$spygen_code, "([0-9]+)", "SPY\\1")
+    data_all_sum$spygen_code[which(grepl("SPY", data_all_sum$spygen_code) == FALSE)] <- stringr::str_replace_all(data_all_sum$spygen_code[which(grepl("SPY", data_all_sum$spygen_code) == FALSE)], "([0-9]+)", "SPY\\1")
     
     data_all_sum$spygen_code <- stringr::str_replace_all(data_all_sum$spygen_code, "-", "_")
     
@@ -123,7 +115,11 @@ convert_to_matrix_function <- function(raw_spygen_path){
     
   }
   
-  return(data_all_sum)
+  to_return <- list(data_all_sum,
+                    db)
+  names(to_return) <- c("spygen_matrix", "species_database")
+  
+  return(to_return)
   
   # END
 
@@ -249,8 +245,8 @@ spygen_new_data_function <- function(old_spygen_data_path,
   spygen_matrix_new <- convert_to_matrix_function(raw_spygen_path = new_spygen_data_path)
   
   # Remove misidentified species and check their names from fishbase
-  spygen_matrix_new_clean <- species_clean_function(spygen_matrix = spygen_matrix_new)
-  spygen_matrix_new_clean <- spygen_matrix_new_clean$spygen_matrix_clean
+  spygen_matrix_new <- species_clean_function(spygen_matrix = spygen_matrix_new$spygen_matrix)
+  spygen_matrix_new_clean <- spygen_matrix_new$spygen_matrix_clean
   
   
   # Compare new and old spygen data, look for common spygen code
@@ -352,58 +348,6 @@ spygen_new_data_function <- function(old_spygen_data_path,
          dplyr::summarise(n = dplyr::n())
        
        if(any(test$n != 2)) { stop("Error in joining old and new data") }
-       
-       # test <- by(
-       #   
-       #   subset(spygen_matrix_new_clean, spygen_code %in% common_spygen_code),
-       #   
-       #   INDICES = list(
-       #     spygen_matrix_new_clean$spygen_code[
-       #       spygen_matrix_new_clean$spygen_code %in% common_spygen_code
-       #     ],
-       #     spygen_matrix_new_clean$nb[
-       #       spygen_matrix_new_clean$spygen_code %in% common_spygen_code
-       #     ]
-       #   ),
-       #   
-       #   FUN = function(df) {
-       #     data.frame(
-       #       spygen_code = df$spygen_code[1],
-       #       nb = df$nb[1],
-       #       seq_tot = sum(
-       #         rowSums(df[ , !(names(df) %in% c("spygen_code", "nb"))])
-       #       )
-       #     )
-       #   }
-       #   
-       # )
-       # test <- do.call(rbind, test)
-       # 
-       # test2 <- by(
-       #   
-       #   subset(spygen_matrix_old_clean, spygen_code %in% common_spygen_code),
-       #   
-       #   INDICES = list(
-       #     spygen_matrix_old_clean$spygen_code[
-       #       spygen_matrix_old_clean$spygen_code %in% common_spygen_code
-       #     ],
-       #     spygen_matrix_old_clean$nb[
-       #       spygen_matrix_old_clean$spygen_code %in% common_spygen_code
-       #     ]
-       #   ),
-       #   
-       #   FUN = function(df) {
-       #     data.frame(
-       #       spygen_code = df$spygen_code[1],
-       #       nb = df$nb[1],
-       #       seq_tot = sum(
-       #         rowSums(df[ , !(names(df) %in% c("spygen_code", "nb"))])
-       #       )
-       #     )
-       #   }
-       #   
-       # )
-       # test2 <- do.call(rbind, test2)
 
      }
      
@@ -428,7 +372,11 @@ spygen_new_data_function <- function(old_spygen_data_path,
   write.csv(nb_rep, file = paste0(path_save, "rep.csv"), row.names = FALSE)
   write.csv(nb_seq, file = paste0(path_save, "seq.csv"), row.names = FALSE)
   write.csv(occurrence_final, file = paste0(path_save, "occ.csv"), row.names = FALSE)
-
+  
+  readme_text <- c("Removed species: ",
+                   "",
+                   spygen_matrix_new$removed_species)
+  writeLines(readme_text, paste0(path_save, "README.md"))
   # END
 
 }

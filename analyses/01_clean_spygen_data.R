@@ -22,7 +22,7 @@ spygen_matrix <- convert_to_matrix_function(raw_spygen_path = "data/eDNA_raw_dat
 
 # This function remove misidentified species and check their names from FishBase
 
-spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
+spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix$spygen_matrix)
 write.csv(spygen_matrix_clean$spygen_matrix_clean, file = paste0(dir_save, "1.spygen_2018_2025.csv"), row.names = FALSE)
 
 # Check for changed species names 
