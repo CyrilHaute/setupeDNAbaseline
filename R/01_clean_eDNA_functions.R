@@ -21,6 +21,25 @@ convert_to_matrix_function <- function(raw_spygen_path){
   row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("SPY", raw_data[i,])) }))
 
   col_spy <- which(grepl("SPY|[0-9]+-[0-9]+$", raw_data[row_spy,]))
+  
+  
+  # If no "SPY" detected, that might be because of a pool, check for that
+  
+  if(length(c(row_spy, col_spy)) == 0) {
+    
+    row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("^[0-9]+-[0-9]+$", raw_data[i,])) }))
+    
+    if(length(row_spy) != 1) {
+      
+      stop(print("No or more than one ... detected"))
+      
+    }else{
+      
+      col_spy <- which(grepl("^[0-9]+-[0-9]+$", raw_data[row_spy,]))
+      
+    }
+    
+  }
 
   
   # Flip the dataframe and select select spygen_code column
