@@ -5,7 +5,12 @@
 #'
 #' @param raw_spygen_path A character indicating the path of spygen raw data. Data has to be in the format ".xlsx".
 #'
-#' @returns A dataframe in the format site X species.
+#' @returns A list containing two objects : 
+#'
+#' A dataframe, the uncleaned site X species matrix;
+#'
+#' A character of the reference database used.
+#'
 #' @export
 #'
 #' @examples 
@@ -21,6 +26,7 @@ convert_to_matrix_function <- function(raw_spygen_path){
   row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("SPY", raw_data[i,])) }))
 
   col_spy <- which(grepl("SPY|[0-9]+-[0-9]+$", raw_data[row_spy,]))
+  col_spy <- c(col_spy[1]:col_spy[length(col_spy)])
   
   
   # If no "SPY" detected, that might be because of a pool, check for that
@@ -76,6 +82,16 @@ convert_to_matrix_function <- function(raw_spygen_path){
   colnames(data_clean1)[1] <- "spygen_code"
 
   data_clean1[,!colnames(data_clean1) %in% c("spygen_code", "nb")] <- sapply(data_clean1[,!colnames(data_clean1) %in% c("spygen_code", "nb")], as.numeric)
+  
+  # Replace NA spygen_code by their real spygen_code
+  spygen_code <- data_clean1$spygen_code
+  spygen_code <- spygen_code[!is.na(spygen_code)]
+  spygen_na <- spygen_code[which(sapply(1:length(unique(spygen_code)), function(i) {
+    
+    length(spygen_code[spygen_code == unique(spygen_code)[i]])
+    
+  }) == 1)]
+  data_clean1$spygen_code[is.na(data_clean1$spygen_code)] <- spygen_na
   
   data_clean1[is.na(data_clean1)] <- 0
   
@@ -156,6 +172,8 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #' Caution : this function only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., species detected outside their distribution range).
 #'
 #' @param spygen_matrix A dataframe of species eDNA in the format site X species.
+#' @param keep A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family", 
+#' "Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.
 #'
 #' @returns A list containing three objects : 
 #' 
@@ -169,35 +187,50 @@ convert_to_matrix_function <- function(raw_spygen_path){
 #'
 #' @examples
 
-species_clean_function <- function(spygen_matrix) {
+species_clean_function <- function(spygen_matrix,
+                                   keep = NULL) {
   
   species_names <- colnames(spygen_matrix)
   species_names <- species_names[! species_names %in% c("spygen_code", "nb")]
   
   # Filter misidentification
-
-  bad_mask <- species_names[unique(c(which(is.na(species_names)), # Missing
-                                     which(species_names == ""), # Empty
-                                     which(grepl("dae", species_names, ignore.case = TRUE)), # Families
-                                     which(grepl("_", species_names)), # _
-                                     which(sapply(strsplit(species_names, "[ _]"), length) != 2), # Only one token (no space or underscore)
-                                     which(grepl("spp.", species_names)), # spp.
-                                     which(grepl("sp\\.", species_names)), # sp
-                                     which(grepl("\\(cf\\)", species_names)), # (cf)
-                                     which(grepl("hybrid", species_names)), # hybrid
-                                     which(grepl("Unidentified", species_names)), # Unidentified
-                                     which(grepl("\\?", species_names)), # ?
-                                     which(grepl("\\!", species_names)), # !
-                                     which(grepl("\\/", species_names)), # /
-                                     which(grepl("New", species_names)) # New
-  ))]
+  
+  bad_mask <- data.frame(species_names = species_names,
+                         type = ifelse(is.na(species_names), "Missing",
+                                       ifelse(species_names == "", "Empty",
+                                              ifelse(grepl("_", species_names), "Complex",
+                                                     ifelse(grepl("dae", species_names), "Family",
+                                                            ifelse(sapply(strsplit(species_names, "[ _]"), length) == 1, "Genus or higher",
+                                                                   ifelse(sapply(strsplit(species_names, "[ _]"), length) == 3, "Subspecies",
+                                                                          ifelse(grepl("spp.", species_names), "spp.",
+                                                                                 ifelse(grepl("sp\\.", species_names), "sp.",
+                                                                                        ifelse(grepl("\\(cf\\)", species_names), "(cf)",
+                                                                                               ifelse(grepl("hybrid", species_names), "Hybrid",
+                                                                                                      ifelse(grepl("Unidentified", species_names), "Unidentified",
+                                                                                                             ifelse(grepl("\\?", species_names), "?",
+                                                                                                                    ifelse(grepl("\\!", species_names), "!",
+                                                                                                                           ifelse(grepl("\\/", species_names), "/",
+                                                                                                                                  ifelse(grepl("New", species_names), "New", "OK")
+                                                                                                                           ))))))))))))))
+  )
+  bad_mask <- bad_mask[bad_mask$type != "OK",]
+  
+  if(!is.null(keep)){
+    
+    bad_mask_vec <- bad_mask[!bad_mask$type %in% keep, 1]
+    
+  }else{
+    
+    bad_mask_vec <- bad_mask$species_names
+    
+  }
 
   # Remove problematic taxon rows from raw data
-  spygen_clean <- spygen_matrix[!colnames(spygen_matrix) %in% bad_mask]
+  spygen_clean <- spygen_matrix[!colnames(spygen_matrix) %in% bad_mask_vec]
   
   # Check names from fishbase
   spygen_clean_species <- colnames(spygen_clean)
-  spygen_clean_species_names <- spygen_clean_species[! spygen_clean_species %in% c("spygen_code", "nb")]
+  spygen_clean_species_names <- spygen_clean_species[! spygen_clean_species %in% c("spygen_code", "nb", bad_mask$species_names)]
   
   validname <- rfishbase::validate_names(spygen_clean_species_names)
   
@@ -219,9 +252,9 @@ species_clean_function <- function(spygen_matrix) {
 
   old_spygen_name <- spygen_clean
   
-  colnames(spygen_clean)[! colnames(spygen_clean) %in% c("spygen_code", "nb")] <- validname_clean
+  colnames(spygen_clean)[! colnames(spygen_clean) %in% c("spygen_code", "nb", bad_mask$species_names)] <- validname_clean
 
-  to_return <- list(spygen_clean, old_spygen_name, bad_mask)
+  to_return <- list(spygen_clean, old_spygen_name, bad_mask_vec)
   names(to_return) <- c("spygen_matrix_clean", "spygen_matrix_old", "removed_species")
 
   return(to_return)
@@ -249,6 +282,8 @@ species_clean_function <- function(spygen_matrix) {
 #'
 #' @param old_spygen_data_path A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".
 #' @param new_spygen_data_path A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
+#' @param keep A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family", 
+#' "Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.
 #' @param path_save A character indicating the path to save data.
 #'
 #' @returns Save new data to `path_save`.
@@ -258,13 +293,15 @@ species_clean_function <- function(spygen_matrix) {
 
 spygen_new_data_function <- function(old_spygen_data_path,
                                      new_spygen_data_path,
+                                     keep = NULL,
                                      path_save){
   
   # Convert new spygen raw data to a site X species matrix
   spygen_matrix_new <- convert_to_matrix_function(raw_spygen_path = new_spygen_data_path)
   
   # Remove misidentified species and check their names from fishbase
-  spygen_matrix_new <- species_clean_function(spygen_matrix = spygen_matrix_new$spygen_matrix)
+  spygen_matrix_new <- species_clean_function(spygen_matrix = spygen_matrix_new$spygen_matrix,
+                                              keep = keep)
   spygen_matrix_new_clean <- spygen_matrix_new$spygen_matrix_clean
   
   
@@ -372,11 +409,11 @@ spygen_new_data_function <- function(old_spygen_data_path,
      
    }
   
-  nb_rep <- join_old_new[join_old_new$nb == "nb_rep",]
+  nb_rep <- join_old_new[which(grepl("rep", join_old_new$nb)),]
   nb_rep <- nb_rep[,!colnames(nb_rep) %in% "nb"]
   nb_rep <- nb_rep[, c("spygen_code", sort(setdiff(names(nb_rep), "spygen_code")))] # Sort species name by alphabethic order
   
-  nb_seq <- join_old_new[join_old_new$nb == "nb_seq",]
+  nb_seq <- join_old_new[which(grepl("seq", join_old_new$nb)),]
   nb_seq <- nb_seq[,!colnames(nb_seq) %in% "nb"]
   nb_seq <- nb_seq[, c("spygen_code", sort(setdiff(names(nb_seq), "spygen_code")))]
   

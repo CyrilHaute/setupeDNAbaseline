@@ -50,13 +50,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">species_clean_function</span><span class="op">(</span><span class="va">spygen_matrix</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">species_clean_function</span><span class="op">(</span><span class="va">spygen_matrix</span>, keep <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>spygen_matrix</dt>
 <dd><p>A dataframe of species eDNA in the format site X species.</p></dd>
+
+
+<dt>keep</dt>
+<dd><p>A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family",
+"Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.</p></dd>
 
 </dl></div>
     <div id="value">

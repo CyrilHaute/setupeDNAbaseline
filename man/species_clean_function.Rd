@@ -4,10 +4,13 @@
 \alias{species_clean_function}
 \title{species_clean_function}
 \usage{
-species_clean_function(spygen_matrix)
+species_clean_function(spygen_matrix, keep = NULL)
 }
 \arguments{
 \item{spygen_matrix}{A dataframe of species eDNA in the format site X species.}
+
+\item{keep}{A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family",
+"Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.}
 }
 \value{
 A list containing three objects :

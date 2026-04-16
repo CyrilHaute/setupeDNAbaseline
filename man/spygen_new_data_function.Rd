@@ -4,12 +4,20 @@
 \alias{spygen_new_data_function}
 \title{spygen_new_data_function}
 \usage{
-spygen_new_data_function(old_spygen_data_path, new_spygen_data_path, path_save)
+spygen_new_data_function(
+  old_spygen_data_path,
+  new_spygen_data_path,
+  keep = NULL,
+  path_save
+)
 }
 \arguments{
 \item{old_spygen_data_path}{A character indicating the path of spygen old data (cleaned). Data has to be in the format ".csv".}
 
 \item{new_spygen_data_path}{A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".}
+
+\item{keep}{A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family",
+"Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.}
 
 \item{path_save}{A character indicating the path to save data.}
 }

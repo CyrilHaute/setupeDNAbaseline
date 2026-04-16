@@ -10,7 +10,11 @@ convert_to_matrix_function(raw_spygen_path)
 \item{raw_spygen_path}{A character indicating the path of spygen raw data. Data has to be in the format ".xlsx".}
 }
 \value{
-A dataframe in the format site X species.
+A list containing two objects :
+
+A dataframe, the uncleaned site X species matrix;
+
+A character of the reference database used.
 }
 \description{
 This function convert spygen raw data into a site X species matrix.

@@ -684,7 +684,13 @@ multiple times are summed and summarize into one column.</li>
 </ol>
 <p>This function requires only one argument, the path to raw Spygen data
 (in format <strong>.xlsx</strong>) and return an
-<strong>uncleaned</strong> site X species matrix :</p>
+<strong>uncleaned</strong> site X species matrix : It returns a list
+containing two objects :</p>
+<ul>
+<li><p>An <strong>uncleaned</strong> site X species matrix;</p></li>
+<li><p>A character of the <strong>reference database</strong>
+used.</p></li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>spygen_matrix <span class="kw">&lt;-</span> convert_to_matrix_function(raw_spygen_path <span class="kw">=</span> <span class="st">&quot;my/path/to/raw_eDNA_data.xlsx&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
@@ -744,7 +750,11 @@ return NA.</li>
 </ol>
 <p>This function requires the <strong>uncleaned site X species
 matrix</strong> obtained with the <code>convert_to_matrix</code>
-function.</p>
+function. You can also specify with the <strong>keep</strong> argument,
+which type of species you want to keep even if not spelled in the
+binominal format (but see the <a href="https://cyrilhaute.github.io/setupeDNAbaseline/reference/index.html">help</a>
+of the function to know all type you can keep). By default, the function
+remove all species not spelled in the binominal format.</p>
 <p>It returns a list containing three objects :</p>
 <ul>
 <li><p>A dataframe in the format site X species with <strong>new species
@@ -756,7 +766,12 @@ species</strong>.</p></li>
 </ul>
 <p>This allows users to follow the cleaning steps and check which
 species have been removed and which names have been corrected.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>spygen_matrix_clean <span class="kw">&lt;-</span> species_clean_function(spygen_matrix <span class="kw">=</span> spygen_matrix)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>spygen_matrix_clean <span class="kw">&lt;-</span> species_clean_function(spygen_matrix <span class="kw">=</span> spygen_matrix)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="dt">Or</span>, <span class="cf">in</span> <span class="cf">case</span> you<span class="vs">&#39;d like to keep species identified at the family level, do:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="vs">spygen_matrix_clean &lt;- species_clean_function(spygen_matrix = spygen_matrix,</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="vs">                                              keep = &quot;Family&quot;)</span></span></code></pre></div>
 <p>Here is the cleaned site X matrix dataframe with new species names
 (<code>spygen_matrix_clean$spygen_matrix_clean</code>):</p>
 <table>
@@ -820,10 +835,19 @@ Spygen data in the order they’ve been sent by Spygen!</p>
 <p>This function requires the path of <strong>old eDNA data</strong> (in
 format <strong>.csv</strong>), the path of <strong>new eDNA
 data</strong> (in <strong>.xlsx</strong> format) and the
-<strong>path</strong> to save data.</p>
+<strong>path</strong> to save data. You can also specify the species you
+want to keep in the new data with the <strong>keep</strong> argument, as
+in the <code>species_clean_function</code>.</p>
 <p>The function save new data at the indicated path.</p>
 <pre><code>spygen_new_data_function(old_spygen_data_path = &quot;my/path/to/outputs/spygen_matrix_clean.csv&quot;,
                          new_spygen_data_path = &quot;my/path/to/new/raw_eDNA_data.xlsx&quot;,
+                         path_save = &quot;my/path/to/outputs/new_spygen_data.csv&quot;)
+                         
+Or, in case you&#39;d like to keep species identified at the family and spp. level, do:
+
+spygen_new_data_function(old_spygen_data_path = &quot;my/path/to/outputs/spygen_matrix_clean.csv&quot;,
+                         new_spygen_data_path = &quot;my/path/to/new/raw_eDNA_data.xlsx&quot;,
+                         keep = c(&quot;Family, &quot;spp.&quot;),
                          path_save = &quot;my/path/to/outputs/new_spygen_data.csv&quot;)</code></pre>
 <p>By doing so, this function creates successively new eDNA files,
 allowing to follow data and the reference database version.</p>

@@ -50,7 +50,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spygen_new_data_function</span><span class="op">(</span><span class="va">old_spygen_data_path</span>, <span class="va">new_spygen_data_path</span>, <span class="va">path_save</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">spygen_new_data_function</span><span class="op">(</span></span>
+<span>  <span class="va">old_spygen_data_path</span>,</span>
+<span>  <span class="va">new_spygen_data_path</span>,</span>
+<span>  keep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">path_save</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -61,6 +66,11 @@
 
 <dt>new_spygen_data_path</dt>
 <dd><p>A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".</p></dd>
+
+
+<dt>keep</dt>
+<dd><p>A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family",
+"Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.</p></dd>
 
 
 <dt>path_save</dt>
