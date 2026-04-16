@@ -140,9 +140,11 @@ have been removed and which names have been corrected.
 
 ``` ruby
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
+```
 
 Or, in case you'd like to keep species identified at the family level, do:
 
+```
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
                                               keep = "Family")
 ```
