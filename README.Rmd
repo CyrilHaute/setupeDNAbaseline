@@ -187,9 +187,11 @@ The function save new data at the indicated path.
 spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                          new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                          path_save = "my/path/to/outputs/new_spygen_data.csv")
+```                         
                          
 Or, in case you'd like to keep species identified at the family and spp. level, do:
 
+```
 spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                          new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                          keep = c("Family, "spp."),

@@ -284,23 +284,21 @@
 <p>The function save new data at the indicated path.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                         <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                         <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                         </span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>Or, <span class="cf">in</span> case you<span class="st">'d like to keep species identified at the family and spp. level, do:</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="st">spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="st">                         new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="st">                         keep = c("Family, "spp."),</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="st">                         path_save = "my/path/to/outputs/new_spygen_data.csv")</span></span></code></pre></div>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                         <span class="at">path_save =</span> <span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>)</span></code></pre></div>
+<p>Or, in case you’d like to keep species identified at the family and spp. level, do:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">spygen_new_data_function</span>(<span class="at">old_spygen_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                         <span class="at">new_spygen_data_path =</span> <span class="st">"my/path/to/new/raw_eDNA_data.xlsx"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                         <span class="at">keep =</span> <span class="fu">c</span>(<span class="st">"Family, "</span>spp.<span class="st">"),</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="st">                         path_save = "</span>my<span class="sc">/</span>path<span class="sc">/</span>to<span class="sc">/</span>outputs<span class="sc">/</span>new_spygen_data.csv<span class="st">")</span></span></code></pre></div>
 <p>By doing so, this function creates successively new eDNA files, allowing to follow data and the reference database version.</p>
 <p>To load data created either with the <code>species_clean</code> or <code>spygen_new_data</code> functions, do:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"my/path/to/outputs/new_spygen_data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>The <code>spygen_subset</code> function is a user friendly function that create <strong>subset</strong> of eDNA data.</li>
 </ol>
 <p>This function requires a path of <strong>cleaned eDNA data</strong> (in format <strong>.csv</strong>) and a character vector of spygen code or a dataframe containing a column <strong>spygen_code</strong>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>subset_eDNA <span class="ot">&lt;-</span> <span class="fu">spygen_subset_function</span>(<span class="at">eDNA_species_data_path =</span> <span class="st">"my/path/to/outputs/spygen_matrix_clean.csv"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>                                      <span class="at">spygen_code_subset =</span> <span class="fu">c</span>(<span class="st">"SPY180624"</span>, <span class="st">"SPY181146"</span>, <span class="st">"SPY181147"</span>))</span></code></pre></div>
 <p>The function return a subset dataframe of eDNA data including only species present in the subset.</p>
 <blockquote>
 <p>[!CAUTION] This step only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., <strong>species detected outside their distribution range</strong>).</p>
@@ -321,7 +319,7 @@
 <li><p>A dataframe named <strong>good distance</strong> containing spygen survey with distance to the closest waypoints <strong>smaller</strong> than the distance threshold;</p></li>
 <li><p>A dataframe named <strong>na survey</strong> containing spygen survey with <strong>no attributed waypoints</strong>.</p></li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">waypoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_waypoint.html">load_waypoint</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/trace_gps"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">spygen_waypoint_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/spygen_waypoint.html">spygen_waypoint</a></span><span class="op">(</span>eDNA_metadata_path <span class="op">=</span> <span class="st">"data/metadata.csv"</span>,</span>
@@ -334,7 +332,7 @@
 <p>The <code>load_tracks</code> function requires only gps data path.</p>
 <p>The <code>spygen_tracks</code> function requires the waypoints data obtained with the <code>spygen_waypoint</code> function (<strong>spygen_waypoint_output$good_distance</strong>), and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest track.</p>
 <p>It returns the same thing as for the <code>spygen_waypoint</code> function, except it’s for tracks.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gps_tracks</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_tracks.html">load_tracks</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/trace_gps"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">spygen_tracks_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/spygen_tracks.html">spygen_tracks</a></span><span class="op">(</span>waypoints <span class="op">=</span> <span class="va">spygen_waypoint_output</span><span class="op">$</span><span class="va">good_distance</span>,</span>
@@ -345,7 +343,7 @@
 <li>Finally, the <code>shapefile_tracks</code> function convert gps track from point to a polygon as a <strong>shapefile</strong>.</li>
 </ol>
 <p>The function requires the tracks coordinates obtained with the <code>spygen_tracks_output</code> function (<strong>spygen_tracks_output$tracks_good_distance</strong>).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/shapefile_tracks.html">shapefile_tracks</a></span><span class="op">(</span>eDNA_tracks <span class="op">=</span> <span class="va">spygen_tracks_output</span><span class="op">$</span><span class="va">tracks_good_distance</span>,</span>
 <span>                 path_save <span class="op">=</span> <span class="st">"path/to/save/data"</span><span class="op">)</span></span></code></pre></div>
 <p>It return a shapefile of Spygen tracks as follow (with green and red dot representing waypoints start and end, respectively):</p>
