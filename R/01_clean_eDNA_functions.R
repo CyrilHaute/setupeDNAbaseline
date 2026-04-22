@@ -26,8 +26,13 @@ convert_to_matrix_function <- function(raw_spygen_path){
   row_spy <- which(sapply(1:nrow(raw_data), function(i) { any(grepl("SPY", raw_data[i,])) }))
 
   col_spy <- which(grepl("SPY|[0-9]+-[0-9]+$", raw_data[row_spy,]))
-  col_spy <- c(col_spy[1]:col_spy[length(col_spy)])
   
+  if(length(col_spy) != 0){
+    
+    col_spy <- c(col_spy[1]:col_spy[length(col_spy)])
+    
+  }
+
   
   # If no "SPY" detected, that might be because of a pool, check for that
   
