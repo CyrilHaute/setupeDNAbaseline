@@ -102,6 +102,13 @@ spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_eDNA/spygen16_
                          new_spygen_data_path = "data/eDNA_raw_data/18.Teleo_SC25317_DDF_25_1_11-12-2025.xlsx",
                          path_save = paste0(dir_save, "spygen17_18/"))
 
+spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_eDNA/spygen17_18/all.csv",
+                         new_spygen_data_path = "data/eDNA_raw_data/19.Teleo_SC23148_AMS_Mde_26_2_03092026.xlsx",
+                         path_save = paste0(dir_save, "spygen18_19/"))
+
+spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_eDNA/spygen18_19/all.csv",
+                         new_spygen_data_path = "data/eDNA_raw_data/20.Teleo_SC23148_AMS_Med_26_2_03092026.xlsx",
+                         path_save = paste0(dir_save, "spygen19_20/"))
 
 # This function create a subset of eDNA data (by spygen_code) and return only species present in the subset area
 

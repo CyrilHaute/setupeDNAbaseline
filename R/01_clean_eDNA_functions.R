@@ -428,15 +428,33 @@ spygen_new_data_function <- function(old_spygen_data_path,
   occurrence_final <- cbind(occurrence[colnames(occurrence) == "spygen_code"], species)
   occurrence_final <- occurrence_final[, c("spygen_code", sort(setdiff(names(occurrence_final), "spygen_code")))]
   
+  dna_cop <- join_old_new[which(grepl("DNA_Copies/liter", join_old_new$nb)),]
+  dna_cop <- dna_cop[,!colnames(dna_cop) %in% "nb"]
+  dna_cop <- dna_cop[, c("spygen_code", sort(setdiff(names(dna_cop), "spygen_code")))]
+  
   dir.create(path_save)
   write.csv(join_old_new, file = paste0(path_save, "all.csv"), row.names = FALSE)
   write.csv(nb_rep, file = paste0(path_save, "rep.csv"), row.names = FALSE)
   write.csv(nb_seq, file = paste0(path_save, "seq.csv"), row.names = FALSE)
   write.csv(occurrence_final, file = paste0(path_save, "occ.csv"), row.names = FALSE)
+  write.csv(dna_cop, file = paste0(path_save, "dna_cop.csv"), row.names = FALSE)
   
-  readme_text <- c("Removed species: ",
+  readme_text <- c("**Removed species:** ",
                    "",
-                   spygen_matrix_new$removed_species)
+                   spygen_matrix_new$removed_species
+                   # ,
+                   # "",
+                   # "**New species:**",
+                   # "",
+                   # 
+                   # "",
+                   # "**Common Spygen code between new and old data:**",
+                   # "",
+                   # if(length(common_spygen_code) == 0) { "No common Spygen code between new and old data" },
+                   # "",
+                   # "**New Spygen code:**",
+                   # ""
+                   )
   writeLines(readme_text, paste0(path_save, "README.md"))
   # END
 
