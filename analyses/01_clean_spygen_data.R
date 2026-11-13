@@ -110,6 +110,10 @@ spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_eDNA/spygen18_
                          new_spygen_data_path = "data/eDNA_raw_data/20.Teleo_SC23148_AMS_Med_26_2_03092026.xlsx",
                          path_save = paste0(dir_save, "spygen19_20/"))
 
+spygen_new_data_function(old_spygen_data_path = "outputs/01_clean_eDNA/spygen19_20/all.csv",
+                         new_spygen_data_path = "data/eDNA_raw_data/test/6.Résultats_Teleo_SC25066_MAIDEN_09_2026_complet.xlsx",
+                         path_save = paste0(dir_save, "spygen20_21/"))
+
 # This function create a subset of eDNA data (by spygen_code) and return only species present in the subset area
 
 test <- read.csv("data/eDNA_raw_data/Med_metadonnees_ADNe - v1.2_2018-2025.csv", header = TRUE)

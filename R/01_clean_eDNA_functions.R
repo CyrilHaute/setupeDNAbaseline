@@ -428,7 +428,7 @@ spygen_new_data_function <- function(old_spygen_data_path,
   occurrence_final <- cbind(occurrence[colnames(occurrence) == "spygen_code"], species)
   occurrence_final <- occurrence_final[, c("spygen_code", sort(setdiff(names(occurrence_final), "spygen_code")))]
   
-  dna_cop <- join_old_new[which(grepl("DNA_Copies/liter", join_old_new$nb)),]
+  dna_cop <- join_old_new[which(grepl(paste0(c("Cop"), collapse = "|"), join_old_new$nb)),]
   dna_cop <- dna_cop[,!colnames(dna_cop) %in% "nb"]
   dna_cop <- dna_cop[, c("spygen_code", sort(setdiff(names(dna_cop), "spygen_code")))]
   
