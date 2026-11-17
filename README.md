@@ -238,7 +238,7 @@ By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
 
 The function create a **README** file within the saving folder
-(\*\*path_save) with removed species by the `species_clean` and
+(**path_save**) with removed species by the `species_clean` and
 `species_range` functions.
 
 To load data created either with the `species_clean` or

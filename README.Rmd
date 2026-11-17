@@ -238,7 +238,7 @@ spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matri
 By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
 
-The function create a **README** file within the saving folder (**path_save) with removed species by the `species_clean` and  `species_range` functions.
+The function create a **README** file within the saving folder (**path_save**) with removed species by the `species_clean` and  `species_range` functions.
 
 To load data created either with the `species_clean` or `spygen_new_data` functions, do:
 
