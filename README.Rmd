@@ -204,7 +204,7 @@ This function requires the path of **old eDNA data** (in format
 **.csv**), the path of **new eDNA data** (in **.xlsx** format) and
 the **path** to save data. You can also specify the species you want to keep 
 in the new data with the **keep** argument, as in the `species_clean` and 
-`species_range`. You can, at the same time, keep species identified at the
+`species_range` functions. You can, at the same time, keep species identified at the
 species level, and a specific species with its name.
 
 
