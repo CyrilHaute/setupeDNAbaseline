@@ -208,7 +208,8 @@ The function save new data at the indicated path.
 ``` ruby
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
-                             path_save = "my/path/to/outputs/new_spygen_data.csv")
+                             path_save = "my/path/to/outputs/new_spygen_data.csv",
+                             range = TRUE)
 ```                             
 
 In case you’d like to keep species identified at the family and spp.
@@ -218,17 +219,19 @@ level, do:
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                              keep = c("Family, "spp."),
-                             path_save = "my/path/to/outputs/new_spygen_data.csv")
+                             path_save = "my/path/to/outputs/new_spygen_data.csv",
+                             range = TRUE)
 ```
 
-Or, in case you’d like to keep species identified at spp. level and a
-sepcies (for instance *Dasyatis pastinaca*), do:
+Or, in case you’d like to keep species identified at the spp. level and a
+species (for instance *Dasyatis pastinaca*), do:
 
 ``` ruby
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                              keep = c("spp.", "Dasyatis pastinaca"),
-                             path_save = "my/path/to/outputs/new_spygen_data.csv")
+                             path_save = "my/path/to/outputs/new_spygen_data.csv",
+                             range = TRUE)
 ```                             
 
 By doing so, this function creates successively new eDNA files, allowing

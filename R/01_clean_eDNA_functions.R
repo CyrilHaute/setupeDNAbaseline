@@ -289,6 +289,7 @@ species_clean_function <- function(spygen_matrix,
 #' @param new_spygen_data_path A character indicating the path of spygen new raw data. Data has to be in the format ".xlsx".
 #' @param keep A character of the type of species to keep while not being in the binominal format. It can be of the following: "Missing", "Empty", "Complex", "Family", 
 #' "Genus or higher", "Subspecies", "spp.", "sp.", "(cf)", "hybrid", "Unidentified", "?", "!", "/", "New." You can specify multiple types of species to keep.
+#' @param range By default is set to FALSE. If TRUE, the function removes species out of the Mediterranean sea with the species_range function.
 #' @param path_save A character indicating the path to save data.
 #'
 #' @returns Save new data to `path_save`.
