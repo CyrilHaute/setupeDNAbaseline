@@ -74,7 +74,7 @@ The details of all functions used in the repository can be found here :
 
 The workflow is separated into two different steps:
 
-## I. Clean eDNA data
+## Clean eDNA data
 
 This step convert raw Spygen eDNA data into a format suitable for
 analysis.

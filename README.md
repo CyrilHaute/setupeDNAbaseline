@@ -72,7 +72,7 @@ The details of all functions used in the repository can be found here :
 
 The workflow is separated into two different steps:
 
-## I. Clean eDNA data
+## Clean eDNA data
 
 This step convert raw Spygen eDNA data into a format suitable for
 analysis.
@@ -134,9 +134,11 @@ have been removed and which names have been corrected.
 
 ``` ruby
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix)
+```
 
 Or, in case you'd like to keep species identified at the family level, do:
 
+``` ruby
 spygen_matrix_clean <- species_clean_function(spygen_matrix = spygen_matrix,
                                               keep = "Family")
 ```
@@ -168,8 +170,7 @@ the species Mediterranean checklist.
 
 It returns a list containing two objects :
 
-- A dataframe in the format site X species **without species out of the
-  Mediterranean sea**;
+- A dataframe in the format site X species **without species out of the Mediterranean sea**;
 
 - A character vector listing all **removed species**.
 
