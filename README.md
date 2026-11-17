@@ -178,9 +178,11 @@ have been removed.
 
 ``` ruby
 spygen_matrix_clean_range <- species_range_function(spygen_matrix = spygen_matrix_clean$spygen_matrix_clean)
+```
 
 Or, in case you'd like to keep *Dasyatis pastinaca*, do:
 
+``` ruby
 spygen_matrix_clean_range <- species_range_function(spygen_matrix = spygen_matrix_clean$spygen_matrix_clean,
                                                     keep = "Dasyatis pastinaca")
 ```
@@ -189,8 +191,8 @@ spygen_matrix_clean_range <- species_range_function(spygen_matrix = spygen_matri
     previous one, by checking for duplicate and replace or not with new
     data if differences are detected.
 
-> \[!IMPORTANT\] To work properly, the function need to add the new
-> Spygen data in the order they’ve been sent by Spygen!
+> \[!IMPORTANT\] 
+> To work properly, the function need to add the new Spygen data in the order they’ve been sent by Spygen!
 
 This function requires the path of **old eDNA data** (in format
 **.csv**), the path of **new eDNA data** (in **.xlsx** format) and the
@@ -201,25 +203,31 @@ at the species level, and a specific species with its name.
 
 The function save new data at the indicated path.
 
+``` ruby
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                              path_save = "my/path/to/outputs/new_spygen_data.csv")
+```                             
 
 In case you’d like to keep species identified at the family and spp.
 level, do:
 
+``` ruby
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                              keep = c("Family, "spp."),
                              path_save = "my/path/to/outputs/new_spygen_data.csv")
+```
 
 Or, in case you’d like to keep species identified at spp. level and a
 sepcies (for instance *Dasyatis pastinaca*), do:
 
+``` ruby
     spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                              new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
                              keep = c("spp.", "Dasyatis pastinaca"),
                              path_save = "my/path/to/outputs/new_spygen_data.csv")
+```                             
 
 By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
@@ -231,7 +239,9 @@ The function create a **README** file within the saving folder
 To load data created either with the `species_clean` or
 `spygen_new_data` functions, do:
 
+``` ruby
     read.csv("my/path/to/outputs/new_spygen_data.csv", header = TRUE, check.names = FALSE)
+```
 
 5.  The `spygen_subset` function is a user friendly function that create
     **subset** of eDNA data.
@@ -240,13 +250,14 @@ This function requires a path of **cleaned eDNA data** (in format
 **.csv**) and a character vector of spygen code or a dataframe
 containing a column **spygen_code**.
 
+``` ruby
     subset_eDNA <- spygen_subset_function(eDNA_species_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
                                           spygen_code_subset = c("SPY180624", "SPY181146", "SPY181147"))
+```                                          
 
 The function return a subset dataframe of eDNA data including only
 species present in the subset.
 
-> \[!CAUTION\] This step only convert data to a suitable format for
-> analysis, with only basic cleaning step. This does not exempt users
-> from checking the list of species returned by the functions (e.g.,
-> **species detected outside their distribution range**).
+> \[!CAUTION\] 
+> This step only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users
+from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
