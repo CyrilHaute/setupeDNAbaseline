@@ -153,12 +153,6 @@ Here is the cleaned site X matrix dataframe with new species names
 | SPY181146 | nb_rep | 3 | 11 | 0 | 2 |
 | SPY181146 | nb_seq | 3804 | 20232 | 0 | 152 |
 
-For the next step, save as **.csv** the dataframe with new species names
-called **spygen_matrix_clean**:
-
-``` ruby
-write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/spygen_matrix_clean.csv", row.names = FALSE)
-```
 
 3.  The `species_range` function remove species from the site X species
     matrix with known distribution **out of the Mediterranean Sea**.
@@ -186,6 +180,13 @@ Or, in case you'd like to keep *Dasyatis pastinaca*, do:
 ``` ruby
 spygen_matrix_clean_range <- species_range_function(spygen_matrix = spygen_matrix_clean$spygen_matrix_clean,
                                                     keep = "Dasyatis pastinaca")
+```
+
+For the next step, save as **.csv** the dataframe with new species names
+called **spygen_matrix_clean_range**:
+
+``` ruby
+write.csv(spygen_matrix_clean_range$spygen_matrix_clean, file = "my/path/to/outputs/spygen_matrix_clean.csv", row.names = FALSE)
 ```
 
 4.  The `spygen_new_data` function allows adding **new eDNA data** to
