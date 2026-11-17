@@ -47,20 +47,14 @@ The repository is structured as follow:
 
 - `data/` : contains raw Spygen eDNA and gps data:
   - The `eDNA_raw_data/` file contain all eDNA raw data;
-  - The `trace_gps/` file contain gps data.
 - `R/` : contains all functions:
   - The *01_clean_eDNA_functions.R* script contain all functions for the
     **step I**;
-  - The *02_extract_eDNA_tracks_functions.R* script contain all
-    functions for the **step II**.
 - `analyses/` : contains scripts to load data and run `R/` functions:
   - The *01_clean_spygen_data.R* script run and load script and data
     necessary for **step I**;
-  - The *02_extract_eDNA_tracks.R* script run and load script and data
-    necessary for **step II**.
 - `outputs/` : contains all results:
-  - The `01_clean_eDNA/` file contain all results from **step I**;
-  - The `02_eDNA_tracks/` file contain all results from **step II**.
+  - The `01_clean_eDNA/` file contain all results from **step I**
 
 The scripts and functions have been written as much as possible in base R. 
 For instance, we did not used the `tidyverse` library. However, we used the R 
@@ -169,7 +163,33 @@ called **spygen_matrix_clean**:
 write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/spygen_matrix_clean.csv", row.names = FALSE)
 ```
 
-3.  The `spygen_new_data` function allows adding **new eDNA data** to
+3. The `species_range` function remove species from the site X species matrix with
+known distribution **out of the Mediterranean Sea**.
+
+This function requires the **cleaned site X species matrix** obtained
+with the `species_clean` function. You can also specify with the **keep**
+argument, which species you want to keep even if not present in the species
+Mediterranean checklist.
+
+It returns a list containing two objects :
+
+- A dataframe in the format site X species **without species out of the Mediterranean sea**;
+
+- A character vector listing all **removed species**.
+
+This allows users to follow the cleaning steps and check which species have 
+been removed.
+
+``` ruby
+spygen_matrix_clean_range <- species_range_function(spygen_matrix = spygen_matrix_clean$spygen_matrix_clean)
+
+Or, in case you'd like to keep *Dasyatis pastinaca*, do:
+
+spygen_matrix_clean_range <- species_range_function(spygen_matrix = spygen_matrix_clean$spygen_matrix_clean,
+                                                    keep = "Dasyatis pastinaca")
+```
+
+4.  The `spygen_new_data` function allows adding **new eDNA data** to
     previous one, by checking for duplicate and replace or not with new
     data if differences are detected.
 
@@ -179,7 +199,10 @@ write.csv(spygen_matrix_clean$spygen_matrix_clean, file = "my/path/to/outputs/sp
 This function requires the path of **old eDNA data** (in format
 **.csv**), the path of **new eDNA data** (in **.xlsx** format) and
 the **path** to save data. You can also specify the species you want to keep 
-in the new data with the **keep** argument, as in the `species_clean_function`.
+in the new data with the **keep** argument, as in the `species_clean` and 
+`species_range`. You can, at the same time, keep species identified at the
+species level, and a specific species with its name.
+
 
 The function save new data at the indicated path.
 
@@ -189,7 +212,7 @@ spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matri
                          path_save = "my/path/to/outputs/new_spygen_data.csv")
 ```                         
                          
-Or, in case you'd like to keep species identified at the family and spp. level, do:
+In case you'd like to keep species identified at the family and spp. level, do:
 
 ```
 spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
@@ -198,8 +221,19 @@ spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matri
                          path_save = "my/path/to/outputs/new_spygen_data.csv")
 ```
 
+Or, in case you'd like to keep species identified at spp. level and a sepcies (for instance *Dasyatis pastinaca*), do:
+
+```
+spygen_new_data_function(old_spygen_data_path = "my/path/to/outputs/spygen_matrix_clean.csv",
+                         new_spygen_data_path = "my/path/to/new/raw_eDNA_data.xlsx",
+                         keep = c("spp.", "Dasyatis pastinaca"),
+                         path_save = "my/path/to/outputs/new_spygen_data.csv")
+```
+
 By doing so, this function creates successively new eDNA files, allowing
 to follow data and the reference database version.
+
+The function create a **README** file within the saving folder (**path_save) with removed species by the `species_clean` and  `species_range` functions.
 
 To load data created either with the `species_clean` or `spygen_new_data` functions, do:
 
@@ -207,7 +241,7 @@ To load data created either with the `species_clean` or `spygen_new_data` functi
 read.csv("my/path/to/outputs/new_spygen_data.csv", header = TRUE, check.names = FALSE)
 ```
 
-4.  The `spygen_subset` function is a user friendly function that create
+5.  The `spygen_subset` function is a user friendly function that create
     **subset** of eDNA data.
 
 This function requires a path of **cleaned eDNA data** (in format
@@ -224,66 +258,3 @@ species present in the subset.
 
 > [!CAUTION] 
 > This step only convert data to a suitable format for analysis, with only basic cleaning step. This does not exempt users from checking the list of species returned by the functions (e.g., **species detected outside their distribution range**).
-
-## II. Extract eDNA gps tracks
-
-This step associate to each Spygen survey a gps track and convert it to a shapefile.
-
-1.  The `load_waypoint` and `spygen_waypoint` functions associate to each Spygen survey the closest **gps waypoint** at the survey date.
-
-The `load_waypoint` function requires only gps data path.
-
-The `spygen_waypoint` function requires the path of Spygen metadata (containing start and end coordinates), 
-the waypoints data obtained with the `load_waypoint` function, and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest waypoint.
-
-It returns a list containing three objects :
-
-- A dataframe named **high distance** containing spygen survey with distance to the closest
-waypoints **greater** than the distance threshold;
-
-- A dataframe named **good distance** containing spygen survey with distance to the closest
-waypoints **smaller** than the distance threshold;
-
-- A dataframe named **na survey** containing spygen survey with **no attributed waypoints**.
-
-``` ruby
-waypoints <- load_waypoint(path = "data/trace_gps")
-
-spygen_waypoint_output <- spygen_waypoint(eDNA_metadata_path = "data/metadata.csv",
-                                          waypoints = waypoints,
-                                          distance_threshold = 10,
-                                          path_save = "path/to/save/data")
-```
-
-2.  The `load_tracks` and `spygen_tracks` functions associate to each waypoint the closest **gps track** at the survey date.
-
-The `load_tracks` function requires only gps data path.
-
-The `spygen_tracks` function requires the waypoints data obtained with the `spygen_waypoint` function (**spygen_waypoint_output$good_distance**), and a threshold indicating the maximum distance in meters between the coordinates of a Spygen survey and the coordinates of the nearest track.
-
-It returns the same thing as for the `spygen_waypoint` function, except it's for tracks.
-
-``` ruby
-gps_tracks <- load_tracks(path = "data/trace_gps")
-
-spygen_tracks_output <- spygen_tracks(waypoints = spygen_waypoint_output$good_distance,
-                                      gps_tracks = gps_tracks,
-                                      distance_threshold = 10,
-                                      path_save = "path/to/save/data")
-```
-
-3.  Finally, the `shapefile_tracks` function convert gps track from point to a polygon as a **shapefile**.
-
-The function requires the tracks coordinates obtained with the `spygen_tracks_output` function
-(**spygen_tracks_output$tracks_good_distance**).
-
-```ruby
-shapefile_tracks(eDNA_tracks = spygen_tracks_output$tracks_good_distance,
-                 path_save = "path/to/save/data")
-```
-
-It return a shapefile of Spygen tracks as follow (with green and red dot representing waypoints start and end, respectively):
-
-<img src="Rplot.png">
-
-<img src="Rplot01.png">

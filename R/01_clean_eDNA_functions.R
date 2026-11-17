@@ -299,17 +299,31 @@ species_clean_function <- function(spygen_matrix,
 spygen_new_data_function <- function(old_spygen_data_path,
                                      new_spygen_data_path,
                                      keep = NULL,
+                                     range = FALSE,
                                      path_save){
   
   # Convert new spygen raw data to a site X species matrix
+  print("Convert new spygen raw data to a site X species matrix")
   spygen_matrix_new <- convert_to_matrix_function(raw_spygen_path = new_spygen_data_path)
   
   # Remove misidentified species and check their names from fishbase
+  print("Remove misidentified species and check their names from fishbase")
   spygen_matrix_new <- species_clean_function(spygen_matrix = spygen_matrix_new$spygen_matrix,
                                               keep = keep)
   spygen_matrix_new_clean <- spygen_matrix_new$spygen_matrix_clean
   
-  
+  if(range == TRUE){
+    
+    # Remove species out of the Med sea
+    print("Remove species out of the Med sea")
+    spygen_matrix_new_clean <- species_range_function(spygen_matrix = spygen_matrix_new_clean,
+                                                      keep = keep)
+    removed_range_species <- spygen_matrix_new_clean$removed_species
+    spygen_matrix_new_clean <- spygen_matrix_new_clean$spygen_matrix_range
+    
+  }
+
+  print("Join old and new data")
   # Compare new and old spygen data, look for common spygen code
   
   spygen_matrix_old_clean <- read.csv(old_spygen_data_path, header = TRUE, sep = ",", check.names = FALSE)
@@ -441,7 +455,8 @@ spygen_new_data_function <- function(old_spygen_data_path,
   
   readme_text <- c("**Removed species:** ",
                    "",
-                   spygen_matrix_new$removed_species
+                   spygen_matrix_new$removed_species,
+                   if(range == TRUE) {removed_range_species}
                    # ,
                    # "",
                    # "**New species:**",
@@ -517,4 +532,62 @@ spygen_subset_function <- function(eDNA_species_data_path,
   
   return(eDNA_subset_sp_present)
 
+}
+
+#' species_range_function
+#' 
+#' This function removes species from the spygen matrix with known distribution out of the Mediterranean sea
+#'
+#' @param spygen_matrix A dataframe of species eDNA in the format site X species.
+#' @param keep A character of the species to keep despite not being in the species Mediterranean check list.
+#'
+#' @returns A list containing two objects : 
+#' 
+#' A dataframe in the format site X species without species out of the Mediterranean sea;
+#'  
+#' A character vector listing all removed species.
+#' 
+#' @export
+#'
+#' @examples
+
+species_range_function <- function(spygen_matrix,
+                                   keep = NULL){
+  
+  Actinopterygii <- read.csv("data/eDNA_raw_data/species_check_list/Actinopterygians Mediterranean French coast checklist.csv", header = TRUE)
+  Elasmobranchii <- read.csv("data/eDNA_raw_data/species_check_list/Marine fishes checklist Kovacic et al. 2021.txt", header = TRUE, sep = "@")
+  Elasmobranchii <- Elasmobranchii[Elasmobranchii$CLASS == "Elasmobranchii",1]
+  
+  species <- colnames(spygen_matrix)[!colnames(spygen_matrix) %in% c("spygen_code", "nb" )]
+  
+  species_check_list <- species[species %in% c(Actinopterygii$VALID_NAME, Elasmobranchii)]
+  
+  species_diff <- species[which(species %in% c(Actinopterygii$VALID_NAME, Elasmobranchii) == FALSE)]
+  
+  if(length(species_check_list) + length(species_diff) != length(species)) {
+    
+    stop("The number of species within the checklist plus the removed species is not equal to the number of species in the initial spygen_matrix.")
+    
+  }else{
+    
+    if(is.null(keep)) {
+      
+      spygen_matrix_range <- spygen_matrix[,colnames(spygen_matrix) %in% c("spygen_code", "nb", species_check_list)]
+      
+      to_return <- list(spygen_matrix_range, species_diff)
+      
+    }else{
+      
+      spygen_matrix_range <- spygen_matrix[,colnames(spygen_matrix) %in% c("spygen_code", "nb", species_check_list, keep)]
+      
+      to_return <- list(spygen_matrix_range, species_diff[!grepl(paste0(keep, collapse = "|"), species_diff)])
+      
+    }
+
+    names(to_return) <- c("spygen_matrix_range", "removed_species")
+    
+    return(to_return)
+    
+  }
+  
 }

@@ -8,6 +8,7 @@ spygen_new_data_function(
   old_spygen_data_path,
   new_spygen_data_path,
   keep = NULL,
+  range = FALSE,
   path_save
 )
 }
